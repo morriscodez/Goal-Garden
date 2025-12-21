@@ -3,9 +3,23 @@
 import { db } from '@/lib/db';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { auth } from '@/auth';
 
 export async function createMilestone(formData: FormData) {
+    const session = await auth();
+    if (!session?.user?.id) return;
+
     const goalId = formData.get('goalId') as string;
+
+    // Verify ownership
+    const goal = await db.goal.findUnique({
+        where: { id: goalId, userId: session.user.id }
+    });
+
+    if (!goal) {
+        throw new Error("Unauthorized");
+    }
+
     const title = formData.get('title') as string;
     const type = formData.get('type') as string; // 'ONE_OFF' or 'RECURRING'
 

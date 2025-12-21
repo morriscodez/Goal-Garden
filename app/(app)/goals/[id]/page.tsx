@@ -6,6 +6,9 @@ import { Flag, TrendingUp, MoreHorizontal } from 'lucide-react';
 import { MatchRhythmBoard } from '@/components/RhythmBoard';
 import { DeadlineBoard } from '@/components/DeadlineBoard';
 
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
+
 export default async function GoalDetailPage({
     params,
     searchParams
@@ -13,12 +16,20 @@ export default async function GoalDetailPage({
     params: Promise<{ id: string }>,
     searchParams: Promise<{ mode?: string }>
 }) {
+    const session = await auth();
+    if (!session?.user?.id) {
+        redirect('/login');
+    }
+
     const { id } = await params;
     const { mode: modeParam } = await searchParams;
     const mode = modeParam || 'RHYTHM';
 
     const goal = await db.goal.findUnique({
-        where: { id },
+        where: {
+            id,
+            userId: session.user.id
+        },
         include: {
             actionItems: true
         }

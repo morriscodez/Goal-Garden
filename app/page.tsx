@@ -1,7 +1,11 @@
 import Link from 'next/link';
-import { Plus, ListChecks, CheckCircle } from 'lucide-react';
+import { Plus, ListChecks, CheckCircle, LogOut, LayoutDashboard } from 'lucide-react';
+import { auth } from "@/auth";
+import { handleSignOut } from "@/app/actions/auth-actions";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const session = await auth();
+
   return (
     <div className="min-h-screen bg-zinc-50 flex flex-col">
       {/* Header */}
@@ -12,14 +16,30 @@ export default function LandingPage() {
           </div>
           <span className="text-xl font-bold text-zinc-900">GoalPlanner</span>
         </div>
-        <div className="flex items-center gap-4">
-          <button className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-700">
-            Logout
-          </button>
-          <div className="h-10 w-10 rounded-full bg-orange-200 flex items-center justify-center text-orange-600 font-bold">
-            D
+
+        {session?.user ? (
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard" className="text-sm font-semibold text-zinc-600 hover:text-blue-600">
+              Dashboard
+            </Link>
+            <form action={handleSignOut}>
+              <button className="rounded-lg bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-300 transition-colors">
+                Logout
+              </button>
+            </form>
+            <div className="h-10 w-10 rounded-full bg-orange-200 flex items-center justify-center text-orange-600 font-bold overflow-hidden">
+              {session.user.image ? (
+                <img src={session.user.image} alt="User" className="h-full w-full object-cover" />
+              ) : (
+                <span>{session.user.name?.[0] || 'U'}</span>
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <Link href="/login" className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-shadow shadow-sm hover:shadow-md">
+            Login
+          </Link>
+        )}
       </header>
 
       {/* Main Content */}
@@ -33,7 +53,7 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
           {/* Create Goal Card */}
-          <Link href="/goals/new" className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-zinc-200 transition-all hover:shadow-md hover:ring-blue-200">
+          <Link href={session ? "/goals/new" : "/login"} className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-zinc-200 transition-all hover:shadow-md hover:ring-blue-200">
             <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
               <Plus className="h-6 w-6" />
             </div>
@@ -47,7 +67,7 @@ export default function LandingPage() {
           </Link>
 
           {/* Review Goals Card */}
-          <Link href="/dashboard" className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-zinc-200 transition-all hover:shadow-md hover:ring-blue-200">
+          <Link href={session ? "/dashboard" : "/login"} className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-zinc-200 transition-all hover:shadow-md hover:ring-blue-200">
             <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
               <ListChecks className="h-6 w-6" />
             </div>
@@ -64,10 +84,10 @@ export default function LandingPage() {
 
       {/* Footer Toggle */}
       <div className="py-8 flex justify-center">
-        <button className="flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-blue-600 transition-colors">
+        <Link href={session ? "/dashboard" : "/login"} className="flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-blue-600 transition-colors">
           <ListChecks className="h-4 w-4" />
           Switch to Daily/Weekly View
-        </button>
+        </Link>
       </div>
 
       <div className="py-4 text-center text-xs text-zinc-400">

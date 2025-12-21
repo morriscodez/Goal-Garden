@@ -8,7 +8,19 @@ type ReorderItem = {
     sort_order: number;
 };
 
+import { auth } from '@/auth';
+
 export async function reorderActionItems(items: ReorderItem[], goalId: string) {
+    const session = await auth();
+    if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+
+    // Verify ownership
+    const goal = await db.goal.findUnique({
+        where: { id: goalId, userId: session.user.id }
+    });
+
+    if (!goal) return { success: false, error: "Unauthorized" };
+
     try {
         const transaction = items.map((item) =>
             db.actionItem.update({

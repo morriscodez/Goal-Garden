@@ -3,7 +3,19 @@
 import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 
+import { auth } from '@/auth';
+
 export async function toggleActionItem(id: string, goalId: string) {
+    const session = await auth();
+    if (!session?.user?.id) return;
+
+    // Verify ownership via goalId (simplest, though technically we could look up item->goal->user)
+    const goal = await db.goal.findUnique({
+        where: { id: goalId, userId: session.user.id }
+    });
+
+    if (!goal) return;
+
     const item = await db.actionItem.findUnique({
         where: { id }
     });
