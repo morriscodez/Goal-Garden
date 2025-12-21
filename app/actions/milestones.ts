@@ -33,3 +33,17 @@ export async function createMilestone(formData: FormData) {
 
     revalidatePath(`/goals/${goalId}`);
 }
+
+export async function updateActionItemDeadline(id: string, deadline: Date | null) {
+    try {
+        await db.actionItem.update({
+            where: { id },
+            data: { deadline }
+        });
+        revalidatePath('/goals/[id]'); // Revalidate all goal pages for simplicity
+        return { success: true };
+    } catch (error) {
+        console.error('Failed to update deadline:', error);
+        return { success: false, error: 'Failed to update deadline' };
+    }
+}

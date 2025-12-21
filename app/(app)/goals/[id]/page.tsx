@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 
 // We will create these components next
 import { MatchRhythmBoard } from '@/components/RhythmBoard';
+import { DeadlineCard } from '@/components/cards/DeadlineCard';
 
 export default async function GoalDetailPage({
     params,
@@ -102,6 +103,7 @@ export default async function GoalDetailPage({
                 )}
             </div>
 
+
             {/* View Content */}
             {mode === 'RHYTHM' ? (
                 <MatchRhythmBoard
@@ -113,22 +115,11 @@ export default async function GoalDetailPage({
                 />
             ) : (
                 <div className="space-y-4">
-                    {/* Reuse the list view from before, simplified */}
+                    <div className="flex justify-end">
+                        <span className="text-xs text-zinc-400 font-medium">Sorted by date</span>
+                    </div>
                     {deadlineItems.map((m) => (
-                        <div key={m.id} className="flex items-center justify-between p-4 bg-white border border-zinc-200 rounded-xl shadow-sm">
-                            <div className="flex items-center gap-4">
-                                <div className={`p-2 rounded-lg ${m.type === 'RECURRING' ? 'bg-purple-100 text-purple-600' : 'bg-blue-100 text-blue-600'}`}>
-                                    {m.type === 'RECURRING' ? <Repeat className="h-5 w-5" /> : <Calendar className="h-5 w-5" />}
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold text-zinc-900">{m.title}</h4>
-                                    <div className="text-xs text-zinc-500 flex gap-2">
-                                        {m.type === 'RECURRING' && <span>Every {m.frequency?.toLowerCase()}</span>}
-                                        {m.type === 'ONE_OFF' && m.deadline && <span>Due {format(m.deadline, 'MMM d')}</span>}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <DeadlineCard key={m.id} item={m} />
                     ))}
                     <AddMilestoneForm goalId={goal.id} />
                 </div>
