@@ -16,6 +16,7 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
+  password      String?
   accounts      Account[]
   sessions      Session[]
   goals         Goal[]
@@ -100,4 +101,13 @@ model ItemLog {
   actionItem   ActionItem @relation(fields: [actionItemId], references: [id], onDelete: Cascade)
   date_logged  DateTime   @default(now())
   value        Int
+}
+
+model PasswordResetToken {
+    id String @id @default(cuid())
+    email String
+    token String @unique
+    expires DateTime
+
+    @@unique([email, token])
 }
