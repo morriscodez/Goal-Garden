@@ -1,7 +1,7 @@
 'use client';
 
 import { ActionItem } from '@prisma/client';
-import { Music } from 'lucide-react';
+import { Music, Check } from 'lucide-react';
 import { toggleActionItem } from '@/app/actions/interact';
 import { clsx } from 'clsx';
 import { useTransition } from 'react';
@@ -16,31 +16,38 @@ export function DailyCard({ item }: { item: ActionItem }) {
     };
 
     return (
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-zinc-100 flex items-center justify-between group hover:shadow-md transition-all">
+        <div
+            onClick={handleToggle}
+            className={clsx(
+                "bg-white p-4 rounded-2xl shadow-sm border border-zinc-100 flex items-center justify-between group hover:shadow-md transition-all cursor-pointer select-none",
+                isPending && "opacity-50",
+                item.is_completed && "bg-orange-50"
+            )}
+        >
             <div className="flex items-center gap-4">
-                <div className="h-10 w-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">
-                    <Music className="h-5 w-5" />
+                <div className={clsx(
+                    "h-10 w-10 rounded-full flex items-center justify-center transition-colors",
+                    item.is_completed ? "bg-green-100 text-green-600" : "bg-orange-100 text-orange-600"
+                )}>
+                    {item.is_completed ? <Check className="h-5 w-5" /> : <Music className="h-5 w-5" />}
                 </div>
                 <div>
-                    <h4 className="font-bold text-zinc-900 text-sm">{item.title}</h4>
-                    <p className="text-xs text-zinc-400 mt-1">Streak: {item.current_streak} days</p>
+                    <h4 className={clsx("font-bold text-zinc-900 text-sm", item.is_completed && "text-zinc-500 line-through")}>
+                        {item.title}
+                    </h4>
+                    <p className={clsx("text-xs mt-1 transition-colors", item.is_completed ? "text-green-600" : "text-zinc-400")}>
+                        {item.is_completed ? "Done for today!" : `Streak: ${item.current_streak} days`}
+                    </p>
                 </div>
             </div>
-            {/* Toggle Switch */}
-            <button
-                onClick={handleToggle}
-                disabled={isPending}
-                className={clsx(
-                    "w-12 h-6 rounded-full p-1 transition-colors cursor-pointer outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500",
-                    item.is_completed ? "bg-green-500" : "bg-zinc-200",
-                    isPending && "opacity-70 cursor-not-allowed"
-                )}
-            >
-                <div className={clsx(
-                    "h-4 w-4 bg-white rounded-full shadow-sm transform transition-transform",
-                    item.is_completed ? "translate-x-6" : "translate-x-0"
-                )} />
-            </button>
+
+            {/* Checkbox Indicator */}
+            <div className={clsx(
+                "h-6 w-6 rounded-full flex items-center justify-center transition-all border-2",
+                item.is_completed ? "bg-green-500 border-green-500 text-white" : "bg-transparent border-zinc-200 group-hover:border-orange-400"
+            )}>
+                {item.is_completed && <Check className="w-3.5 h-3.5" />}
+            </div>
         </div>
     );
 }

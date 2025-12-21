@@ -36,11 +36,9 @@ export function MonthlyCard({ item }: { item: ActionItem }) {
                     <h4 className={clsx("font-bold text-sm", item.is_completed ? "text-zinc-500 line-through" : "text-zinc-900")}>
                         {item.title}
                     </h4>
-                    {item.last_completed_at && (
-                        <p className="text-xs text-zinc-400 mt-1">
-                            Completed {formatDistanceToNow(item.last_completed_at)} ago
-                        </p>
-                    )}
+                    <p className={clsx("text-xs mt-1 transition-colors", item.is_completed ? "text-green-600" : "text-zinc-400")}>
+                        {item.is_completed ? "Done for the month!" : (item.last_completed_at ? `Last: ${formatDistanceToNow(item.last_completed_at)} ago` : "Log progress")}
+                    </p>
                 </div>
             </div>
 
