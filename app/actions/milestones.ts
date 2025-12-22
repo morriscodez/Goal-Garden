@@ -61,3 +61,17 @@ export async function updateActionItemDeadline(id: string, deadline: Date | null
         return { success: false, error: 'Failed to update deadline' };
     }
 }
+
+export async function toggleMilestoneCompletion(id: string, isCompleted: boolean) {
+    try {
+        await db.actionItem.update({
+            where: { id },
+            data: { is_completed: isCompleted }
+        });
+        revalidatePath('/goals/[id]');
+        return { success: true };
+    } catch (error) {
+        console.error('Failed to toggle completion:', error);
+        return { success: false, error: 'Failed to toggle completion' };
+    }
+}
