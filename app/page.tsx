@@ -67,7 +67,7 @@ export default async function LandingPage() {
           </Link>
 
           {/* Review Goals Card */}
-          <Link href={session ? "/dashboard" : "/login"} className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-zinc-200 transition-all hover:shadow-md hover:ring-blue-200">
+          <Link href={session ? "/goals" : "/login"} className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-zinc-200 transition-all hover:shadow-md hover:ring-blue-200">
             <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
               <ListChecks className="h-6 w-6" />
             </div>
