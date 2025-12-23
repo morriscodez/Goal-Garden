@@ -46,12 +46,11 @@ export default async function GoalDetailPage({
     const monthlyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'MONTHLY');
     const annualItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'ANNUAL');
 
-    // For Deadline view, we pass all items to the board, which handles sorting.
-    // However, we should probably pass them in their stored sort_order initially?
-    // Or just pass them all and let the client component handle the initial sort state.
-    // The previous logic was sorting by date.
-    // Let's pass them sorted by sort_order or created_at so the "Manual" view has a base.
-    const deadlineItems = [...goal.actionItems].sort((a, b) => a.sort_order - b.sort_order);
+    // For Deadline view, we explicitly filter for non-recurring items (Milestones/One-off)
+    // so the board isn't cluttered with daily habits.
+    const deadlineItems = goal.actionItems
+        .filter((i: any) => i.type !== 'RECURRING')
+        .sort((a: any, b: any) => a.sort_order - b.sort_order);
 
     return (
         <div className="space-y-8 pb-20">
