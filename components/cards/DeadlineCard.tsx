@@ -7,6 +7,21 @@ import { Clock, Sprout, Flower2 } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { clsx } from 'clsx';
 
+const FLOWER_COLORS = [
+    "bg-rose-100 text-rose-500",
+    "bg-purple-100 text-purple-500",
+    "bg-sky-100 text-sky-500",
+    "bg-amber-100 text-amber-500",
+    "bg-pink-100 text-pink-500",
+    "bg-indigo-100 text-indigo-500",
+];
+
+function getFlowerColor(id: string) {
+    const charCode = id.charCodeAt(id.length - 1);
+    const index = charCode % FLOWER_COLORS.length;
+    return FLOWER_COLORS[index];
+}
+
 export function DeadlineCard({ item }: { item: ActionItem }) {
     const [isPending, startTransition] = useTransition();
 
@@ -17,6 +32,8 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
     const [date, setDate] = useState(
         item.deadline ? format(item.deadline, 'yyyy-MM-dd') : ''
     );
+
+    const flowerColor = getFlowerColor(item.id);
 
     const handleToggle = () => {
         const newState = !isCompleted;
@@ -52,7 +69,7 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
                     className={clsx(
                         "h-12 w-12 rounded-full flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
                         isCompleted
-                            ? "bg-rose-100 text-rose-500 scale-110 rotate-12"
+                            ? clsx(flowerColor, "scale-110 rotate-12")
                             : "bg-zinc-100 text-zinc-400 hover:bg-green-100 hover:text-green-600 hover:scale-105"
                     )}
                 >

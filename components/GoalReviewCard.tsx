@@ -11,7 +11,6 @@ interface GoalReviewCardProps {
     progress: number;
     deadline: Date | null;
     mode: string;
-    index?: number;
 }
 
 const THEMES = [
@@ -62,11 +61,10 @@ const THEMES = [
     },
 ];
 
-export function GoalReviewCard({ id, title, motivation, progress, deadline, mode, index }: GoalReviewCardProps) {
-    // Select theme based on index if provided, otherwise fallback to ID hash
-    const themeIndex = typeof index === 'number'
-        ? index % THEMES.length
-        : (id.length + id.charCodeAt(0)) % THEMES.length;
+export function GoalReviewCard({ id, title, motivation, progress, deadline, mode }: GoalReviewCardProps) {
+    // Select theme deterministically based on ID hash
+    const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const themeIndex = hash % THEMES.length;
 
     const theme = THEMES[themeIndex];
 
@@ -113,7 +111,10 @@ export function GoalReviewCard({ id, title, motivation, progress, deadline, mode
 
                     <Link
                         href={`/goals/${id}`}
-                        className="flex items-center gap-1 text-sm font-bold text-blue-600 dark:text-blue-400 hover:gap-2 transition-all"
+                        className={clsx(
+                            "flex items-center gap-1 text-sm font-bold hover:gap-2 transition-all",
+                            theme.accent
+                        )}
                     >
                         Details <ArrowRight className="h-4 w-4" />
                     </Link>

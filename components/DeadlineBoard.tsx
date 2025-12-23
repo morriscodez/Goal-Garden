@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ActionItem } from '@prisma/client';
+import Link from 'next/link';
 import {
     DndContext,
     closestCenter,
@@ -86,7 +87,15 @@ export function DeadlineBoard({
     return (
         <div className="space-y-6">
             {/* Toolbar */}
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-end gap-4">
+                <Link
+                    href={`/goals/${goalId}/timeline`}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-white text-zinc-700 rounded-lg border border-zinc-200 text-xs font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-all shadow-sm"
+                >
+                    <span className="h-2 w-2 rounded-full bg-green-500" />
+                    View Timeline
+                </Link>
+
                 <div className="bg-zinc-100 p-1 rounded-lg flex items-center">
                     <button
                         onClick={() => setIsDateSorted(true)}

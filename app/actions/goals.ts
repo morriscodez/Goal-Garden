@@ -30,5 +30,27 @@ export async function createGoal(formData: FormData) {
         }
     });
 
+
     redirect(`/goals/${goal.id}`);
+}
+
+export async function updateGoalDeadline(goalId: string, deadline: Date) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        await db.goal.update({
+            where: {
+                id: goalId,
+                userId: session.user.id
+            },
+            data: {
+                deadline
+            }
+        });
+
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to update deadline" };
+    }
 }
