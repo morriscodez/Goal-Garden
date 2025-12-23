@@ -17,8 +17,8 @@ export function ModeToggle({ goalId }: { goalId: string }) {
                 className={clsx(
                     "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all",
                     currentMode === 'DEADLINE'
-                        ? "bg-zinc-900 text-white shadow-md"
-                        : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
+                        ? "bg-blue-600 text-white shadow-md"
+                        : "text-zinc-500 hover:text-blue-600 hover:bg-blue-50"
                 )}
             >
                 <Clock className="h-4 w-4" />

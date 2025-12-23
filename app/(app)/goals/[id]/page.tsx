@@ -64,10 +64,9 @@ export default async function GoalDetailPage({
     return (
         <div className="space-y-8 pb-20">
             {/* Header / Banner Card */}
-            <div className="relative overflow-hidden rounded-3xl bg-zinc-900 text-white p-8 md:p-12 shadow-2xl">
-                {/* Background "Image" abstraction */}
-                <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/90 to-transparent z-10" />
-                <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-700 via-slate-800 to-zinc-900 text-white p-8 md:p-12 shadow-2xl">
+                {/* Texture overlay for subtle detail */}
+                <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none" />
 
                 <div className="relative z-20 flex flex-col md:flex-row justify-between items-start gap-6">
                     <div className="space-y-4 max-w-2xl">

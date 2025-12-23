@@ -16,9 +16,9 @@ export function RhythmStatus({ lastActivityDate }: RhythmStatusProps) {
         const diffHours = differenceInHours(now, lastActivityDate);
         const diffDays = differenceInDays(now, lastActivityDate);
 
-        if (diffHours < 24) {
+        if (diffHours < 1) {
             status = 'BLOOMING';
-        } else if (diffDays < 3) {
+        } else if (diffHours < 24) {
             status = 'GROWING';
         } else if (diffDays < 7) {
             status = 'RESTING';
