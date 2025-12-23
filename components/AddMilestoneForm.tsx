@@ -55,7 +55,7 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
                         onClick={() => setType('RECURRING')}
                         className={clsx(
                             "px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-2 transition-all",
-                            type === 'RECURRING' ? "bg-white text-purple-600 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
+                            type === 'RECURRING' ? "bg-white text-blue-600 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
                         )}
                     >
                         <Repeat className="h-4 w-4" />
@@ -76,7 +76,7 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
                 ) : (
                     <div className="space-y-2">
                         <label className="block text-sm font-medium text-zinc-700">Frequency</label>
-                        <select name="frequency" className="w-full rounded-lg border border-zinc-200 px-3 py-2 outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500">
+                        <select name="frequency" className="w-full rounded-lg border border-zinc-200 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
                             <option value="DAILY">Daily</option>
                             <option value="WEEKLY">Weekly</option>
                             <option value="MONTHLY">Monthly</option>

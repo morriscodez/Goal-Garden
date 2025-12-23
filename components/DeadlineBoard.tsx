@@ -94,7 +94,7 @@ export function DeadlineBoard({
             <div className="flex items-center justify-between mb-2">
                 <div>
                     <h3 className="text-xl font-bold text-zinc-800 flex items-center gap-2">
-                        <Calendar className="h-5 w-5 text-indigo-600" />
+                        <Calendar className="h-5 w-5 text-blue-600" />
                         Milestones
                     </h3>
                     <p className="text-sm text-zinc-500 mt-1">Drag to reorder or sort by date</p>
@@ -103,7 +103,7 @@ export function DeadlineBoard({
                 <div className="flex items-center gap-2 bg-zinc-100 p-1 rounded-lg">
                     <Link
                         href={`/goals/${goalId}/timeline`}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-zinc-600 hover:text-indigo-600 hover:bg-white shadow-sm transition-all"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-zinc-600 hover:text-blue-600 hover:bg-white shadow-sm transition-all"
                     >
                         <ListTodo className="h-4 w-4" />
                         Timeline View
@@ -114,7 +114,7 @@ export function DeadlineBoard({
                         className={clsx(
                             "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
                             isDateSorted
-                                ? "bg-white text-indigo-600 shadow-sm"
+                                ? "bg-white text-blue-600 shadow-sm"
                                 : "text-zinc-500 hover:text-zinc-700 hover:bg-zinc-200/50"
                         )}
                     >
