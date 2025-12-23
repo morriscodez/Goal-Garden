@@ -1,7 +1,7 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { Sun, Sprout, Wind, CloudRain, Droplets, Leaf } from 'lucide-react';
+import { Sun, Sprout, Droplets, Leaf } from 'lucide-react';
 import { differenceInHours, differenceInDays } from 'date-fns';
 
 interface RhythmStatusProps {

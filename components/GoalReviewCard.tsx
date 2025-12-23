@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Trophy, Calendar, Zap, Target } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { clsx } from "clsx";
 import { GoalMenu } from "./GoalMenu";
 

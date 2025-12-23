@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { MoreVertical, Trash2, Edit, AlertCircle, X } from 'lucide-react';
+import { MoreVertical, Trash2, Edit, AlertCircle } from 'lucide-react';
 import { deleteGoal } from '@/app/actions/goals';
 import Link from 'next/link';
 import { clsx } from 'clsx';

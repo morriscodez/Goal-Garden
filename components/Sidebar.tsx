@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Flag, Book, CheckCircle, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, Flag, Settings, LogOut } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { handleSignOut } from '@/app/actions/auth-actions';
@@ -10,8 +10,6 @@ import { handleSignOut } from '@/app/actions/auth-actions';
 const navItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Goals', href: '/goals', icon: Flag },
-    { name: 'Journal', href: '/journal', icon: Book },
-    { name: 'Habits', href: '/habits', icon: CheckCircle },
 ];
 
 export function Sidebar() {
