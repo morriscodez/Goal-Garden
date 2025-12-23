@@ -2,10 +2,12 @@
 
 import { ActionItem } from '@prisma/client';
 import { Sprout, Flower2 } from 'lucide-react';
-import { useTransition } from 'react';
+import { useTransition, useState, useRef, useEffect } from 'react';
 import { toggleActionItem } from '@/app/actions/interact';
+import { updateActionItem } from '@/app/actions/milestones';
 import { clsx } from 'clsx';
 import { isSameWeek } from 'date-fns';
+
 
 const FLOWER_COLORS = [
     "bg-rose-100 text-rose-500",
@@ -24,14 +26,40 @@ function getFlowerColor(id: string) {
 
 export function WeeklyCard({ item }: { item: ActionItem }) {
     const [isPending, startTransition] = useTransition();
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
+    const [title, setTitle] = useState(item.title);
+    const titleInputRef = useRef<HTMLInputElement>(null);
+
+    // Focus input when editing starts
+    useEffect(() => {
+        if (isEditingTitle && titleInputRef.current) {
+            titleInputRef.current.focus();
+        }
+    }, [isEditingTitle]);
 
     const handleToggle = (e?: React.MouseEvent) => {
         e?.stopPropagation();
         startTransition(async () => {
-            // For now, treating weekly as a simple toggle for the 'current week's unit'
-            // Real implementation would need to handle increments if target_value > 1
             await toggleActionItem(item.id, item.goalId);
         });
+    };
+
+    const handleTitleSave = async () => {
+        setIsEditingTitle(false);
+        if (title.trim() === item.title) return; // No change
+
+        startTransition(async () => {
+            await updateActionItem(item.id, item.goalId, { title: title });
+        });
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleTitleSave();
+        } else if (e.key === 'Escape') {
+            setTitle(item.title); // Revert
+            setIsEditingTitle(false);
+        }
     };
 
     // Derived Logic for View
@@ -45,17 +73,17 @@ export function WeeklyCard({ item }: { item: ActionItem }) {
     return (
         <div
             className={clsx(
-                "bg-white p-4 rounded-2xl shadow-sm border border-zinc-100 flex items-center justify-between group hover:shadow-md transition-all select-none",
+                "bg-white p-4 rounded-2xl shadow-sm border border-zinc-100 flex items-center justify-between group hover:shadow-md transition-all select-none relative",
                 isPending && "opacity-50",
                 isCompletedThisWeek && "bg-green-50/30 border-green-100"
             )}
         >
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-1">
                 {/* Garden Themed Interactive Icon */}
                 <button
                     onClick={handleToggle}
                     className={clsx(
-                        "h-12 w-12 rounded-full flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
+                        "h-12 w-12 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
                         isCompletedThisWeek
                             ? clsx(flowerColor, "scale-110 rotate-12")
                             : "bg-zinc-100 text-zinc-400 hover:bg-green-100 hover:text-green-600 hover:scale-105"
@@ -68,10 +96,28 @@ export function WeeklyCard({ item }: { item: ActionItem }) {
                     )}
                 </button>
 
-                <div>
-                    <h4 className={clsx("font-bold text-zinc-900 text-sm transition-colors", isCompletedThisWeek && "text-zinc-500 line-through decoration-zinc-300")}>
-                        {item.title}
-                    </h4>
+                <div className="flex-1 min-w-0">
+                    {isEditingTitle ? (
+                        <input
+                            ref={titleInputRef}
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            onBlur={handleTitleSave}
+                            onKeyDown={handleKeyDown}
+                            className="font-bold text-zinc-900 text-sm w-full bg-transparent border-b-2 border-blue-500 outline-none p-0 focus:ring-0"
+                        />
+                    ) : (
+                        <h4
+                            onDoubleClick={() => setIsEditingTitle(true)}
+                            className={clsx(
+                                "font-bold text-zinc-900 text-sm transition-colors cursor-text leading-tight",
+                                isCompletedThisWeek && "text-zinc-500 line-through decoration-zinc-300"
+                            )}
+                            title="Double-click to edit"
+                        >
+                            {title}
+                        </h4>
+                    )}
                     <p className={clsx("text-xs font-medium mt-1 transition-colors", isCompletedThisWeek ? "text-green-600" : "text-zinc-400")}>
                         {isCompletedThisWeek ? "Done for the week!" : "Log progress"}
                         {!isCompletedThisWeek && item.target_value && (

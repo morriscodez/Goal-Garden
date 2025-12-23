@@ -23,6 +23,7 @@ export function MatchRhythmBoard({
     annually: ActionItem[]
 }) {
     const [activeFrequency, setActiveFrequency] = useState<Frequency | null>(null);
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     return (
         <>
@@ -42,7 +43,14 @@ export function MatchRhythmBoard({
                         </button>
                     </div>
                     <div className="space-y-3">
-                        {daily.map(item => <DailyCard key={item.id} item={item} />)}
+                        {daily.map(item => (
+                            <DailyCard
+                                key={item.id}
+                                item={item}
+                                isMenuOpen={activeMenuId === item.id}
+                                onMenuToggle={(open) => setActiveMenuId(open ? item.id : null)}
+                            />
+                        ))}
                         {/* Empty State / Prompt handled by button below or if truly empty */}
 
                         <button
@@ -70,7 +78,14 @@ export function MatchRhythmBoard({
                         </button>
                     </div>
                     <div className="space-y-3">
-                        {weekly.map(item => <WeeklyCard key={item.id} item={item} />)}
+                        {weekly.map(item => (
+                            <WeeklyCard
+                                key={item.id}
+                                item={item}
+                                isMenuOpen={activeMenuId === item.id}
+                                onMenuToggle={(open) => setActiveMenuId(open ? item.id : null)}
+                            />
+                        ))}
 
                         <button
                             onClick={() => setActiveFrequency('WEEKLY')}
@@ -97,7 +112,14 @@ export function MatchRhythmBoard({
                         </button>
                     </div>
                     <div className="space-y-3">
-                        {monthly.map(item => <MonthlyCard key={item.id} item={item} />)}
+                        {monthly.map(item => (
+                            <MonthlyCard
+                                key={item.id}
+                                item={item}
+                                isMenuOpen={activeMenuId === item.id}
+                                onMenuToggle={(open) => setActiveMenuId(open ? item.id : null)}
+                            />
+                        ))}
 
                         {/* Add Button Mock */}
                         <button
@@ -125,7 +147,14 @@ export function MatchRhythmBoard({
                         </button>
                     </div>
                     <div className="space-y-3">
-                        {annually.map(item => <AnnualCard key={item.id} item={item} />)}
+                        {annually.map(item => (
+                            <AnnualCard
+                                key={item.id}
+                                item={item}
+                                isMenuOpen={activeMenuId === item.id}
+                                onMenuToggle={(open) => setActiveMenuId(open ? item.id : null)}
+                            />
+                        ))}
 
                         <button
                             onClick={() => setActiveFrequency('ANNUAL')}
