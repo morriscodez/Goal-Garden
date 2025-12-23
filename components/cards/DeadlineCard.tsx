@@ -1,11 +1,10 @@
-'use client';
-
 import { ActionItem } from '@prisma/client';
-import { updateActionItemDeadline, toggleMilestoneCompletion } from '@/app/actions/milestones';
+import { updateActionItemDeadline, toggleMilestoneCompletion, updateActionItem } from '@/app/actions/milestones';
 import { format, differenceInCalendarDays, startOfToday } from 'date-fns';
 import { Clock, Sprout, Flower2 } from 'lucide-react';
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useRef, useEffect } from 'react';
 import { clsx } from 'clsx';
+import { MilestoneMenu } from '@/components/MilestoneMenu';
 
 const FLOWER_COLORS = [
     "bg-rose-100 text-rose-500",
@@ -22,11 +21,16 @@ function getFlowerColor(id: string) {
     return FLOWER_COLORS[index];
 }
 
-export function DeadlineCard({ item }: { item: ActionItem }) {
+export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void }) {
     const [isPending, startTransition] = useTransition();
 
     // Optimistic state for immediate UI feedback
     const [isCompleted, setIsCompleted] = useState(item.is_completed);
+
+    // Inline Editing State
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
+    const [title, setTitle] = useState(item.title);
+    const titleInputRef = useRef<HTMLInputElement>(null);
 
     // Initialize with existing deadline or today's date string for input if null (optional)
     const [date, setDate] = useState(
@@ -35,6 +39,13 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
 
     const flowerColor = getFlowerColor(item.id);
 
+    // Focus input when editing starts
+    useEffect(() => {
+        if (isEditingTitle && titleInputRef.current) {
+            titleInputRef.current.focus();
+        }
+    }, [isEditingTitle]);
+
     const handleToggle = () => {
         const newState = !isCompleted;
         setIsCompleted(newState); // Optimistic update
@@ -42,6 +53,25 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
         startTransition(async () => {
             await toggleMilestoneCompletion(item.id, newState);
         });
+    };
+
+    const handleTitleSave = async () => {
+        setIsEditingTitle(false);
+        if (title.trim() === item.title) return; // No change
+
+        // Optimistic update handled by local state 'title'
+        startTransition(async () => {
+            await updateActionItem(item.id, item.goalId, { title: title });
+        });
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleTitleSave();
+        } else if (e.key === 'Escape') {
+            setTitle(item.title); // Revert
+            setIsEditingTitle(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,12 +92,12 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
                 ? "bg-green-50/30 border-green-100"
                 : "bg-white border-zinc-200"
         )}>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-1">
                 {/* Garden Themed Interactive Icon */}
                 <button
                     onClick={handleToggle}
                     className={clsx(
-                        "h-12 w-12 rounded-full flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
+                        "h-12 w-12 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
                         isCompleted
                             ? clsx(flowerColor, "scale-110 rotate-12")
                             : "bg-zinc-100 text-zinc-400 hover:bg-green-100 hover:text-green-600 hover:scale-105"
@@ -80,13 +110,28 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
                     )}
                 </button>
 
-                <div>
-                    <h4 className={clsx(
-                        "font-bold text-zinc-900 text-base transition-colors",
-                        isCompleted && "text-zinc-500 line-through decoration-zinc-300"
-                    )}>
-                        {item.title}
-                    </h4>
+                <div className="flex-1 min-w-0">
+                    {isEditingTitle ? (
+                        <input
+                            ref={titleInputRef}
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            onBlur={handleTitleSave}
+                            onKeyDown={handleKeyDown}
+                            className="font-bold text-zinc-900 text-base w-full bg-transparent border-b-2 border-blue-500 outline-none p-0 focus:ring-0"
+                        />
+                    ) : (
+                        <h4
+                            onDoubleClick={() => setIsEditingTitle(true)}
+                            className={clsx(
+                                "font-bold text-zinc-900 text-base transition-colors truncate cursor-text",
+                                isCompleted && "text-zinc-500 line-through decoration-zinc-300"
+                            )}
+                            title="Double-click to edit"
+                        >
+                            {title}
+                        </h4>
+                    )}
 
                     {!item.deadline && (
                         <p className="text-xs text-zinc-400 font-medium mt-0.5 flex items-center gap-1">
@@ -132,7 +177,7 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
                 </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
                 {/* Date Picker Input */}
                 <div className={clsx(
                     "relative transition-opacity duration-300",
@@ -144,7 +189,7 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
                         onClick={(e) => e.stopPropagation()}
                         onChange={handleChange}
                         className={clsx(
-                            "pl-9 pr-3 py-2 rounded-xl border bg-zinc-50 text-sm font-medium outline-none focus:ring-2 transition-all cursor-pointer",
+                            "pl-9 pr-3 py-2 rounded-xl border bg-zinc-50 text-sm font-medium outline-none focus:ring-2 transition-all cursor-pointer w-36",
                             date
                                 ? "border-zinc-200 text-zinc-900"
                                 : "border-zinc-200 text-zinc-400 focus:border-blue-500 focus:ring-blue-100"
@@ -155,6 +200,14 @@ export function DeadlineCard({ item }: { item: ActionItem }) {
                         date ? "text-zinc-400" : "text-zinc-400"
                     )} />
                 </div>
+
+                {/* Milestone Menu */}
+                <MilestoneMenu
+                    item={item}
+                    goalId={item.goalId}
+                    isOpen={!!isMenuOpen}
+                    onToggle={(open) => onMenuToggle?.(open)}
+                />
             </div>
         </div>
     );

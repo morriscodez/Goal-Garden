@@ -5,6 +5,7 @@ import { ModeToggle } from '@/components/ModeToggle';
 import { Flag, TrendingUp, MoreHorizontal } from 'lucide-react';
 import { MatchRhythmBoard } from '@/components/RhythmBoard';
 import { DeadlineBoard } from '@/components/DeadlineBoard';
+import { GoalMenu } from '@/components/GoalMenu';
 
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
@@ -77,9 +78,7 @@ export default async function GoalDetailPage({
                     </div>
 
                     <div className="flex flex-col items-end gap-4 min-w-[200px]">
-                        <button className="text-white/60 hover:text-white transition-colors">
-                            <MoreHorizontal className="h-6 w-6" />
-                        </button>
+                        <GoalMenu goal={goal} />
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
 
-export function SortableItem({ id, children, disabled }: { id: string; children: React.ReactNode; disabled?: boolean }) {
+export function SortableItem({ id, children, disabled, zIndexOverride }: { id: string; children: React.ReactNode; disabled?: boolean; zIndexOverride?: number }) {
     const {
         attributes,
         listeners,
@@ -17,8 +17,9 @@ export function SortableItem({ id, children, disabled }: { id: string; children:
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
-        zIndex: isDragging ? 10 : 1,
+        zIndex: isDragging ? 100 : (zIndexOverride ?? 1),
         opacity: isDragging ? 0.5 : 1,
+        position: 'relative' as const, // Ensure relative positioning for z-index
     };
 
     return (

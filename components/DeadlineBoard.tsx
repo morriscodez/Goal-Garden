@@ -21,7 +21,7 @@ import {
 import { DeadlineCard } from './cards/DeadlineCard';
 import { SortableItem } from './SortableItem';
 import { reorderActionItems } from '@/app/actions/reorder';
-import { AlignJustify, CalendarClock } from 'lucide-react';
+import { AlignJustify, CalendarClock, Calendar, ListTodo, ArrowUpDown, GripVertical } from 'lucide-react';
 import { clsx } from 'clsx';
 import { AddMilestoneForm } from './AddMilestoneForm';
 
@@ -34,6 +34,7 @@ export function DeadlineBoard({
 }) {
     const [isDateSorted, setIsDateSorted] = useState(true);
     const [items, setItems] = useState(initialItems);
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     useEffect(() => {
         setItems(initialItems);
@@ -84,38 +85,50 @@ export function DeadlineBoard({
         }
     };
 
+    const toggleSort = () => {
+        setIsDateSorted(prev => !prev);
+    };
+
     return (
         <div className="space-y-6">
-            {/* Toolbar */}
-            <div className="flex items-center justify-end gap-4">
-                <Link
-                    href={`/goals/${goalId}/timeline`}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-white text-zinc-700 rounded-lg border border-zinc-200 text-xs font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-all shadow-sm"
-                >
-                    <span className="h-2 w-2 rounded-full bg-green-500" />
-                    View Timeline
-                </Link>
+            <div className="flex items-center justify-between mb-2">
+                <div>
+                    <h3 className="text-xl font-bold text-zinc-800 flex items-center gap-2">
+                        <Calendar className="h-5 w-5 text-indigo-600" />
+                        Milestones
+                    </h3>
+                    <p className="text-sm text-zinc-500 mt-1">Drag to reorder or sort by date</p>
+                </div>
 
-                <div className="bg-zinc-100 p-1 rounded-lg flex items-center">
+                <div className="flex items-center gap-2 bg-zinc-100 p-1 rounded-lg">
+                    <Link
+                        href={`/goals/${goalId}/timeline`}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-zinc-600 hover:text-indigo-600 hover:bg-white shadow-sm transition-all"
+                    >
+                        <ListTodo className="h-4 w-4" />
+                        Timeline View
+                    </Link>
+                    <div className="w-px h-4 bg-zinc-300 mx-1" />
                     <button
-                        onClick={() => setIsDateSorted(true)}
+                        onClick={toggleSort}
                         className={clsx(
-                            "px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-2 transition-all",
-                            isDateSorted ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
+                            "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
+                            isDateSorted
+                                ? "bg-white text-indigo-600 shadow-sm"
+                                : "text-zinc-500 hover:text-zinc-700 hover:bg-zinc-200/50"
                         )}
                     >
-                        <CalendarClock className="h-3.5 w-3.5" />
-                        Sort by Date
-                    </button>
-                    <button
-                        onClick={() => setIsDateSorted(false)}
-                        className={clsx(
-                            "px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-2 transition-all",
-                            !isDateSorted ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
+                        {isDateSorted ? (
+                            <>
+                                <ArrowUpDown className="h-4 w-4" />
+                                Date Sort
+                            </>
+                        ) : (
+                            <>
+                                <GripVertical className="h-4 w-4" />
+                                Manual Order
+                            </>
                         )}
-                    >
-                        <AlignJustify className="h-3.5 w-3.5" />
-                        Manual Order
                     </button>
                 </div>
             </div>
@@ -126,14 +139,23 @@ export function DeadlineBoard({
                 onDragEnd={handleDragEnd}
             >
                 <SortableContext
-                    items={displayedItems.map(i => i.id)}
+                    items={displayedItems.map(item => item.id)}
                     strategy={verticalListSortingStrategy}
                     disabled={isDateSorted} // Disable DnD when sorted by date
                 >
                     <div className="space-y-3">
                         {displayedItems.map((item) => (
-                            <SortableItem key={item.id} id={item.id} disabled={isDateSorted}>
-                                <DeadlineCard item={item} />
+                            <SortableItem
+                                key={item.id}
+                                id={item.id}
+                                disabled={isDateSorted}
+                                zIndexOverride={activeMenuId === item.id ? 50 : undefined}
+                            >
+                                <DeadlineCard
+                                    item={item}
+                                    isMenuOpen={activeMenuId === item.id}
+                                    onMenuToggle={(open) => setActiveMenuId(open ? item.id : null)}
+                                />
                             </SortableItem>
                         ))}
                     </div>

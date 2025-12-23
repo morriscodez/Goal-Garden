@@ -75,3 +75,37 @@ export async function toggleMilestoneCompletion(id: string, isCompleted: boolean
         return { success: false, error: 'Failed to toggle completion' };
     }
 }
+
+export async function deleteActionItem(id: string, goalId: string) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        await db.actionItem.delete({
+            where: { id }
+        });
+        revalidatePath(`/goals/${goalId}`);
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to delete milestone" };
+    }
+}
+
+export async function updateActionItem(id: string, goalId: string, data: { title: string; deadline?: Date | null }) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        await db.actionItem.update({
+            where: { id },
+            data: {
+                title: data.title,
+                deadline: data.deadline
+            }
+        });
+        revalidatePath(`/goals/${goalId}`);
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to update milestone" };
+    }
+}
