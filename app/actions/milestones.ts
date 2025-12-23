@@ -66,7 +66,10 @@ export async function toggleMilestoneCompletion(id: string, isCompleted: boolean
     try {
         await db.actionItem.update({
             where: { id },
-            data: { is_completed: isCompleted }
+            data: {
+                is_completed: isCompleted,
+                ...(isCompleted && { last_completed_at: new Date() })
+            }
         });
         revalidatePath('/goals/[id]');
         return { success: true };

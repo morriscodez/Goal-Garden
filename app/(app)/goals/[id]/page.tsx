@@ -6,6 +6,7 @@ import { Flag, TrendingUp, MoreHorizontal } from 'lucide-react';
 import { MatchRhythmBoard } from '@/components/RhythmBoard';
 import { DeadlineBoard } from '@/components/DeadlineBoard';
 import { GoalMenu } from '@/components/GoalMenu';
+import { RhythmStatus } from '@/components/RhythmStatus';
 
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
@@ -52,6 +53,14 @@ export default async function GoalDetailPage({
         .filter((i: any) => i.type !== 'RECURRING')
         .sort((a: any, b: any) => a.sort_order - b.sort_order);
 
+    // Calculate Last Activity for Vibe Check
+    // We consider ANY completion (recurring or one-off) as activity.
+    const lastActivityDate = goal.actionItems.reduce((latest: Date | null, item: any) => {
+        if (!item.last_completed_at) return latest;
+        const itemDate = new Date(item.last_completed_at);
+        return !latest || itemDate > latest ? itemDate : latest;
+    }, null);
+
     return (
         <div className="space-y-8 pb-20">
             {/* Header / Banner Card */}
@@ -89,22 +98,7 @@ export default async function GoalDetailPage({
                 </div>
 
                 {mode === 'RHYTHM' && (
-                    <div className="flex items-center gap-4 bg-white px-6 py-3 rounded-2xl border border-zinc-100 shadow-sm w-full md:w-auto">
-                        <div className="flex flex-col">
-                            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Overall Rhythm</span>
-                            <div className="flex items-baseline gap-2">
-                                <span className="text-2xl font-bold text-zinc-900">92%</span>
-                                <span className="text-sm font-medium text-green-500">consistency</span>
-                            </div>
-                        </div>
-                        <div className="h-10 w-px bg-zinc-100 mx-2" />
-                        <div className="flex-1 w-32 h-2 bg-zinc-100 rounded-full overflow-hidden">
-                            <div className="h-full bg-green-500 rounded-full w-[92%]" />
-                        </div>
-                        <div className="bg-green-100 text-green-600 p-1.5 rounded-full">
-                            <TrendingUp className="h-4 w-4" />
-                        </div>
-                    </div>
+                    <RhythmStatus lastActivityDate={lastActivityDate} />
                 )}
             </div>
 
