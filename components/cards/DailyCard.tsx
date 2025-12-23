@@ -7,6 +7,7 @@ import { updateActionItem } from '@/app/actions/milestones';
 import { clsx } from 'clsx';
 import { useTransition, useState, useRef, useEffect } from 'react';
 import { isSameDay } from 'date-fns';
+import { MilestoneMenu } from '@/components/MilestoneMenu';
 
 
 const FLOWER_COLORS = [
@@ -24,7 +25,7 @@ function getFlowerColor(id: string) {
     return FLOWER_COLORS[index];
 }
 
-export function DailyCard({ item }: { item: ActionItem }) {
+export function DailyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void }) {
     const [isPending, startTransition] = useTransition();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [title, setTitle] = useState(item.title);
@@ -123,7 +124,14 @@ export function DailyCard({ item }: { item: ActionItem }) {
                 </div>
 
                 {/* Milestone Menu */}
-
+                <div className="flex-shrink-0 ml-1">
+                    <MilestoneMenu
+                        item={item}
+                        goalId={item.goalId}
+                        isOpen={!!isMenuOpen}
+                        onToggle={(open) => onMenuToggle?.(open)}
+                    />
+                </div>
             </div>
         </div>
     );

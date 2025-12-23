@@ -7,6 +7,7 @@ import { toggleActionItem } from '@/app/actions/interact';
 import { updateActionItem } from '@/app/actions/milestones';
 import { clsx } from 'clsx';
 import { formatDistanceToNow, isSameMonth } from 'date-fns';
+import { MilestoneMenu } from '@/components/MilestoneMenu';
 
 
 const FLOWER_COLORS = [
@@ -24,7 +25,7 @@ function getFlowerColor(id: string) {
     return FLOWER_COLORS[index];
 }
 
-export function MonthlyCard({ item }: { item: ActionItem }) {
+export function MonthlyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void }) {
     const [isPending, startTransition] = useTransition();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [title, setTitle] = useState(item.title);
@@ -120,6 +121,16 @@ export function MonthlyCard({ item }: { item: ActionItem }) {
                     <p className={clsx("text-xs mt-1 transition-colors", isCompletedThisMonth ? "text-green-600 font-medium" : "text-zinc-400")}>
                         {isCompletedThisMonth ? "Done for the month!" : (item.last_completed_at ? `Last: ${formatDistanceToNow(item.last_completed_at)} ago` : "Log progress")}
                     </p>
+                </div>
+
+                {/* Milestone Menu */}
+                <div className="flex-shrink-0 ml-1">
+                    <MilestoneMenu
+                        item={item}
+                        goalId={item.goalId}
+                        isOpen={!!isMenuOpen}
+                        onToggle={(open) => onMenuToggle?.(open)}
+                    />
                 </div>
             </div>
         </div>

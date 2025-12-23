@@ -4,8 +4,9 @@ import { ActionItem } from '@prisma/client';
 import { Flag } from 'lucide-react';
 import { useTransition, useState, useRef, useEffect } from 'react';
 import { updateActionItem } from '@/app/actions/milestones';
+import { MilestoneMenu } from '@/components/MilestoneMenu';
 
-export function AnnualCard({ item }: { item: ActionItem }) {
+export function AnnualCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void }) {
     const [isPending, startTransition] = useTransition();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [title, setTitle] = useState(item.title);
@@ -45,6 +46,16 @@ export function AnnualCard({ item }: { item: ActionItem }) {
                     <div className="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
                         {item.is_completed ? 'Completed' : 'On Track'}
                     </div>
+                </div>
+
+                {/* Milestone Menu - Absolute Positioned */}
+                <div className="absolute top-2 right-2">
+                    <MilestoneMenu
+                        item={item}
+                        goalId={item.goalId}
+                        isOpen={!!isMenuOpen}
+                        onToggle={(open) => onMenuToggle?.(open)}
+                    />
                 </div>
             </div>
             <div className="p-4">

@@ -17,10 +17,10 @@ export function MatchRhythmBoard({
     daily, weekly, monthly, annually
 }: {
     goalId: string;
-    daily: ActionItem[],
-    weekly: ActionItem[],
-    monthly: ActionItem[],
-    annually: ActionItem[]
+    daily: ActionItem[];
+    weekly: ActionItem[];
+    monthly: ActionItem[];
+    annually: ActionItem[];
 }) {
     const [activeFrequency, setActiveFrequency] = useState<Frequency | null>(null);
     const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
