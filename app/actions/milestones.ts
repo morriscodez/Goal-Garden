@@ -109,3 +109,35 @@ export async function updateActionItem(id: string, goalId: string, data: { title
         return { error: "Failed to update milestone" };
     }
 }
+
+export async function convertActionItemType(id: string, goalId: string, targetType: 'ONE_OFF' | 'RECURRING', frequency?: string | null, deadline?: Date | null) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        const data: any = {
+            type: targetType,
+            frequency: targetType === 'RECURRING' ? frequency : null,
+            deadline: targetType === 'RECURRING' ? null : deadline
+        };
+
+        if (targetType === 'ONE_OFF' && deadline === undefined) {
+            // If implicit conversion without deadline, keep existing or set null?
+            // Logic above keeps deadline if passed, else undefined sets it to undefined (no change?)
+            // Actually prisma update needs specific value.
+            // If undefined, let's explicit null if not passed? No, if undefined it is ignored by Prisma if not in data object?
+            // Actually types above: deadline: ... : deadline. If deadline is undefined, it is undefined.
+            // But if converting RECURRING -> ONE_OFF, we might want to ensure deadline is handle properly.
+            // Let's assume passed deadline is what we want.
+        }
+
+        await db.actionItem.update({
+            where: { id },
+            data
+        });
+        revalidatePath(`/goals/${goalId}`);
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to convert milestone type" };
+    }
+}

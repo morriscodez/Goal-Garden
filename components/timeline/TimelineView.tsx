@@ -57,7 +57,7 @@ export function TimelineView({ goal }: TimelineViewProps) {
 
                         <div className={clsx(
                             "relative z-10 h-14 w-14 rounded-full flex items-center justify-center shadow-lg border-4 transition-all animate-in zoom-in duration-700 delay-300",
-                            (goal.progress_percent || 0) >= 100
+                            (goal.consistency_score || 0) >= 100
                                 ? "bg-amber-100 text-amber-600 border-amber-200 scale-110"
                                 : "bg-zinc-900 text-white border-zinc-200 dark:border-zinc-700"
                         )}>
