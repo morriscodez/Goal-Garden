@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, Trophy, Calendar, Zap, Target } from "lucide-react";
 import { clsx } from "clsx";
+import { GoalMenu } from "./GoalMenu";
 
 interface GoalReviewCardProps {
     id: string;
@@ -73,7 +74,11 @@ export function GoalReviewCard({ id, title, motivation, progress, deadline, mode
     return (
         <div className="group flex flex-col overflow-hidden rounded-2xl shadow-sm ring-1 ring-zinc-200 dark:ring-zinc-800 transition-all hover:shadow-xl hover:ring-zinc-300 dark:hover:ring-zinc-700 bg-white dark:bg-zinc-900">
             {/* Gradient Header - Pure Visual */}
-            <div className={clsx("h-32 w-full", theme.bgHeader)} />
+            <div className={clsx("h-32 w-full relative", theme.bgHeader)}>
+                <div className="absolute top-3 right-3">
+                    <GoalMenu goalId={id} />
+                </div>
+            </div>
 
             {/* Body */}
             <div className="flex-1 flex flex-col p-5 space-y-4">

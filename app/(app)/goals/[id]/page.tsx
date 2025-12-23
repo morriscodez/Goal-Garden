@@ -77,7 +77,7 @@ export default async function GoalDetailPage({
                     </div>
 
                     <div className="flex flex-col items-end gap-4 min-w-[200px]">
-                        <GoalMenu goal={goal} />
+                        <GoalMenu goalId={goal.id} />
                     </div>
                 </div>
             </div>
