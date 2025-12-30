@@ -93,11 +93,11 @@ export function DeadlineBoard({
         <div className="space-y-6">
             <div className="flex items-center justify-between mb-2">
                 <div>
-                    <h3 className="text-xl font-bold text-zinc-800 flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
                         <Calendar className="h-5 w-5 text-blue-600" />
                         Milestones
                     </h3>
-                    <p className="text-sm text-zinc-500 mt-1">Drag to reorder or sort by date</p>
+                    <p className="text-sm text-muted-foreground mt-1">Drag to reorder or sort by date</p>
                 </div>
 
                 <div className="flex items-center gap-2 bg-muted p-1 rounded-lg">
