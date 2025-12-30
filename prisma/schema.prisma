@@ -49,15 +49,12 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// Enums removed for SQLite compatibility. Use String.
-// GoalMode: DEADLINE, RHYTHM
-
 model Goal {
   id                String       @id @default(cuid())
   title             String
   motivation        String?
   deadline          DateTime?
-  mode              String       // GoalMode
+  mode              String       // Was GoalMode
   consistency_score Float        @default(0.0)
   userId            String
   createdAt         DateTime     @default(now())
@@ -66,17 +63,13 @@ model Goal {
   actionItems       ActionItem[]
 }
 
-// ActionType: ONE_OFF, RECURRING
-// RecurringFrequency: DAILY, WEEKLY, MONTHLY, ANNUAL
-// WidgetType: TOGGLE, FRACTION, CHECKBOX
-
 model ActionItem {
   id             String      @id @default(cuid())
   goalId         String
   goal           Goal        @relation(fields: [goalId], references: [id], onDelete: Cascade)
   title          String
   description    String?
-  type           String      // ActionType
+  type           String      // Was ActionType
 
   // Common Config
   sort_order     Int         @default(0)
@@ -88,8 +81,8 @@ model ActionItem {
   progress_percent Int       @default(0)
 
   // RECURRING Config
-  frequency      String?     // RecurringFrequency
-  widget_type    String?     // WidgetType
+  frequency      String?     // Was RecurringFrequency
+  widget_type    String?     // Was WidgetType
   target_value   Int?
   unit           String?
   current_streak Int         @default(0)
@@ -113,3 +106,5 @@ model PasswordResetToken {
 
     @@unique([email, token])
 }
+
+

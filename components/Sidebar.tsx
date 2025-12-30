@@ -17,12 +17,12 @@ export function Sidebar() {
 
     return (
         <div className="flex h-screen w-64 flex-col bg-zinc-50 border-r border-zinc-200 p-4 shrink-0">
-            <div className="mb-8 flex items-center gap-3 px-2">
+            <Link href="/" className="mb-8 flex items-center gap-3 px-2 hover:opacity-80 transition-opacity">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
                     <Sprout className="h-5 w-5" />
                 </div>
                 <span className="text-xl font-bold text-zinc-900">Goal Garden</span>
-            </div>
+            </Link>
 
             <nav className="flex-1 space-y-1">
                 {navItems.map((item) => {
