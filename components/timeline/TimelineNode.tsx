@@ -48,7 +48,7 @@ export function TimelineNode({ item, index, isLast }: TimelineNodeProps) {
                     "relative z-10 h-10 w-10 rounded-full border-4 flex items-center justify-center transition-all duration-500",
                     item.is_completed
                         ? clsx(flowerColor, "border-green-200 dark:border-green-900 scale-110")
-                        : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 text-zinc-300"
+                        : "bg-background border-border text-muted-foreground"
                 )}>
                     {item.is_completed ? (
                         <Flower2 className="h-5 w-5 animate-in zoom-in spin-in-12 duration-500" />
@@ -77,11 +77,11 @@ export function TimelineNode({ item, index, isLast }: TimelineNodeProps) {
             {/* Mobile View (Always Right of Line) */}
             <div className="w-full pl-16 md:hidden">
                 <div>
-                    <h3 className={clsx("font-bold text-base", item.is_completed ? "text-green-600 line-through decoration-green-400" : "text-zinc-900 dark:text-zinc-100")}>
+                    <h3 className={clsx("font-bold text-base", item.is_completed ? "text-green-600 line-through decoration-green-400" : "text-foreground")}>
                         {item.title}
                     </h3>
                     {item.deadline && (
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium flex items-center gap-1 mt-1">
+                        <p className="text-xs text-muted-foreground font-medium flex items-center gap-1 mt-1">
                             <Clock className="w-3 h-3" />
                             {format(new Date(item.deadline), 'MMM d, yyyy')}
                         </p>

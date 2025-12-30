@@ -73,9 +73,9 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem
     return (
         <div
             className={clsx(
-                "bg-white p-4 rounded-2xl shadow-sm border border-zinc-100 flex items-center justify-between group hover:shadow-md transition-all select-none relative",
+                "bg-card p-4 rounded-2xl shadow-sm border border-border flex items-center justify-between group hover:shadow-md transition-all select-none relative",
                 isPending && "opacity-50",
-                isCompletedToday && "bg-green-50/30 border-green-100"
+                isCompletedToday && "bg-green-50/30 border-green-100 dark:bg-green-900/10 dark:border-green-900/30"
             )}
         >
             <div className="flex items-center gap-4 flex-1">
@@ -86,7 +86,7 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem
                         "h-12 w-12 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
                         isCompletedToday
                             ? clsx(flowerColor, "scale-110 rotate-12")
-                            : "bg-zinc-100 text-zinc-400 hover:bg-green-100 hover:text-green-600 hover:scale-105"
+                            : "bg-muted text-muted-foreground hover:bg-green-100 hover:text-green-600 hover:scale-105"
                     )}
                 >
                     {isCompletedToday ? (
@@ -104,21 +104,21 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem
                             onChange={(e) => setTitle(e.target.value)}
                             onBlur={handleTitleSave}
                             onKeyDown={handleKeyDown}
-                            className="font-bold text-zinc-900 text-sm w-full bg-transparent border-b-2 border-blue-500 outline-none p-0 focus:ring-0"
+                            className="font-bold text-card-foreground text-sm w-full bg-transparent border-b-2 border-blue-500 outline-none p-0 focus:ring-0"
                         />
                     ) : (
                         <h4
                             onDoubleClick={() => setIsEditingTitle(true)}
                             className={clsx(
-                                "font-bold text-zinc-900 text-sm transition-colors cursor-text leading-tight",
-                                isCompletedToday && "text-zinc-500 line-through decoration-zinc-300"
+                                "font-bold text-card-foreground text-sm transition-colors cursor-text leading-tight",
+                                isCompletedToday && "text-muted-foreground line-through decoration-zinc-300 dark:decoration-zinc-700"
                             )}
                             title="Double-click to edit"
                         >
                             {title}
                         </h4>
                     )}
-                    <p className={clsx("text-xs mt-1 transition-colors", isCompletedToday ? "text-green-600 font-medium" : "text-zinc-400")}>
+                    <p className={clsx("text-xs mt-1 transition-colors", isCompletedToday ? "text-green-600 dark:text-green-400 font-medium" : "text-muted-foreground")}>
                         {isCompletedToday ? "Done for today!" : `Streak: ${item.current_streak} days`}
                     </p>
                 </div>

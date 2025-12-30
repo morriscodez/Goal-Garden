@@ -61,7 +61,7 @@ export function GoalMenu({ goalId }: GoalMenuProps) {
             {/* Dropdown Menu */}
             {isOpen && (
                 <div
-                    className="absolute right-0 mt-2 w-64 bg-white dark:bg-zinc-900 rounded-lg shadow-xl ring-1 ring-zinc-200 dark:ring-zinc-800 overflow-hidden z-20 animate-in fade-in zoom-in-95 duration-100 origin-top-right"
+                    className="absolute right-0 mt-2 w-64 bg-popover rounded-lg shadow-xl ring-1 ring-border overflow-hidden z-20 animate-in fade-in zoom-in-95 duration-100 origin-top-right"
                     onClick={(e) => e.preventDefault()} // Stop link propagation from menu clicks
                 >
                     {!confirmDelete ? (
@@ -69,7 +69,7 @@ export function GoalMenu({ goalId }: GoalMenuProps) {
                         <div className="py-1">
                             <Link
                                 href={`/goals/${goalId}/edit`}
-                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 flex items-center gap-2 transition-colors"
+                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted flex items-center gap-2 transition-colors"
                                 onClick={() => setIsOpen(false)}
                             >
                                 <Edit className="h-4 w-4 text-zinc-400" />
@@ -106,7 +106,7 @@ export function GoalMenu({ goalId }: GoalMenuProps) {
                                         e.stopPropagation();
                                         setConfirmDelete(false);
                                     }}
-                                    className="flex-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-1.5 rounded text-xs font-medium hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors"
+                                    className="flex-1 bg-background border border-border text-foreground px-2 py-1.5 rounded text-xs font-medium hover:bg-muted transition-colors"
                                     disabled={isLoading}
                                 >
                                     Cancel

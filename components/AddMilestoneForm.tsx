@@ -13,7 +13,7 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
         return (
             <button
                 onClick={() => setIsOpen(true)}
-                className="flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors"
+                className="flex items-center gap-2 text-sm font-semibold text-secondary-foreground bg-secondary hover:bg-secondary/80 px-4 py-2 rounded-lg transition-colors"
             >
                 <Plus className="h-4 w-4" />
                 Add Milestone
@@ -22,10 +22,10 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
     }
 
     return (
-        <div className="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm mt-4">
+        <div className="bg-card rounded-xl border border-border p-6 shadow-sm mt-4">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-zinc-900">Add New Milestone</h3>
-                <button onClick={() => setIsOpen(false)} className="text-zinc-400 hover:text-zinc-600">
+                <h3 className="font-semibold text-card-foreground">Add New Milestone</h3>
+                <button onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground">
                     <X className="h-5 w-5" />
                 </button>
             </div>
@@ -38,13 +38,15 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
                 <input type="hidden" name="type" value={type} />
 
                 {/* Type Selection */}
-                <div className="flex gap-2 p-1 bg-zinc-100 rounded-lg w-fit">
+                <div className="flex gap-2 p-1 bg-muted rounded-lg w-fit">
                     <button
                         type="button"
                         onClick={() => setType('ONE_OFF')}
                         className={clsx(
                             "px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-2 transition-all",
-                            type === 'ONE_OFF' ? "bg-white text-blue-600 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
+                            type === 'ONE_OFF'
+                                ? "bg-background text-blue-600 shadow-sm"
+                                : "text-muted-foreground hover:text-foreground"
                         )}
                     >
                         <Calendar className="h-4 w-4" />
@@ -55,7 +57,9 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
                         onClick={() => setType('RECURRING')}
                         className={clsx(
                             "px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-2 transition-all",
-                            type === 'RECURRING' ? "bg-white text-blue-600 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
+                            type === 'RECURRING'
+                                ? "bg-background text-blue-600 shadow-sm"
+                                : "text-muted-foreground hover:text-foreground"
                         )}
                     >
                         <Repeat className="h-4 w-4" />
@@ -64,19 +68,31 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-zinc-700">Title</label>
-                    <input name="title" required placeholder="e.g. Write Chapter 1" className="w-full rounded-lg border border-zinc-200 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
+                    <label className="block text-sm font-medium text-foreground">Title</label>
+                    <input
+                        name="title"
+                        required
+                        placeholder="e.g. Write Chapter 1"
+                        className="w-full rounded-lg border border-input px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-muted text-foreground placeholder:text-muted-foreground"
+                    />
                 </div>
 
                 {type === 'ONE_OFF' ? (
                     <div className="space-y-2">
-                        <label className="block text-sm font-medium text-zinc-700">Deadline (Optional)</label>
-                        <input name="deadline" type="date" className="w-full rounded-lg border border-zinc-200 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
+                        <label className="block text-sm font-medium text-foreground">Deadline (Optional)</label>
+                        <input
+                            name="deadline"
+                            type="date"
+                            className="w-full rounded-lg border border-input px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-muted text-foreground dark:color-scheme-dark"
+                        />
                     </div>
                 ) : (
                     <div className="space-y-2">
-                        <label className="block text-sm font-medium text-zinc-700">Frequency</label>
-                        <select name="frequency" className="w-full rounded-lg border border-zinc-200 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                        <label className="block text-sm font-medium text-foreground">Frequency</label>
+                        <select
+                            name="frequency"
+                            className="w-full rounded-lg border border-input px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-muted text-foreground"
+                        >
                             <option value="DAILY">Daily</option>
                             <option value="WEEKLY">Weekly</option>
                             <option value="MONTHLY">Monthly</option>
@@ -85,7 +101,7 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
                 )}
 
                 <div className="flex justify-end pt-2">
-                    <button type="submit" className="bg-zinc-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-zinc-800">
+                    <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90">
                         Create Milestone
                     </button>
                 </div>

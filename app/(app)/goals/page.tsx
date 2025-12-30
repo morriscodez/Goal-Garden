@@ -43,24 +43,24 @@ export default async function GoalsReviewPage(props: {
     };
 
     return (
-        <div className="min-h-screen bg-zinc-50 p-8">
+        <div className="min-h-screen bg-background p-8">
             <div className="max-w-7xl mx-auto space-y-8">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-zinc-900 tracking-tight">Current Long-Term Goals</h1>
-                        <p className="text-zinc-500 mt-1">Visualize your roadmap and upcoming deadlines.</p>
+                        <h1 className="text-3xl font-bold text-foreground tracking-tight">Current Long-Term Goals</h1>
+                        <p className="text-muted-foreground mt-1">Visualize your roadmap and upcoming deadlines.</p>
                     </div>
                     <div className="flex items-center gap-4">
                         {/* View Toggle */}
-                        <div className="bg-white p-1 rounded-lg border border-zinc-200 shadow-sm flex items-center">
+                        <div className="bg-card p-1 rounded-lg border border-border shadow-sm flex items-center">
                             <a
                                 href="/goals?view=grid"
                                 className={clsx(
                                     "px-3 py-1.5 text-sm font-medium rounded-md transition-all",
                                     view === 'grid'
-                                        ? "bg-zinc-100 text-zinc-900 shadow-sm"
-                                        : "text-zinc-500 hover:text-zinc-700"
+                                        ? "bg-muted text-primary shadow-sm"
+                                        : "text-muted-foreground hover:text-primary"
                                 )}
                             >
                                 Grid
@@ -70,8 +70,8 @@ export default async function GoalsReviewPage(props: {
                                 className={clsx(
                                     "px-3 py-1.5 text-sm font-medium rounded-md transition-all",
                                     view === 'timeline'
-                                        ? "bg-zinc-100 text-zinc-900 shadow-sm"
-                                        : "text-zinc-500 hover:text-zinc-700"
+                                        ? "bg-muted text-primary shadow-sm"
+                                        : "text-muted-foreground hover:text-primary"
                                 )}
                             >
                                 Timeline
@@ -94,10 +94,10 @@ export default async function GoalsReviewPage(props: {
                 ) : (
                     /* Grid View */
                     goals.length === 0 ? (
-                        <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-zinc-200">
-                            <h3 className="text-lg font-medium text-zinc-900">No goals found</h3>
-                            <p className="text-zinc-500 mt-2 mb-6">You haven't set any long-term goals yet.</p>
-                            <a href="/goals/new" className="text-blue-600 font-semibold hover:underline">Create your first goal &rarr;</a>
+                        <div className="text-center py-20 bg-card rounded-3xl border border-dashed border-border">
+                            <h3 className="text-lg font-medium text-foreground">No goals found</h3>
+                            <p className="text-muted-foreground mt-2 mb-6">You haven't set any long-term goals yet.</p>
+                            <a href="/goals/new" className="text-blue-600 dark:text-blue-400 font-semibold hover:underline">Create your first goal &rarr;</a>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -24,29 +24,29 @@ export default async function SettingsPage() {
     return (
         <div className="space-y-8">
             <div>
-                <nav className="text-sm text-zinc-500 mb-2">App &gt; Settings</nav>
-                <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Settings</h1>
-                <p className="text-zinc-600 dark:text-zinc-400 mt-2">Manage your account settings and preferences.</p>
+                <nav className="text-sm text-muted-foreground mb-2">App &gt; Settings</nav>
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">Settings</h1>
+                <p className="text-muted-foreground mt-2">Manage your account settings and preferences.</p>
             </div>
 
             <div className="grid gap-8">
                 {/* Profile Section */}
-                <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-8 shadow-sm">
-                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Profile</h2>
+                <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+                    <h2 className="text-xl font-semibold text-card-foreground mb-6">Profile</h2>
                     <div className="max-w-xl">
                         <ProfileForm user={user} />
                     </div>
                 </div>
 
                 {/* Account Section */}
-                <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-8 shadow-sm">
-                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">Account</h2>
+                <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+                    <h2 className="text-xl font-semibold text-card-foreground mb-6">Account</h2>
                     <div className="space-y-6 max-w-xl">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                            <label className="text-sm font-medium text-foreground">
                                 Email Address
                             </label>
-                            <div className="flex h-10 w-full items-center rounded-md border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900">
+                            <div className="flex h-10 w-full items-center rounded-md border border-input bg-muted px-3 text-sm text-muted-foreground">
                                 {user.email}
                             </div>
                             <p className="text-xs text-zinc-500">
@@ -63,13 +63,13 @@ export default async function SettingsPage() {
                 </div>
 
                 {/* Preferences Section */}
-                <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-8 shadow-sm">
-                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">Preferences</h2>
+                <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+                    <h2 className="text-xl font-semibold text-card-foreground">Preferences</h2>
                     <div className="mt-4 border-t border-zinc-100 dark:border-zinc-800 pt-6">
                         <div className="flex items-center justify-between">
                             <div className="space-y-0.5">
-                                <label className="text-sm font-medium text-zinc-900 dark:text-zinc-100">Appearance</label>
-                                <p className="text-sm text-zinc-500">Customize the look and feel of the application.</p>
+                                <label className="text-sm font-medium text-foreground">Appearance</label>
+                                <p className="text-sm text-muted-foreground">Customize the look and feel of the application.</p>
                             </div>
                             <ThemeToggle />
                         </div>

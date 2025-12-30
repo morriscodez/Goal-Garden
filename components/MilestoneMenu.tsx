@@ -54,8 +54,8 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                     }
                 }}
                 className={clsx(
-                    "transition-colors p-1 rounded-md hover:bg-zinc-100",
-                    isOpen ? "text-zinc-600 bg-zinc-100" : "text-zinc-400 hover:text-zinc-600"
+                    "transition-colors p-1 rounded-md hover:bg-muted",
+                    isOpen ? "text-foreground bg-muted" : "text-muted-foreground hover:text-foreground"
                 )}
                 title="Options"
             >
@@ -64,7 +64,7 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute right-0 mt-1 w-56 bg-white rounded-lg shadow-xl shadow-zinc-200 border border-zinc-100 overflow-hidden z-40 animate-in fade-in zoom-in-95 duration-100 origin-top-right">
+                <div className="absolute right-0 mt-1 w-56 bg-popover rounded-lg shadow-xl border border-border overflow-hidden z-40 animate-in fade-in zoom-in-95 duration-100 origin-top-right">
                     {!confirmDelete && !showConvertMenu ? (
                         // Initial Menu State
                         <div className="py-1">
@@ -77,7 +77,8 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                                         handleConvert('ONE_OFF');
                                     }
                                 }}
-                                className="w-full text-left px-3 py-2.5 text-xs font-medium text-zinc-600 hover:bg-zinc-50 flex items-center gap-2 transition-colors border-b border-zinc-50"
+
+                                className="w-full text-left px-3 py-2.5 text-xs font-medium text-foreground hover:bg-muted flex items-center gap-2 transition-colors border-b border-border"
                             >
                                 <ArrowRightLeft className="h-3.5 w-3.5 text-zinc-400" />
                                 {item.type === 'ONE_OFF' ? 'Convert to Rhythm' : 'Convert to Milestone'}
@@ -88,7 +89,7 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                                     e.stopPropagation();
                                     setConfirmDelete(true);
                                 }}
-                                className="w-full text-left px-3 py-2.5 text-xs font-medium text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors"
+                                className="w-full text-left px-3 py-2.5 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 flex items-center gap-2 transition-colors"
                             >
                                 <Trash2 className="h-3.5 w-3.5" />
                                 Delete Item
@@ -96,8 +97,8 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                         </div>
                     ) : showConvertMenu ? (
                         // Conversion Submenu
-                        <div className="bg-zinc-50/50">
-                            <div className="px-3 py-2 border-b border-zinc-100 flex items-center justify-between">
+                        <div className="bg-muted/30">
+                            <div className="px-3 py-2 border-b border-border flex items-center justify-between">
                                 <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
                                     {item.type === 'ONE_OFF' ? 'Choose Frequency' : 'Confirm Conversion'}
                                 </span>
@@ -115,7 +116,7 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                                         <button
                                             key={freq}
                                             onClick={(e) => { e.stopPropagation(); handleConvert('RECURRING', freq); }}
-                                            className="w-full text-left px-3 py-2 rounded text-xs font-medium text-zinc-600 hover:bg-white hover:text-indigo-600 hover:shadow-sm transition-all flex items-center gap-2"
+                                            className="w-full text-left px-3 py-2 rounded text-xs font-medium text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all flex items-center gap-2"
                                             disabled={isLoading}
                                         >
                                             <Repeat className="h-3 w-3 text-zinc-400" />
@@ -127,7 +128,7 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                         </div>
                     ) : (
                         // Confirmation State (Inline)
-                        <div className="p-2 bg-red-50/50">
+                        <div className="p-2 bg-red-50/50 dark:bg-red-900/10">
                             <div className="flex items-center gap-2 px-1 mb-2 text-red-700">
                                 <AlertCircle className="h-3 w-3" />
                                 <span className="text-[10px] font-bold uppercase tracking-wider">Are you sure?</span>
@@ -138,7 +139,7 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                                         e.stopPropagation();
                                         setConfirmDelete(false);
                                     }}
-                                    className="flex-1 bg-white border border-red-100 text-zinc-600 px-2 py-1.5 rounded text-xs font-medium hover:bg-zinc-50 transition-colors"
+                                    className="flex-1 bg-background border border-border text-foreground px-2 py-1.5 rounded text-xs font-medium hover:bg-muted transition-colors"
                                     disabled={isLoading}
                                 >
                                     Cancel
@@ -162,7 +163,8 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                         </div>
                     )}
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }

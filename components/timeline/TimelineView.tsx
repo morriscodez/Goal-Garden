@@ -27,7 +27,7 @@ export function TimelineView({ goal }: TimelineViewProps) {
             {/* Start Node (Today/Start) - Optional, we'll start with first milestone */}
 
             {milestones.length === 0 && (
-                <div className="text-center py-20 bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl border border-dashed border-zinc-200 dark:border-zinc-800">
+                <div className="text-center py-20 bg-muted/50 rounded-3xl border border-dashed border-border">
                     <p className="text-zinc-400 mb-2">No milestones planted yet.</p>
                 </div>
             )}
@@ -59,14 +59,14 @@ export function TimelineView({ goal }: TimelineViewProps) {
                             "relative z-10 h-14 w-14 rounded-full flex items-center justify-center shadow-lg border-4 transition-all animate-in zoom-in duration-700 delay-300",
                             (goal.consistency_score || 0) >= 100
                                 ? "bg-amber-100 text-amber-600 border-amber-200 scale-110"
-                                : "bg-zinc-900 text-white border-zinc-200 dark:border-zinc-700"
+                                : "bg-primary text-primary-foreground border-border"
                         )}>
                             <Flag className="h-6 w-6" />
                         </div>
                     </div>
 
                     <div className="w-full pl-16 md:w-5/12 md:pl-8">
-                        <div className="p-4 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-2xl shadow-xl inline-block animate-in slide-in-from-bottom-4 fade-in duration-700">
+                        <div className="p-4 bg-primary text-primary-foreground rounded-2xl shadow-xl inline-block animate-in slide-in-from-bottom-4 fade-in duration-700">
                             <h3 className="font-bold text-lg">{goal.title}</h3>
                             <p className="opacity-80 text-sm">{format(new Date(goal.deadline), 'MMMM do, yyyy')}</p>
                         </div>

@@ -89,8 +89,8 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
         <div className={clsx(
             "p-5 rounded-2xl border shadow-sm flex items-center justify-between group hover:shadow-md transition-all duration-300",
             isCompleted
-                ? "bg-green-50/30 border-green-100"
-                : "bg-white border-zinc-200"
+                ? "bg-green-50/30 border-green-100 dark:bg-green-900/10 dark:border-green-900/30"
+                : "bg-card border-border"
         )}>
             <div className="flex items-center gap-4 flex-1">
                 {/* Garden Themed Interactive Icon */}
@@ -100,7 +100,7 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
                         "h-12 w-12 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
                         isCompleted
                             ? clsx(flowerColor, "scale-110 rotate-12")
-                            : "bg-zinc-100 text-zinc-400 hover:bg-green-100 hover:text-green-600 hover:scale-105"
+                            : "bg-muted text-muted-foreground hover:bg-green-100 hover:text-green-600 hover:scale-105"
                     )}
                 >
                     {isCompleted ? (
@@ -118,14 +118,14 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
                             onChange={(e) => setTitle(e.target.value)}
                             onBlur={handleTitleSave}
                             onKeyDown={handleKeyDown}
-                            className="font-bold text-zinc-900 text-base w-full bg-transparent border-b-2 border-blue-500 outline-none p-0 focus:ring-0"
+                            className="font-bold text-card-foreground text-base w-full bg-transparent border-b-2 border-blue-500 outline-none p-0 focus:ring-0"
                         />
                     ) : (
                         <h4
                             onDoubleClick={() => setIsEditingTitle(true)}
                             className={clsx(
-                                "font-bold text-zinc-900 text-base transition-colors truncate cursor-text",
-                                isCompleted && "text-zinc-500 line-through decoration-zinc-300"
+                                "font-bold text-card-foreground text-base transition-colors truncate cursor-text",
+                                isCompleted && "text-muted-foreground line-through decoration-zinc-300 dark:decoration-zinc-700"
                             )}
                             title="Double-click to edit"
                         >
@@ -134,7 +134,7 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
                     )}
 
                     {!item.deadline && (
-                        <p className="text-xs text-zinc-400 font-medium mt-0.5 flex items-center gap-1">
+                        <p className="text-xs text-muted-foreground font-medium mt-0.5 flex items-center gap-1">
                             <Clock className="h-3 w-3" />
                             No deadline set
                         </p>
@@ -146,26 +146,26 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
                         const diffDays = differenceInCalendarDays(deadlineDate, today);
 
                         let message = "";
-                        let colorClass = "text-zinc-500";
+                        let colorClass = "text-muted-foreground";
 
                         if (isCompleted) {
                             message = "Completed";
-                            colorClass = "text-green-600 font-bold";
+                            colorClass = "text-green-600 dark:text-green-400 font-bold";
                         } else if (diffDays < 0) {
                             message = "Deadline passed - set a new deadline?";
-                            colorClass = "text-red-500 font-medium";
+                            colorClass = "text-red-500 dark:text-red-400 font-medium";
                         } else if (diffDays === 0) {
                             message = "Due today";
-                            colorClass = "text-blue-600 font-bold";
+                            colorClass = "text-blue-600 dark:text-blue-400 font-bold";
                         } else if (diffDays === 1) {
                             message = "Due tomorrow";
-                            colorClass = "text-blue-600 font-semibold";
+                            colorClass = "text-blue-600 dark:text-blue-400 font-semibold";
                         } else if (diffDays <= 14) {
                             message = `Due in ${diffDays} days`;
-                            colorClass = "text-orange-600 font-medium";
+                            colorClass = "text-orange-600 dark:text-orange-400 font-medium";
                         } else {
                             message = `Due ${format(item.deadline!, 'MMMM do, yyyy')}`;
-                            colorClass = "text-zinc-500";
+                            colorClass = "text-muted-foreground";
                         }
 
                         return (
@@ -189,15 +189,15 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
                         onClick={(e) => e.stopPropagation()}
                         onChange={handleChange}
                         className={clsx(
-                            "pl-9 pr-3 py-2 rounded-xl border bg-zinc-50 text-sm font-medium outline-none focus:ring-2 transition-all cursor-pointer w-36",
+                            "pl-9 pr-3 py-2 rounded-xl border bg-muted text-sm font-medium outline-none focus:ring-2 transition-all cursor-pointer w-36",
                             date
-                                ? "border-zinc-200 text-zinc-900"
-                                : "border-zinc-200 text-zinc-400 focus:border-blue-500 focus:ring-blue-100"
+                                ? "border-input text-foreground"
+                                : "border-input text-muted-foreground focus:border-blue-500 focus:ring-blue-100 dark:focus:ring-blue-900/30"
                         )}
                     />
                     <Clock className={clsx(
-                        "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none",
-                        date ? "text-zinc-400" : "text-zinc-400"
+                        "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none text-muted-foreground",
+                        date ? "text-muted-foreground" : "text-muted-foreground"
                     )} />
                 </div>
 
