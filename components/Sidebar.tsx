@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Flag, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, Flag, Settings, LogOut, Sprout } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { handleSignOut } from '@/app/actions/auth-actions';
@@ -18,8 +18,10 @@ export function Sidebar() {
     return (
         <div className="flex h-screen w-64 flex-col bg-zinc-50 border-r border-zinc-200 p-4 shrink-0">
             <div className="mb-8 flex items-center gap-3 px-2">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600" />
-                <span className="text-xl font-bold text-zinc-900">GoalGarden</span>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <Sprout className="h-5 w-5" />
+                </div>
+                <span className="text-xl font-bold text-zinc-900">Goal Garden</span>
             </div>
 
             <nav className="flex-1 space-y-1">
