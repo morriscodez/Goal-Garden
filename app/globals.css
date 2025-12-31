@@ -87,23 +87,23 @@
   /* Slate 950 - #020617 converted to oklch approx */
   /* Midnight Navy Refinement */
   --background: oklch(0.18 0.035 266);
-  /* Slate 50 - #f8fafc */
-  --foreground: oklch(0.98 0.005 247);
+  /* Stone 50 Refinement (#FAFAF9) */
+  --foreground: oklch(0.985 0.002 85);
 
   /* Slate 900 - #0f172a */
   /* Lighter Navy Card */
   --card: oklch(0.22 0.04 266);
-  --card-foreground: oklch(0.98 0.005 247);
+  --card-foreground: oklch(0.985 0.002 85);
 
   --popover: oklch(0.20 0.04 266);
-  --popover-foreground: oklch(0.98 0.005 247);
+  --popover-foreground: oklch(0.985 0.002 85);
 
   --primary: oklch(0.98 0.005 247);
   --primary-foreground: oklch(0.20 0.04 266);
 
   /* Slate 800 */
   --secondary: oklch(0.27 0.05 263);
-  --secondary-foreground: oklch(0.98 0.005 247);
+  --secondary-foreground: oklch(0.985 0.002 85);
 
   --muted: oklch(0.27 0.05 263);
   /* Slate 400 */
@@ -120,11 +120,11 @@
   /* Matching Sidebar to Main Theme */
   /* Matching Sidebar to Main Theme (Midnight Navy) */
   --sidebar-background: oklch(0.18 0.035 266);
-  --sidebar-foreground: oklch(0.98 0.005 247);
+  --sidebar-foreground: oklch(0.985 0.002 85);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.27 0.05 263);
-  --sidebar-accent-foreground: oklch(0.98 0.005 247);
+  --sidebar-accent-foreground: oklch(0.985 0.002 85);
   --sidebar-border: oklch(0.27 0.05 263);
   --sidebar-ring: oklch(0.44 0.04 256);
 }
