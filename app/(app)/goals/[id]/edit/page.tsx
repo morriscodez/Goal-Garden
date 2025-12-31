@@ -25,9 +25,9 @@ export default async function EditGoalPage({ params }: { params: Promise<{ id: s
         <div className="space-y-8">
             {/* Header */}
             <div>
-                <nav className="text-sm text-zinc-500 mb-2">Goals &gt; Edit Goal</nav>
-                <h1 className="text-3xl font-bold text-zinc-900 tracking-tight">Edit Your Goal</h1>
-                <p className="text-zinc-600 mt-2">Refine your vision and keep your compass true.</p>
+                <nav className="text-sm text-muted-foreground mb-2">Goals &gt; Edit Goal</nav>
+                <h1 className="text-3xl font-bold text-foreground tracking-tight">Edit Your Goal</h1>
+                <p className="text-muted-foreground mt-2">Refine your vision and keep your compass true.</p>
             </div>
 
             <EditGoalForm goal={goal} />

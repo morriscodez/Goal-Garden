@@ -5,6 +5,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { ProfileForm } from "@/components/settings/ProfileForm";
 import Link from "next/link";
 import { DeleteAccountSection } from "@/components/settings/DeleteAccountSection";
+import { ThemeSelector } from "@/components/settings/ThemeSelector";
 
 export default async function SettingsPage() {
     const session = await auth();
@@ -65,13 +66,26 @@ export default async function SettingsPage() {
                 {/* Preferences Section */}
                 <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
                     <h2 className="text-xl font-semibold text-card-foreground">Preferences</h2>
-                    <div className="mt-4 border-t border-zinc-100 dark:border-zinc-800 pt-6">
+
+                    {/* Dark/Light Mode */}
+                    <div className="mt-4 border-t border-border pt-6">
                         <div className="flex items-center justify-between">
                             <div className="space-y-0.5">
-                                <label className="text-sm font-medium text-foreground">Appearance</label>
-                                <p className="text-sm text-muted-foreground">Customize the look and feel of the application.</p>
+                                <label className="text-sm font-medium text-foreground">Dark Mode</label>
+                                <p className="text-sm text-muted-foreground">Toggle between light and dark backgrounds.</p>
                             </div>
                             <ThemeToggle />
+                        </div>
+                    </div>
+
+                    {/* Color Theme */}
+                    <div className="mt-6 border-t border-border pt-6">
+                        <div className="space-y-4">
+                            <div className="space-y-0.5">
+                                <label className="text-sm font-medium text-foreground">Color Theme</label>
+                                <p className="text-sm text-muted-foreground">Choose your preferred color palette for dark mode.</p>
+                            </div>
+                            <ThemeSelector />
                         </div>
                     </div>
                 </div>
