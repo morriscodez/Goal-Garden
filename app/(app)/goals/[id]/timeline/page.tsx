@@ -27,18 +27,18 @@ export default async function TimelinePage({ params }: { params: { id: string } 
     if (goal.userId !== session.user.id) return redirect("/goals");
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 p-6 sm:p-10">
+        <div className="min-h-screen bg-background p-6 sm:p-10">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-8">
                     <Link
                         href={`/goals/${id}?mode=DEADLINE`}
-                        className="inline-flex items-center text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors mb-4"
+                        className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
                     >
                         <ArrowLeft className="h-4 w-4 mr-1" />
                         Back to Goal Details
                     </Link>
-                    <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">{goal.title}</h1>
-                    <p className="text-zinc-500 dark:text-zinc-400 mt-1">Timeline to completion</p>
+                    <h1 className="text-3xl font-bold text-foreground">{goal.title}</h1>
+                    <p className="text-muted-foreground mt-1">Timeline to completion</p>
                 </div>
 
                 {!goal.deadline ? (

@@ -48,7 +48,7 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
     }, [timelineStart]);
 
     return (
-        <div className="bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden flex h-[600px] animate-in fade-in zoom-in-95 duration-500">
+        <div className="bg-card rounded-2xl shadow-xl border border-border overflow-hidden flex h-[600px] animate-in fade-in zoom-in-95 duration-500">
             {/* Main Timeline Area */}
             <div className="flex-1 flex flex-col min-w-0 relative">
 
@@ -61,13 +61,13 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
                     <div className="h-full relative min-w-full" style={{ width: `${totalDays * PX_PER_DAY}px` }}>
 
                         {/* Month Headers */}
-                        <div className="sticky top-0 z-20 flex bg-white border-b border-zinc-100 h-[60px]">
+                        <div className="sticky top-0 z-20 flex bg-card border-b border-border h-[60px]">
                             {months.map(month => {
                                 const days = getDaysInMonth(month);
                                 return (
                                     <div
                                         key={month.toISOString()}
-                                        className="flex-shrink-0 border-r border-zinc-50 px-2 py-3 text-xs font-bold text-zinc-400 uppercase tracking-widest sticky top-0 bg-white/95 backdrop-blur"
+                                        className="flex-shrink-0 border-r border-border/50 px-2 py-3 text-xs font-bold text-muted-foreground uppercase tracking-widest sticky top-0 bg-card/95 backdrop-blur"
                                         style={{ width: `${days * PX_PER_DAY}px` }}
                                     >
                                         {format(month, 'MMMM yyyy')}
@@ -84,7 +84,7 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
                             }}
                         >
                             <div className="absolute -top-1 -left-[5px] w-2.5 h-2.5 bg-red-500 rounded-full" />
-                            <div className="absolute top-2 left-1 text-[10px] font-bold text-red-500 bg-white/80 px-1 rounded">Today</div>
+                            <div className="absolute top-2 left-1 text-[10px] font-bold text-red-500 bg-card/80 px-1 rounded">Today</div>
                         </div>
 
                         {/* Goal Rows */}
@@ -100,7 +100,7 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
                                 const theme = getGoalTheme(goal.id);
 
                                 return (
-                                    <div key={goal.id} className="relative h-[60px] w-full hover:bg-zinc-50/50 transition-colors">
+                                    <div key={goal.id} className="relative h-[60px] w-full hover:bg-muted/30 transition-colors">
                                         <div
                                             className={clsx(
                                                 "absolute top-1/2 -translate-y-1/2 h-8 rounded-full shadow-sm border border-white/20 flex items-center px-4 overflow-hidden whitespace-nowrap group cursor-pointer transition-all hover:shadow-md hover:scale-[1.01]",

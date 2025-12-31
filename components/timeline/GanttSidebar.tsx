@@ -52,15 +52,15 @@ export function GanttSidebar({ goals }: GanttSidebarProps) {
     };
 
     return (
-        <div className="w-80 bg-white border-l border-zinc-200 h-full flex flex-col">
-            <div className="p-4 border-b border-zinc-100">
-                <h3 className="font-semibold text-zinc-900">Upcoming Deadlines</h3>
+        <div className="w-80 bg-card border-l border-border h-full flex flex-col">
+            <div className="p-4 border-b border-border">
+                <h3 className="font-semibold text-foreground">Upcoming Deadlines</h3>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-6">
                 {groups.thisWeek.length > 0 && (
                     <section>
-                        <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">This Week</h4>
+                        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">This Week</h4>
                         <div className="space-y-3">
                             {groups.thisWeek.map(item => <SidebarItem key={item.id} item={item} />)}
                         </div>
@@ -69,7 +69,7 @@ export function GanttSidebar({ goals }: GanttSidebarProps) {
 
                 {groups.nextWeek.length > 0 && (
                     <section>
-                        <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">Next Week</h4>
+                        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">Next Week</h4>
                         <div className="space-y-3">
                             {groups.nextWeek.map(item => <SidebarItem key={item.id} item={item} />)}
                         </div>
@@ -78,7 +78,7 @@ export function GanttSidebar({ goals }: GanttSidebarProps) {
 
                 {groups.later.length > 0 && (
                     <section>
-                        <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">Later</h4>
+                        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">Later</h4>
                         <div className="space-y-3">
                             {groups.later.map(item => <SidebarItem key={item.id} item={item} />)}
                         </div>
@@ -86,7 +86,7 @@ export function GanttSidebar({ goals }: GanttSidebarProps) {
                 )}
 
                 {upcoming.length === 0 && (
-                    <p className="text-sm text-zinc-400 text-center py-4">No upcoming deadlines.</p>
+                    <p className="text-sm text-muted-foreground text-center py-4">No upcoming deadlines.</p>
                 )}
             </div>
         </div>
@@ -99,17 +99,17 @@ function SidebarItem({ item }: { item: any }) {
             href={`/goals/${item.goalId}`}
             className="block group"
         >
-            <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-zinc-50 transition-colors">
+            <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
                 <div className={clsx("mt-1 w-2 h-2 rounded-full", item.color.bg)} />
                 <div>
-                    <p className="text-sm font-medium text-zinc-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                    <p className="text-sm font-medium text-foreground line-clamp-2 group-hover:text-primary transition-colors">
                         {item.title}
                     </p>
-                    <div className="flex items-center gap-1.5 mt-1 text-xs text-zinc-500">
+                    <div className="flex items-center gap-1.5 mt-1 text-xs text-muted-foreground">
                         <Calendar className="w-3 h-3" />
                         <span>{format(item.date, 'MMM d')}</span>
                         {item.type === 'GOAL' && (
-                            <span className="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-600 text-[10px] font-medium border border-zinc-200">
+                            <span className="px-1.5 py-0.5 rounded bg-muted text-muted-foreground text-[10px] font-medium border border-border">
                                 Launch
                             </span>
                         )}
