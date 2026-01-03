@@ -124,7 +124,8 @@
 .dark[data-theme-style="forest"] {
   --background: oklch(0.16 0.04 150);
   /* Deep Green */
-  --foreground: oklch(0.98 0.01 150);
+  /* User Experiment: #FFFFFA (Snow) approx oklch(0.998 0.001 107) */
+  --foreground: oklch(0.998 0.001 107);
 
   --card: oklch(0.19 0.05 150);
   /* Darker Green Card */
