@@ -2,11 +2,12 @@ import { db } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import { AddMilestoneForm } from '@/components/AddMilestoneForm';
 import { ModeToggle } from '@/components/ModeToggle';
-import { Flag, TrendingUp, MoreHorizontal } from 'lucide-react';
+
 import { MatchRhythmBoard } from '@/components/RhythmBoard';
 import { DeadlineBoard } from '@/components/DeadlineBoard';
 import { GoalMenu } from '@/components/GoalMenu';
 import { RhythmStatus } from '@/components/RhythmStatus';
+import { GoalHeader } from '@/components/GoalHeader';
 
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
@@ -63,32 +64,12 @@ export default async function GoalDetailPage({
 
     return (
         <div className="space-y-8 pb-20">
-            {/* Header / Banner Card */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-700 via-slate-800 to-zinc-900 text-white p-8 md:p-12 shadow-2xl">
-                {/* Texture overlay for subtle detail */}
-                <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none" />
-
-                <div className="relative z-20 flex flex-col md:flex-row justify-between items-start gap-6">
-                    <div className="space-y-4 max-w-2xl">
-                        <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur-sm border border-white/10">
-                            <Flag className="h-3 w-3" />
-                            Long-term Goal
-                        </div>
-
-                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">{goal.title}</h1>
-
-                        {goal.motivation && (
-                            <p className="text-zinc-300 text-lg leading-relaxed max-w-xl">
-                                Why: {goal.motivation}
-                            </p>
-                        )}
-                    </div>
-
-                    <div className="flex flex-col items-end gap-4 min-w-[200px]">
-                        <GoalMenu goalId={goal.id} />
-                    </div>
-                </div>
-            </div>
+            <GoalHeader goal={{
+                id: goal.id,
+                title: goal.title,
+                motivation: goal.motivation,
+                color: goal.color
+            }} />
 
             {/* Controls Bar */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">

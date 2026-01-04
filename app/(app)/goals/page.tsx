@@ -110,6 +110,7 @@ export default async function GoalsReviewPage(props: {
                                     progress={calculateProgress(goal)}
                                     deadline={goal.deadline}
                                     mode={goal.mode}
+                                    color={goal.color}
                                 />
                             ))}
                         </div>

@@ -53,6 +53,7 @@ model Goal {
   id                String       @id @default(cuid())
   title             String
   motivation        String?
+  color             String?
   deadline          DateTime?
   mode              String       // Was GoalMode
   consistency_score Float        @default(0.0)

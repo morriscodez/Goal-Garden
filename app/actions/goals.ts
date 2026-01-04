@@ -100,3 +100,26 @@ export async function updateGoalDeadline(goalId: string, deadline: Date) {
         return { error: "Failed to update deadline" };
     }
 }
+
+export async function updateGoalColor(goalId: string, color: string) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        await db.goal.update({
+            where: {
+                id: goalId,
+                userId: session.user.id
+            },
+            data: {
+                color
+            }
+        });
+
+        revalidatePath('/goals');
+        revalidatePath(`/goals/${goalId}`);
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to update color" };
+    }
+}

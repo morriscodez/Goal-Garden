@@ -124,7 +124,7 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
                         <h4
                             onDoubleClick={() => setIsEditingTitle(true)}
                             className={clsx(
-                                "font-bold text-card-foreground text-base transition-colors truncate cursor-text",
+                                "font-bold text-card-foreground text-base transition-colors break-words leading-tight cursor-text",
                                 isCompleted && "text-muted-foreground line-through decoration-zinc-300 dark:decoration-zinc-700"
                             )}
                             title="Double-click to edit"
