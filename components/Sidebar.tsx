@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Flag, Settings, Sprout, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Flag, Settings, Sprout, ChevronLeft, ChevronRight, Grid2x2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LogoutButton } from './LogoutButton';
@@ -11,6 +11,7 @@ import { LogoutButton } from './LogoutButton';
 const navItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Goals', href: '/goals', icon: Flag },
+    { name: 'Eisenhower Matrix', href: '/dashboard/matrix', icon: Grid2x2 },
 ];
 
 export function Sidebar() {
