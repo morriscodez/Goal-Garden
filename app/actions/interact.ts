@@ -42,5 +42,33 @@ export async function toggleActionItem(id: string, goalId: string) {
         }
     });
 
+
+
+    if (newStatus) {
+        await db.itemLog.create({
+            data: {
+                actionItemId: id,
+                value: 1
+            }
+        });
+    } else {
+        // Find log for today and delete it
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        await db.itemLog.deleteMany({
+            where: {
+                actionItemId: id,
+                date_logged: {
+                    gte: today,
+                    lt: tomorrow
+                }
+            }
+        });
+    }
+
     revalidatePath(`/goals/${goalId}`);
+    revalidatePath(`/dashboard`);
 }

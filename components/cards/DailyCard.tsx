@@ -8,6 +8,7 @@ import { clsx } from 'clsx';
 import { useTransition, useState, useRef, useEffect } from 'react';
 import { isSameDay } from 'date-fns';
 import { MilestoneMenu } from '@/components/MilestoneMenu';
+import { getGoalTheme } from '@/lib/goal-themes';
 
 
 const FLOWER_COLORS = [
@@ -25,7 +26,7 @@ function getFlowerColor(id: string) {
     return FLOWER_COLORS[index];
 }
 
-export function DailyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void }) {
+export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void; goalName?: string; goalColor?: string }) {
     const [isPending, startTransition] = useTransition();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [title, setTitle] = useState(item.title);
@@ -69,6 +70,7 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem
         isSameDay(new Date(item.last_completed_at), new Date());
 
     const flowerColor = getFlowerColor(item.id);
+    const theme = getGoalTheme(item.goalId, goalColor);
 
     return (
         <div
@@ -97,6 +99,13 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem
                 </button>
 
                 <div className="flex-1 min-w-0">
+                    {goalName && (
+                        <div className="mb-1">
+                            <span className={clsx("inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium transition-colors", theme.chip)}>
+                                {goalName}
+                            </span>
+                        </div>
+                    )}
                     {isEditingTitle ? (
                         <input
                             ref={titleInputRef}

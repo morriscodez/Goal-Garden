@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { updateProfile } from '@/app/actions/settings';
 import { User } from 'next-auth';
-import { Loader2, Save } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 interface ProfileFormProps {
     user: User;
@@ -60,7 +60,6 @@ export function ProfileForm({ user }: ProfileFormProps) {
                     </>
                 ) : (
                     <>
-                        <Save className="mr-2 h-4 w-4" />
                         Save Changes
                     </>
                 )}

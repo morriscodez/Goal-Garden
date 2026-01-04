@@ -71,7 +71,33 @@ export async function toggleMilestoneCompletion(id: string, isCompleted: boolean
                 ...(isCompleted && { last_completed_at: new Date() })
             }
         });
+
+        if (isCompleted) {
+            await db.itemLog.create({
+                data: {
+                    actionItemId: id,
+                    value: 1
+                }
+            });
+        } else {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            await db.itemLog.deleteMany({
+                where: {
+                    actionItemId: id,
+                    date_logged: {
+                        gte: today,
+                        lt: tomorrow
+                    }
+                }
+            });
+        }
+
         revalidatePath('/goals/[id]');
+        revalidatePath('/dashboard');
         return { success: true };
     } catch (error) {
         console.error('Failed to toggle completion:', error);

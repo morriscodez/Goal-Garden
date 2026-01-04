@@ -1,3 +1,5 @@
+'use client';
+
 import { ActionItem } from '@prisma/client';
 import { updateActionItemDeadline, toggleMilestoneCompletion, updateActionItem } from '@/app/actions/milestones';
 import { format, differenceInCalendarDays, startOfToday } from 'date-fns';
@@ -5,6 +7,7 @@ import { Clock, Sprout, Flower2 } from 'lucide-react';
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { MilestoneMenu } from '@/components/MilestoneMenu';
+import { getGoalTheme } from '@/lib/goal-themes';
 
 const FLOWER_COLORS = [
     "bg-rose-100 text-rose-500",
@@ -21,7 +24,7 @@ function getFlowerColor(id: string) {
     return FLOWER_COLORS[index];
 }
 
-export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void }) {
+export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void; goalName?: string; goalColor?: string }) {
     const [isPending, startTransition] = useTransition();
 
     // Optimistic state for immediate UI feedback
@@ -38,6 +41,7 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
     );
 
     const flowerColor = getFlowerColor(item.id);
+    const theme = getGoalTheme(item.goalId, goalColor);
 
     // Focus input when editing starts
     useEffect(() => {
@@ -111,6 +115,23 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle }: { item: ActionI
                 </button>
 
                 <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap gap-2 mb-1">
+                        {goalName && (
+                            <span className={clsx("inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium transition-colors", theme.chip)}>
+                                {goalName}
+                            </span>
+                        )}
+                        {item.is_urgent && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">
+                                Urgent
+                            </span>
+                        )}
+                        {item.is_important && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
+                                Important
+                            </span>
+                        )}
+                    </div>
                     {isEditingTitle ? (
                         <input
                             ref={titleInputRef}

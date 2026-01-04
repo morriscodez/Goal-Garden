@@ -1,7 +1,7 @@
 'use client';
 
 import { createGoal } from '@/app/actions/goals';
-import { LayoutGrid, Save } from 'lucide-react';
+import { LayoutGrid } from 'lucide-react';
 
 export default function CreateGoalPage() {
     return (
@@ -24,7 +24,7 @@ export default function CreateGoalPage() {
                         type="text"
                         placeholder="e.g., Run a Marathon, Buy a House, Learn Japanese"
                         required
-                        className="w-full rounded-xl border border-input bg-muted/50 px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                        className="w-full rounded-xl border border-input bg-muted/50 px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
                     />
                 </div>
 
@@ -39,7 +39,7 @@ export default function CreateGoalPage() {
                             name="deadline"
                             id="deadline"
                             type="date"
-                            className="w-full rounded-xl border border-input bg-muted/50 px-4 py-3 text-foreground outline-none focus:border-ring focus:ring-1 focus:ring-ring"
+                            className="w-full rounded-xl border border-input bg-muted/50 px-4 py-3 text-foreground outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20"
                         />
                     </div>
                 </div>
@@ -55,7 +55,7 @@ export default function CreateGoalPage() {
                         id="motivation"
                         rows={4}
                         placeholder="Why is this goal important to you? How will achieving it change your life?"
-                        className="w-full rounded-xl border border-input bg-muted/50 px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none"
+                        className="w-full rounded-xl border border-input bg-muted/50 px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 resize-none"
                     />
                 </div>
 
@@ -71,8 +71,7 @@ export default function CreateGoalPage() {
                     <button type="button" className="rounded-xl px-6 py-3 font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
                         Cancel
                     </button>
-                    <button type="submit" className="flex items-center gap-2 rounded-xl bg-primary px-8 py-3 font-semibold text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
-                        <Save className="h-4 w-4" />
+                    <button type="submit" className="flex items-center gap-2 rounded-xl bg-green-600 px-8 py-3 font-semibold text-white shadow-lg shadow-green-600/20 hover:bg-green-700 transition-all">
                         Create Goal
                     </button>
                 </div>

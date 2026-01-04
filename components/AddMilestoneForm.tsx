@@ -101,7 +101,7 @@ export function AddMilestoneForm({ goalId }: { goalId: string }) {
                 )}
 
                 <div className="flex justify-end pt-2">
-                    <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90">
+                    <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
                         Create Milestone
                     </button>
                 </div>

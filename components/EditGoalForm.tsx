@@ -1,7 +1,7 @@
 'use client';
 
 import { updateGoal } from '@/app/actions/goals';
-import { Save, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { Goal } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -42,7 +42,7 @@ export function EditGoalForm({ goal }: EditGoalFormProps) {
                     defaultValue={goal.title}
                     placeholder="e.g., Run a Marathon, Buy a House, Learn Japanese"
                     required
-                    className="w-full rounded-xl border border-input bg-muted px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                    className="w-full rounded-xl border border-input bg-muted px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
                 />
             </div>
 
@@ -58,7 +58,7 @@ export function EditGoalForm({ goal }: EditGoalFormProps) {
                         id="deadline"
                         type="date"
                         defaultValue={goal.deadline ? new Date(goal.deadline).toISOString().split('T')[0] : ''}
-                        className="w-full rounded-xl border border-input bg-muted px-4 py-3 text-foreground outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                        className="w-full rounded-xl border border-input bg-muted px-4 py-3 text-foreground outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20"
                     />
                 </div>
             </div>
@@ -75,7 +75,7 @@ export function EditGoalForm({ goal }: EditGoalFormProps) {
                     rows={4}
                     defaultValue={goal.motivation || ''}
                     placeholder="Why is this goal important to you? How will achieving it change your life?"
-                    className="w-full rounded-xl border border-input bg-muted px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
+                    className="w-full rounded-xl border border-input bg-muted px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 resize-none"
                 />
             </div>
 
@@ -90,9 +90,8 @@ export function EditGoalForm({ goal }: EditGoalFormProps) {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-all disabled:opacity-50"
+                    className="flex items-center gap-2 rounded-xl bg-green-600 px-8 py-3 font-semibold text-white shadow-lg shadow-green-600/20 hover:bg-green-700 transition-all disabled:opacity-50"
                 >
-                    <Save className="h-4 w-4" />
                     {isLoading ? 'Saving...' : 'Save Changes'}
                 </button>
             </div>
