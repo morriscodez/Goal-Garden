@@ -11,7 +11,7 @@ import {
     defaultDropAnimationSideEffects,
     DropAnimation,
 } from "@dnd-kit/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ActionItem } from "@prisma/client";
 import { updateItemPriority } from "@/app/actions/matrix";
 import { MatrixInbox } from "./MatrixInbox";
@@ -37,6 +37,10 @@ const dropAnimation: DropAnimation = {
 export function MatrixContainer({ initialItems }: MatrixContainerProps) {
     const [items, setItems] = useState(initialItems);
     const [activeId, setActiveId] = useState<string | null>(null);
+
+    useEffect(() => {
+        setItems(initialItems);
+    }, [initialItems]);
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
