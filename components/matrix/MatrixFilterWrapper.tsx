@@ -5,6 +5,7 @@ import { ActionItem, Goal } from "@prisma/client";
 import { MatrixContainer } from "./MatrixContainer";
 import { Check, Filter, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 interface MatrixFilterWrapperProps {
     initialItems: (ActionItem & { goal?: { title: string; color: string | null } })[];
@@ -12,9 +13,20 @@ interface MatrixFilterWrapperProps {
 }
 
 export function MatrixFilterWrapper({ initialItems, goals }: MatrixFilterWrapperProps) {
-    const [selectedGoalIds, setSelectedGoalIds] = useState<Set<string>>(
-        new Set(goals.map((g) => g.id))
-    );
+    const searchParams = useSearchParams();
+    const filterGoalsParam = searchParams.get('filterGoals');
+
+    const [selectedGoalIds, setSelectedGoalIds] = useState<Set<string>>(() => {
+        if (filterGoalsParam) {
+            const ids = filterGoalsParam.split(',');
+            // Only include IDs that actually exist in the goals list
+            const validIds = ids.filter(id => goals.some(g => g.id === id));
+            if (validIds.length > 0) {
+                return new Set(validIds);
+            }
+        }
+        return new Set(goals.map((g) => g.id));
+    });
 
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const filterRef = useRef<HTMLDivElement>(null);

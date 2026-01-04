@@ -1,5 +1,6 @@
 "use client";
 
+import { getGoalTheme } from "@/lib/goal-themes";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,8 @@ export function DraggableActionItem({ item, className }: DraggableActionItemProp
         transform: CSS.Translate.toString(transform),
     };
 
+    const theme = item.goal ? getGoalTheme(item.goalId, item.goal.color) : null;
+
     return (
         <div
             ref={setNodeRef}
@@ -33,13 +36,9 @@ export function DraggableActionItem({ item, className }: DraggableActionItemProp
             )}
         >
             <div className="flex items-center justify-between mb-1">
-                {item.goal && (
+                {item.goal && theme && (
                     <span
-                        className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
-                        style={{
-                            backgroundColor: item.goal.color || "#e2e8f0",
-                            color: item.goal.color ? "#fff" : "#475569",
-                        }}
+                        className={cn("text-[10px] font-medium px-1.5 py-0.5 rounded", theme.chip)}
                     >
                         {item.goal.title}
                     </span>

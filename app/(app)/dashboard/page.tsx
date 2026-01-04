@@ -103,6 +103,15 @@ export default async function DashboardPage() {
     }
 
 
+    // Calculate visible goals for the matrix filter
+    const visibleGoalIds = Array.from(new Set([
+        ...dailyHabits.map(i => i.goalId),
+        ...upcomingDeadlines.map(i => i.goalId)
+    ]));
+    const matrixLink = visibleGoalIds.length > 0
+        ? `/dashboard/matrix?filterGoals=${visibleGoalIds.join(',')}`
+        : "/dashboard/matrix";
+
     return (
         <div className="space-y-8 pb-20">
             <div className="flex items-center justify-between">
@@ -181,15 +190,18 @@ export default async function DashboardPage() {
                 <div className="space-y-6">
                     <StreakWidget streak={streak} />
 
-                    {/* Quick Stats or other widgets can go here */}
-                    <div className="bg-card border rounded-3xl p-6 shadow-sm">
-                        <h3 className="font-semibold text-lg mb-4">Focus Mode</h3>
-                        <p className="text-sm text-muted-foreground mb-4">
-                            Need to focus? Switch to the dedicated focus view for your daily tasks.
+                    {/* Prioritize Widget */}
+                    <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-indigo-950/20 dark:to-zinc-900 border border-indigo-100 dark:border-indigo-500/20 rounded-3xl p-6 shadow-sm">
+                        <h3 className="font-semibold text-lg mb-2 text-indigo-900 dark:text-indigo-100">Prioritize</h3>
+                        <p className="text-sm text-indigo-700/80 dark:text-indigo-300/80 mb-4 leading-relaxed">
+                            Overwhelmed? Use the Eisenhower Matrix to sort your tasks by urgency and importance.
                         </p>
-                        <button className="w-full py-2 bg-zinc-100 dark:bg-zinc-800 rounded-xl text-sm font-semibold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors text-zinc-600 dark:text-zinc-300">
-                            Enter Focus Mode
-                        </button>
+                        <Link
+                            href={matrixLink}
+                            className="block w-full py-2.5 bg-indigo-600 text-white text-center rounded-xl text-sm font-semibold hover:bg-indigo-700 transition-all shadow-md shadow-indigo-200 dark:shadow-none"
+                        >
+                            Open Matrix
+                        </Link>
                     </div>
                 </div>
             </div>

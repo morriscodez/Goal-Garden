@@ -3,7 +3,7 @@
 import { ActionItem } from '@prisma/client';
 import { updateActionItemDeadline, toggleMilestoneCompletion, updateActionItem } from '@/app/actions/milestones';
 import { format, differenceInCalendarDays, startOfToday } from 'date-fns';
-import { Clock, Sprout, Flower2 } from 'lucide-react';
+import { Clock, Sprout, Flower2, Flame, Star } from 'lucide-react';
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { MilestoneMenu } from '@/components/MilestoneMenu';
@@ -121,16 +121,14 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalCol
                                 {goalName}
                             </span>
                         )}
-                        {item.is_urgent && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">
-                                Urgent
-                            </span>
-                        )}
-                        {item.is_important && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
-                                Important
-                            </span>
-                        )}
+                        <div className="flex items-center gap-1 ml-1">
+                            {item.is_urgent && (
+                                <Flame className="h-4 w-4 text-red-500 fill-red-500/20" aria-label="Urgent" title="Urgent" />
+                            )}
+                            {item.is_important && (
+                                <Star className="h-4 w-4 text-amber-500 fill-amber-500/20" aria-label="Important" title="Important" />
+                            )}
+                        </div>
                     </div>
                     {isEditingTitle ? (
                         <input
