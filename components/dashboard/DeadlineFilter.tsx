@@ -14,12 +14,12 @@ export function DeadlineFilter() {
     const searchParams = useSearchParams()
     const router = useRouter()
 
-    // Default to 14 if not specified
-    const currentDays = searchParams.get("deadlineDays") || "14"
+    // Default to 7 if not specified
+    const currentDays = searchParams.get("deadlineDays") || "7"
 
     const handleSelect = (days: string) => {
         const params = new URLSearchParams(searchParams)
-        if (days === "14") {
+        if (days === "7") {
             params.delete("deadlineDays") // Default clean URL
         } else {
             params.set("deadlineDays", days)

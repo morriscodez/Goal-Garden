@@ -6,7 +6,7 @@ import { toggleActionItem } from '@/app/actions/interact';
 import { updateActionItem } from '@/app/actions/milestones';
 import { clsx } from 'clsx';
 import { useTransition, useState, useRef, useEffect } from 'react';
-import { isSameDay, isSameWeek, isSameMonth, isSameYear } from 'date-fns';
+import { isSameDay, isSameWeek, isSameMonth, isSameQuarter, isSameYear } from 'date-fns';
 import { MilestoneMenu } from '@/components/MilestoneMenu';
 import { getGoalTheme } from '@/lib/goal-themes';
 
@@ -74,8 +74,71 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor,
             case 'DAILY': return isSameDay(lastDate, now);
             case 'WEEKLY': return isSameWeek(lastDate, now, { weekStartsOn: 1 }); // Monday start
             case 'MONTHLY': return isSameMonth(lastDate, now);
+            case 'QUARTERLY': return isSameQuarter(lastDate, now);
             case 'YEARLY': return isSameYear(lastDate, now);
             default: return isSameDay(lastDate, now);
+        }
+    })();
+
+    // Calculate effective streak (reset to 0 if missed a period)
+    const effectiveStreak = (() => {
+        if (!item.last_completed_at || item.current_streak === 0) return 0;
+        const last = new Date(item.last_completed_at);
+        const now = new Date();
+        // Reset time part for accurate date comparison where needed, though date-fns handles this well.
+
+        switch (item.frequency) {
+            case 'DAILY':
+                // Valid if Today or Yesterday
+                // If Today: Streak inclusive
+                // If Yesterday: Streak valid (completed yesterday, pending today)
+                if (isSameDay(last, now)) return item.current_streak;
+
+                const yesterday = new Date(now);
+                yesterday.setDate(yesterday.getDate() - 1);
+                if (isSameDay(last, yesterday)) return item.current_streak;
+
+                return 0; // Missed more than 1 day
+
+            case 'WEEKLY':
+                // Valid if This Week or Last Week
+                if (isSameWeek(last, now, { weekStartsOn: 1 })) return item.current_streak;
+
+                const lastWeek = new Date(now);
+                lastWeek.setDate(lastWeek.getDate() - 7);
+                if (isSameWeek(last, lastWeek, { weekStartsOn: 1 })) return item.current_streak;
+
+                return 0;
+
+            case 'MONTHLY':
+                if (isSameMonth(last, now)) return item.current_streak;
+
+                const lastMonth = new Date(now);
+                lastMonth.setMonth(lastMonth.getMonth() - 1);
+                if (isSameMonth(last, lastMonth)) return item.current_streak;
+
+                return 0;
+
+            case 'QUARTERLY':
+                if (isSameQuarter(last, now)) return item.current_streak;
+
+                const lastQuarter = new Date(now);
+                lastQuarter.setMonth(lastQuarter.getMonth() - 3);
+                if (isSameQuarter(last, lastQuarter)) return item.current_streak;
+
+                return 0;
+
+            case 'YEARLY':
+                if (isSameYear(last, now)) return item.current_streak;
+
+                const lastYear = new Date(now);
+                lastYear.setFullYear(lastYear.getFullYear() - 1);
+                if (isSameYear(last, lastYear)) return item.current_streak;
+
+                return 0;
+
+            default:
+                return item.current_streak;
         }
     })();
 
@@ -85,12 +148,29 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor,
             switch (item.frequency) {
                 case 'WEEKLY': return "Done for this week!";
                 case 'MONTHLY': return "Done for this month!";
+                case 'QUARTERLY': return "Done for this quarter!";
                 case 'YEARLY': return "Done for this year!";
+                case 'DAILY': return "Done for today!";
                 default: return "Done for today!";
             }
         }
         if (showLogProgress) return "Log progress";
-        return `Streak: ${item.current_streak} ${item.frequency === 'DAILY' ? 'days' : 'times'}`;
+
+        const period = (() => {
+            switch (item.frequency) {
+                case 'DAILY': return 'day';
+                case 'WEEKLY': return 'week';
+                case 'MONTHLY': return 'month';
+                case 'QUARTERLY': return 'quarter';
+                case 'YEARLY': return 'year';
+                default: return 'time';
+            }
+        })();
+
+        // Pluralization
+        const label = effectiveStreak === 1 ? period : `${period}s`;
+
+        return `Streak: ${effectiveStreak} ${label}`;
     })();
 
     const flowerColor = getFlowerColor(item.id);

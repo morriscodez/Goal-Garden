@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import { db } from "@/lib/db"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { ArrowRight, Plus, Flower2, Clock } from "lucide-react"
+import { ArrowRight, Plus, Activity, Clock } from "lucide-react"
 import { DailyCard } from "@/components/cards/DailyCard"
 import { DeadlineCard } from "@/components/cards/DeadlineCard"
 import { StreakWidget } from "@/components/StreakWidget"
@@ -21,14 +21,14 @@ export default async function DashboardPage({
     }
 
     const rhythm = (await searchParams)?.rhythm || 'DAILY';
-    const deadlineDaysStr = (await searchParams)?.deadlineDays || '14';
-    const deadlineDays = parseInt(deadlineDaysStr, 10) || 14;
+    const deadlineDaysStr = (await searchParams)?.deadlineDays || '7';
+    const deadlineDays = parseInt(deadlineDaysStr, 10) || 7;
 
     const frequencyMap: Record<string, string> = {
         'DAILY': 'DAILY',
         'WEEKLY': 'WEEKLY',
         'MONTHLY': 'MONTHLY',
-        'YEARLY': 'YEARLY'
+        'QUARTERLY': 'QUARTERLY'
     };
     const frequency = frequencyMap[rhythm] || 'DAILY';
 
@@ -36,7 +36,7 @@ export default async function DashboardPage({
         'DAILY': 'Daily habits',
         'WEEKLY': 'Weekly targets',
         'MONTHLY': 'Monthly goals',
-        'YEARLY': 'Yearly objectives'
+        'QUARTERLY': 'Quarterly objectives'
     };
     const rhythmLabel = rhythmLabels[rhythm] || 'Daily habits';
 
@@ -100,22 +100,33 @@ export default async function DashboardPage({
         }
     });
 
-    // Calculate consecutive days
+    // Calculate consecutive days allowing for 1 skip day
+    // "streak increments as long as a user marks at least one item complete for the day"
+    // "If the user goes more than one day without marking ... streak resets to 0 days"
+
+    // Use UTC dates for consistency
     const uniqueDates = Array.from(new Set(logs.map(l => l.date_logged.toISOString().split('T')[0])));
     let streak = 0;
 
     if (uniqueDates.length > 0) {
-        const today = new Date().toISOString().split('T')[0];
-        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-        let currentDateStr = uniqueDates[0] === today ? today : (uniqueDates.includes(yesterday) ? yesterday : null);
+        const todayStr = new Date().toISOString().split('T')[0];
+        const todayDate = new Date(todayStr);
+        const latestLogDate = new Date(uniqueDates[0]);
 
-        if (currentDateStr) {
+        const diffTime = todayDate.getTime() - latestLogDate.getTime();
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        // Streak is active if diff is 0 (Today), 1 (Yesterday), or 2 (One day skipped)
+        if (diffDays <= 2) {
             streak = 1;
-            let checkDate = new Date(currentDateStr);
-            while (true) {
-                checkDate.setDate(checkDate.getDate() - 1);
-                const prevDateStr = checkDate.toISOString().split('T')[0];
-                if (uniqueDates.includes(prevDateStr)) {
+            for (let i = 0; i < uniqueDates.length - 1; i++) {
+                const current = new Date(uniqueDates[i]);
+                const next = new Date(uniqueDates[i + 1]);
+                const gapTime = current.getTime() - next.getTime();
+                const gapDays = Math.floor(gapTime / (1000 * 60 * 60 * 24));
+
+                // If gap is 1 (consecutive) or 2 (one day skipped), streak continues
+                if (gapDays <= 2) {
                     streak++;
                 } else {
                     break;
@@ -141,10 +152,7 @@ export default async function DashboardPage({
                     <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Seasonal Drivers</h1>
                     <p className="text-zinc-500 dark:text-zinc-400 mt-1">Ready to conquer the day, {session.user.name}?</p>
                 </div>
-                <Link href="/goals/new" className="bg-zinc-900 text-white dark:bg-zinc-50 dark:text-zinc-900 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors flex items-center gap-2">
-                    <Plus className="h-4 w-4" />
-                    New Goal
-                </Link>
+
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -155,7 +163,7 @@ export default async function DashboardPage({
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
                                 <span className="bg-green-100 text-green-700 p-1.5 rounded-lg dark:bg-green-900/30 dark:text-green-400">
-                                    <Flower2 className="h-5 w-5" />
+                                    <Activity className="h-5 w-5" />
                                 </span>
                                 Rhythm
                                 <span className="text-sm font-normal text-muted-foreground ml-2 hidden sm:inline-block">

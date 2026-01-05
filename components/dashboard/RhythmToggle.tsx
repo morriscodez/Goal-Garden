@@ -3,13 +3,13 @@
 import { useSearchParams, useRouter } from "next/navigation"
 import { clsx } from "clsx"
 
-type Rhythm = "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY"
+type Rhythm = "DAILY" | "WEEKLY" | "MONTHLY" | "QUARTERLY"
 
 const RHYTHM_OPTIONS: { value: Rhythm; label: string }[] = [
     { value: "DAILY", label: "Daily" },
     { value: "WEEKLY", label: "Weekly" },
     { value: "MONTHLY", label: "Monthly" },
-    { value: "YEARLY", label: "Yearly" },
+    { value: "QUARTERLY", label: "Quarterly" },
 ]
 
 export function RhythmToggle() {
