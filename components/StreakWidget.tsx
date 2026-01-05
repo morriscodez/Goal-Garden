@@ -25,7 +25,7 @@ export function StreakWidget({ streak }: { streak: number }) {
 
                 <div className="flex items-baseline gap-2">
                     <span className="text-5xl font-black text-white drop-shadow-lg">{streak}</span>
-                    <span className="text-xl font-medium text-white/90 drop-shadow-lg">days</span>
+                    <span className="text-xl font-medium text-white/90 drop-shadow-lg">{streak === 1 ? 'day' : 'days'}</span>
                 </div>
 
                 <p className="mt-2 text-white/90 text-sm font-medium drop-shadow-lg">

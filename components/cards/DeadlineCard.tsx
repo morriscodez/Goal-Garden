@@ -207,9 +207,18 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalCol
                     isCompleted && "opacity-50 pointer-events-none grayscale"
                 )}>
                     <input
-                        type="date"
+                        type={date ? 'date' : 'text'}
+                        placeholder="Set deadline"
                         value={date}
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                        }}
+                        onFocus={(e) => {
+                            e.target.type = 'date';
+                        }}
+                        onBlur={(e) => {
+                            if (!date) e.target.type = 'text';
+                        }}
                         onChange={handleChange}
                         className={clsx(
                             "pl-9 pr-3 py-2 rounded-xl border bg-muted text-sm font-medium outline-none focus:ring-2 transition-all cursor-pointer w-36",

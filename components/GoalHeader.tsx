@@ -55,7 +55,6 @@ export function GoalHeader({ goal }: GoalHeaderProps) {
                             }`}
                         onClick={() => hasLongMotivation && setIsMotivationExpanded(!isMotivationExpanded)}
                     >
-                        <span className="font-medium text-foreground mr-1">Why:</span>
                         {goal.motivation}
 
                         {hasLongMotivation && (
