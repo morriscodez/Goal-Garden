@@ -24,7 +24,7 @@ export function TimelineNode({ item, index, isLast }: TimelineNodeProps) {
             <div className="w-5/12 hidden md:block text-right pr-8">
                 {isLeft && (
                     <div className="animate-in slide-in-from-right-4 duration-500 fade-in">
-                        <h3 className={clsx("font-bold text-lg", item.is_completed ? "text-green-600 line-through decoration-green-400" : "text-zinc-900 dark:text-zinc-100")}>
+                        <h3 className={clsx("font-bold text-lg", item.is_completed ? "text-muted-foreground line-through decoration-green-500/40 dark:decoration-green-400/40" : "text-zinc-900 dark:text-zinc-100")}>
                             {item.title}
                         </h3>
                         {item.deadline && (
@@ -62,7 +62,7 @@ export function TimelineNode({ item, index, isLast }: TimelineNodeProps) {
             <div className="hidden md:block w-5/12 pl-8">
                 {!isLeft && (
                     <div className="animate-in slide-in-from-left-4 duration-500 fade-in">
-                        <h3 className={clsx("font-bold text-lg", item.is_completed ? "text-green-600 line-through decoration-green-400" : "text-zinc-900 dark:text-zinc-100")}>
+                        <h3 className={clsx("font-bold text-lg", item.is_completed ? "text-muted-foreground line-through decoration-green-500/40 dark:decoration-green-400/40" : "text-zinc-900 dark:text-zinc-100")}>
                             {item.title}
                         </h3>
                         {item.deadline && (
@@ -77,7 +77,7 @@ export function TimelineNode({ item, index, isLast }: TimelineNodeProps) {
             {/* Mobile View (Always Right of Line) */}
             <div className="w-full pl-16 md:hidden">
                 <div>
-                    <h3 className={clsx("font-bold text-base", item.is_completed ? "text-green-600 line-through decoration-green-400" : "text-foreground")}>
+                    <h3 className={clsx("font-bold text-base", item.is_completed ? "text-muted-foreground line-through decoration-green-500/40 dark:decoration-green-400/40" : "text-foreground")}>
                         {item.title}
                     </h3>
                     {item.deadline && (

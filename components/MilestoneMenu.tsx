@@ -112,7 +112,7 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
 
                             {item.type === 'ONE_OFF' && (
                                 <div className="p-1 space-y-0.5">
-                                    {['DAILY', 'WEEKLY', 'MONTHLY', 'ANNUAL'].map((freq) => (
+                                    {['DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY'].map((freq) => (
                                         <button
                                             key={freq}
                                             onClick={(e) => { e.stopPropagation(); handleConvert('RECURRING', freq); }}

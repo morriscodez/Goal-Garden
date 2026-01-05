@@ -21,7 +21,7 @@ import {
 import { DeadlineCard } from './cards/DeadlineCard';
 import { SortableItem } from './SortableItem';
 import { reorderActionItems } from '@/app/actions/reorder';
-import { AlignJustify, CalendarClock, Calendar, ListTodo, ArrowUpDown, GripVertical } from 'lucide-react';
+import { AlignJustify, CalendarClock, Calendar, ArrowUpDown, GripVertical, Filter, CheckCircle2, Circle, ListTodo, Grid2x2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { AddMilestoneForm } from './AddMilestoneForm';
 
@@ -33,6 +33,7 @@ export function DeadlineBoard({
     initialItems: ActionItem[]
 }) {
     const [isDateSorted, setIsDateSorted] = useState(true);
+    const [filterMode, setFilterMode] = useState<'all' | 'incomplete'>('all');
     const [items, setItems] = useState(initialItems);
     const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
@@ -41,18 +42,20 @@ export function DeadlineBoard({
     }, [initialItems]);
 
     // Derived sorted items for display
-    const displayedItems = [...items].sort((a, b) => {
-        if (isDateSorted) {
-            // Sort by Date
-            if (a.deadline && b.deadline) return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
-            if (a.deadline) return -1; // Deadlines first
-            if (b.deadline) return 1;
-            return 0;
-        } else {
-            // Sort by Order
-            return a.sort_order - b.sort_order;
-        }
-    });
+    const displayedItems = [...items]
+        .filter(item => filterMode === 'all' || !item.is_completed)
+        .sort((a, b) => {
+            if (isDateSorted) {
+                // Sort by Date
+                if (a.deadline && b.deadline) return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+                if (a.deadline) return -1; // Deadlines first
+                if (b.deadline) return 1;
+                return 0;
+            } else {
+                // Sort by Order
+                return a.sort_order - b.sort_order;
+            }
+        });
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -106,12 +109,43 @@ export function DeadlineBoard({
                 </div>
 
                 <div className="flex items-center gap-2 bg-muted p-1 rounded-lg">
+
+                    <button
+                        onClick={() => setFilterMode(prev => prev === 'all' ? 'incomplete' : 'all')}
+                        className={clsx(
+                            "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
+                            filterMode === 'incomplete'
+                                ? "bg-background text-foreground shadow-sm"
+                                : "text-muted-foreground hover:text-foreground hover:bg-background/50"
+                        )}
+                    >
+                        {filterMode === 'all' ? (
+                            <>
+                                <CheckCircle2 className="h-4 w-4" />
+                                All
+                            </>
+                        ) : (
+                            <>
+                                <Circle className="h-4 w-4" />
+                                Incomplete
+                            </>
+                        )}
+                    </button>
+                    <div className="w-px h-4 bg-zinc-300 mx-1" />
                     <Link
                         href={`/goals/${goalId}/timeline`}
                         className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-background shadow-sm transition-all"
                     >
                         <ListTodo className="h-4 w-4" />
                         Timeline View
+                    </Link>
+                    <div className="w-px h-4 bg-zinc-300 mx-1" />
+                    <Link
+                        href={`/goals/${goalId}/matrix`}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-background shadow-sm transition-all"
+                    >
+                        <Grid2x2 className="h-4 w-4" />
+                        Matrix
                     </Link>
                     <div className="w-px h-4 bg-zinc-300 mx-1" />
                     <button

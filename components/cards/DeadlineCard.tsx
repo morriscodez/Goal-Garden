@@ -156,14 +156,24 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalCol
                         </h4>
                     )}
 
-                    {!item.deadline && (
-                        <p className="text-xs text-muted-foreground font-medium mt-0.5 flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            No deadline set
-                        </p>
-                    )}
+                    {(() => {
+                        if (isCompleted) {
+                            return (
+                                <p className="text-xs mt-0.5 transition-colors text-green-600 dark:text-green-400 font-bold">
+                                    Completed
+                                </p>
+                            );
+                        }
 
-                    {item.deadline && (() => {
+                        if (!item.deadline) {
+                            return (
+                                <p className="text-xs text-muted-foreground font-medium mt-0.5 flex items-center gap-1">
+                                    <Clock className="h-3 w-3" />
+                                    No deadline set
+                                </p>
+                            );
+                        }
+
                         const today = startOfToday();
                         const deadlineDate = new Date(item.deadline);
                         const diffDays = differenceInCalendarDays(deadlineDate, today);
@@ -171,10 +181,7 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalCol
                         let message = "";
                         let colorClass = "text-muted-foreground";
 
-                        if (isCompleted) {
-                            message = "Completed";
-                            colorClass = "text-green-600 dark:text-green-400 font-bold";
-                        } else if (diffDays < 0) {
+                        if (diffDays < 0) {
                             message = "Deadline passed - set a new deadline?";
                             colorClass = "text-red-500 dark:text-red-400 font-medium";
                         } else if (diffDays === 0) {

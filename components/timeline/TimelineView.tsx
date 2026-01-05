@@ -53,22 +53,24 @@ export function TimelineView({ goal }: TimelineViewProps) {
 
                     <div className="absolute left-4 md:left-1/2 -translate-x-1/2 flex flex-col items-center">
                         {/* Connector from last milestone */}
-                        <div className="absolute bottom-10 w-1 h-12 bg-green-200 dark:bg-green-900/40 rounded-full" />
+                        <div className="absolute bottom-14 w-1 h-12 bg-green-200 dark:bg-green-900/40 rounded-full" />
 
                         <div className={clsx(
                             "relative z-10 h-14 w-14 rounded-full flex items-center justify-center shadow-lg border-4 transition-all animate-in zoom-in duration-700 delay-300",
                             (goal.consistency_score || 0) >= 100
                                 ? "bg-amber-100 text-amber-600 border-amber-200 scale-110"
-                                : "bg-primary text-primary-foreground border-border"
+                                : "bg-green-100 text-green-600 border-green-200 dark:bg-green-900/50 dark:text-green-400 dark:border-green-800"
                         )}>
                             <Flag className="h-6 w-6" />
                         </div>
                     </div>
 
                     <div className="w-full pl-16 md:w-5/12 md:pl-8">
-                        <div className="p-4 bg-primary text-primary-foreground rounded-2xl shadow-xl inline-block animate-in slide-in-from-bottom-4 fade-in duration-700">
-                            <h3 className="font-bold text-lg">{goal.title}</h3>
-                            <p className="opacity-80 text-sm">{format(new Date(goal.deadline), 'MMMM do, yyyy')}</p>
+                        <div className="w-full pl-16 md:w-5/12 md:pl-8">
+                            <div className="p-4 bg-card text-card-foreground border border-border rounded-2xl shadow-sm inline-block animate-in slide-in-from-bottom-4 fade-in duration-700">
+                                <h3 className="font-bold text-lg">{goal.title}</h3>
+                                <p className="text-muted-foreground text-sm">{format(new Date(goal.deadline), 'MMMM do, yyyy')}</p>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Flag, Grid2x2 } from 'lucide-react';
+import { Flag } from 'lucide-react';
 import { GoalMenu } from '@/components/GoalMenu';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -39,11 +39,6 @@ export function GoalHeader({ goal }: GoalHeaderProps) {
                 </div>
 
                 <div className="pt-1 flex items-center gap-2">
-                    <Link href={`/goals/${goal.id}/matrix`} title="Prioritize with Eisenhower Matrix">
-                        <button className="transition-colors p-1.5 rounded-full text-zinc-500 hover:text-zinc-700 hover:bg-white/50 dark:hover:bg-black/50 backdrop-blur-sm">
-                            <Grid2x2 className="h-5 w-5" />
-                        </button>
-                    </Link>
                     <GoalMenu goalId={goal.id} />
                 </div>
             </div>

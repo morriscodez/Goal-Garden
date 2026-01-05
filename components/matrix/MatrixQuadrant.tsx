@@ -15,10 +15,10 @@ interface MatrixQuadrantProps {
 }
 
 const variantStyles = {
-    red: "bg-red-50/50 border-red-100 hover:bg-red-50",
-    orange: "bg-orange-50/50 border-orange-100 hover:bg-orange-50",
-    blue: "bg-blue-50/50 border-blue-100 hover:bg-blue-50",
-    green: "bg-green-50/50 border-green-100 hover:bg-green-50",
+    red: "bg-background border-red-200",
+    orange: "bg-background border-orange-200",
+    blue: "bg-background border-blue-200",
+    green: "bg-background border-green-200",
 };
 
 export function MatrixQuadrant({
