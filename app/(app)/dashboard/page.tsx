@@ -7,11 +7,12 @@ import { DailyCard } from "@/components/cards/DailyCard"
 import { DeadlineCard } from "@/components/cards/DeadlineCard"
 import { StreakWidget } from "@/components/StreakWidget"
 import { RhythmToggle } from "@/components/dashboard/RhythmToggle"
+import { DeadlineFilter } from "@/components/dashboard/DeadlineFilter"
 
 export default async function DashboardPage({
     searchParams,
 }: {
-    searchParams?: Promise<{ rhythm?: string }>
+    searchParams?: Promise<{ rhythm?: string; deadlineDays?: string }>
 }) {
     const session = await auth()
 
@@ -20,6 +21,9 @@ export default async function DashboardPage({
     }
 
     const rhythm = (await searchParams)?.rhythm || 'DAILY';
+    const deadlineDaysStr = (await searchParams)?.deadlineDays || '14';
+    const deadlineDays = parseInt(deadlineDaysStr, 10) || 14;
+
     const frequencyMap: Record<string, string> = {
         'DAILY': 'DAILY',
         'WEEKLY': 'WEEKLY',
@@ -37,7 +41,6 @@ export default async function DashboardPage({
     const rhythmLabel = rhythmLabels[rhythm] || 'Daily habits';
 
     // 1. Fetch Rhythm Items (Frequency based on toggle)
-    // Use type assertion for frequency since we know it matches the enum strings
     const rhythmItems = await db.actionItem.findMany({
         where: {
             goal: { userId: session.user.id },
@@ -53,17 +56,17 @@ export default async function DashboardPage({
         }
     });
 
-    // 2. Fetch Upcoming Deadlines (Has deadline, not completed OR completed recently?)
-    // "What big milestones are coming at me fast?" -> due in the next 7 days.
-    const sevenDaysFromNow = new Date();
-    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+    // 2. Fetch Upcoming Deadlines
+    // Based on user selected threshold (deadlineDays)
+    const deadlineDate = new Date();
+    deadlineDate.setDate(deadlineDate.getDate() + deadlineDays);
 
     const upcomingDeadlines = await db.actionItem.findMany({
         where: {
             goal: { userId: session.user.id },
             deadline: {
                 not: null,
-                lte: sevenDaysFromNow
+                lte: deadlineDate
             },
             is_completed: false // Only show pending for "coming at me fast"
         },
@@ -75,7 +78,10 @@ export default async function DashboardPage({
         orderBy: {
             deadline: 'asc'
         },
-        take: 10
+        // Remove take: 10 to let user see all within their chosen window, or keep it?
+        // User asked to see items "whose deadlines are within the next X days". 
+        // Implies we show them all. 
+        // But let's keep a reasonable limit if it gets huge, though for now "all" is safer interpretation of request.
     });
 
     // 3. Calculate Streak
@@ -101,18 +107,11 @@ export default async function DashboardPage({
     if (uniqueDates.length > 0) {
         const today = new Date().toISOString().split('T')[0];
         const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-
-        // If today is in list, we start counting from today.
-        // If today is NOT in list, but yesterday IS, we start from yesterday (streak kept alive but not extended yet).
-        // If neither, streak is 0.
-
         let currentDateStr = uniqueDates[0] === today ? today : (uniqueDates.includes(yesterday) ? yesterday : null);
 
         if (currentDateStr) {
             streak = 1;
             let checkDate = new Date(currentDateStr);
-
-            // Iterate backwards
             while (true) {
                 checkDate.setDate(checkDate.getDate() - 1);
                 const prevDateStr = checkDate.toISOString().split('T')[0];
@@ -187,17 +186,20 @@ export default async function DashboardPage({
 
                     {/* Deadline Section: Upcoming */}
                     <section>
-                        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-4 flex items-center gap-2">
-                            <span className="bg-blue-100 text-blue-700 p-1.5 rounded-lg dark:bg-blue-900/30 dark:text-blue-400">
-                                <Clock className="h-5 w-5" />
-                            </span>
-                            Deadline
-                            <span className="text-sm font-normal text-muted-foreground ml-2">Big milestones coming up</span>
-                        </h2>
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
+                                <span className="bg-blue-100 text-blue-700 p-1.5 rounded-lg dark:bg-blue-900/30 dark:text-blue-400">
+                                    <Clock className="h-5 w-5" />
+                                </span>
+                                Deadline
+                                <span className="text-sm font-normal text-muted-foreground ml-2">Big milestones coming up</span>
+                            </h2>
+                            <DeadlineFilter />
+                        </div>
 
                         {upcomingDeadlines.length === 0 ? (
                             <div className="p-8 border border-dashed rounded-2xl text-center bg-zinc-50/50 dark:bg-zinc-900/30">
-                                <p className="text-muted-foreground text-sm">No upcoming deadlines.</p>
+                                <p className="text-muted-foreground text-sm">No upcoming deadlines within {deadlineDays} days.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 gap-3">
