@@ -9,8 +9,8 @@ import { twMerge } from 'tailwind-merge';
 import { LogoutButton } from './LogoutButton';
 
 const navItems = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Goals', href: '/goals', icon: Flag },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Eisenhower Matrix', href: '/dashboard/matrix', icon: Grid2x2 },
 ];
 
