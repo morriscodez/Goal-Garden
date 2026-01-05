@@ -91,7 +91,7 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalCol
 
     return (
         <div className={clsx(
-            "p-5 rounded-2xl border shadow-sm flex items-center justify-between group hover:shadow-md transition-all duration-300",
+            "p-4 rounded-2xl border shadow-sm flex items-center justify-between group hover:shadow-md transition-all duration-300",
             isCompleted
                 ? "bg-green-50/30 border-green-100 dark:bg-green-900/10 dark:border-green-900/30"
                 : "bg-card border-border"
@@ -123,10 +123,14 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalCol
                         )}
                         <div className="flex items-center gap-1 ml-1">
                             {item.is_urgent && (
-                                <Flame className="h-4 w-4 text-red-500 fill-red-500/20" aria-label="Urgent" title="Urgent" />
+                                <span title="Urgent">
+                                    <Flame className="h-4 w-4 text-red-500 fill-red-500/20" aria-label="Urgent" />
+                                </span>
                             )}
                             {item.is_important && (
-                                <Star className="h-4 w-4 text-amber-500 fill-amber-500/20" aria-label="Important" title="Important" />
+                                <span title="Important">
+                                    <Star className="h-4 w-4 text-amber-500 fill-amber-500/20" aria-label="Important" />
+                                </span>
                             )}
                         </div>
                     </div>

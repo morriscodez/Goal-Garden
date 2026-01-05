@@ -23,7 +23,7 @@ export function GoalHeader({ goal }: GoalHeaderProps) {
     const theme = getGoalTheme(goal.id, goal.color);
 
     return (
-        <div className="flex flex-col gap-4 bg-slate-100 dark:bg-slate-800/80 rounded-2xl p-6 border border-border/50 shadow-sm">
+        <div className="flex flex-col gap-4 bg-green-50/30 border-green-100 dark:bg-green-900/10 dark:border-green-900/30 rounded-2xl p-6 border shadow-sm">
             <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2 flex-1 min-w-0">
                     <div className="flex items-center gap-2 text-muted-foreground">

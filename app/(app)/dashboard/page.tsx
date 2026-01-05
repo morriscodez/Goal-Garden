@@ -138,7 +138,7 @@ export default async function DashboardPage({
         <div className="mx-auto max-w-5xl p-8 space-y-8 pb-20">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Daily Drivers</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Seasonal Drivers</h1>
                     <p className="text-zinc-500 dark:text-zinc-400 mt-1">Ready to conquer the day, {session.user.name}?</p>
                 </div>
                 <Link href="/goals/new" className="bg-zinc-900 text-white dark:bg-zinc-50 dark:text-zinc-900 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors flex items-center gap-2">
@@ -221,14 +221,14 @@ export default async function DashboardPage({
                     <StreakWidget streak={streak} />
 
                     {/* Prioritize Widget */}
-                    <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-indigo-950/20 dark:to-zinc-900 border border-indigo-100 dark:border-indigo-500/20 rounded-3xl p-6 shadow-sm">
-                        <h3 className="font-semibold text-lg mb-2 text-indigo-900 dark:text-indigo-100">Prioritize</h3>
-                        <p className="text-sm text-indigo-700/80 dark:text-indigo-300/80 mb-4 leading-relaxed">
+                    <div className="bg-card border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
+                        <h3 className="font-semibold text-lg mb-2 text-zinc-900 dark:text-zinc-50">Prioritize</h3>
+                        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
                             Overwhelmed? Use the Eisenhower Matrix to sort your tasks by urgency and importance.
                         </p>
                         <Link
                             href={matrixLink}
-                            className="block w-full py-2.5 bg-indigo-600 text-white text-center rounded-xl text-sm font-semibold hover:bg-indigo-700 transition-all shadow-md shadow-indigo-200 dark:shadow-none"
+                            className="block w-full py-2.5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-center rounded-xl text-sm font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all shadow-sm"
                         >
                             Open Matrix
                         </Link>

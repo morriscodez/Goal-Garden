@@ -28,7 +28,7 @@ export function TimelineView({ goal }: TimelineViewProps) {
 
             {milestones.length === 0 && (
                 <div className="text-center py-20 bg-muted/50 rounded-3xl border border-dashed border-border">
-                    <p className="text-zinc-400 mb-2">No milestones planted yet.</p>
+                    <p className="text-zinc-400 mb-2">No milestones planted yet. Add deadlines to milestones to plot your goal garden.</p>
                 </div>
             )}
 
