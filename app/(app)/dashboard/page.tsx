@@ -6,19 +6,42 @@ import { ArrowRight, Plus, Flower2, Clock } from "lucide-react"
 import { DailyCard } from "@/components/cards/DailyCard"
 import { DeadlineCard } from "@/components/cards/DeadlineCard"
 import { StreakWidget } from "@/components/StreakWidget"
+import { RhythmToggle } from "@/components/dashboard/RhythmToggle"
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+    searchParams,
+}: {
+    searchParams?: Promise<{ rhythm?: string }>
+}) {
     const session = await auth()
 
     if (!session?.user?.id) {
         redirect("/login")
     }
 
-    // 1. Fetch Daily Habits (Frequency = DAILY)
-    const dailyHabits = await db.actionItem.findMany({
+    const rhythm = (await searchParams)?.rhythm || 'DAILY';
+    const frequencyMap: Record<string, string> = {
+        'DAILY': 'DAILY',
+        'WEEKLY': 'WEEKLY',
+        'MONTHLY': 'MONTHLY',
+        'YEARLY': 'YEARLY'
+    };
+    const frequency = frequencyMap[rhythm] || 'DAILY';
+
+    const rhythmLabels: Record<string, string> = {
+        'DAILY': 'Daily habits',
+        'WEEKLY': 'Weekly targets',
+        'MONTHLY': 'Monthly goals',
+        'YEARLY': 'Yearly objectives'
+    };
+    const rhythmLabel = rhythmLabels[rhythm] || 'Daily habits';
+
+    // 1. Fetch Rhythm Items (Frequency based on toggle)
+    // Use type assertion for frequency since we know it matches the enum strings
+    const rhythmItems = await db.actionItem.findMany({
         where: {
             goal: { userId: session.user.id },
-            frequency: 'DAILY'
+            frequency: frequency as any
         },
         include: {
             goal: {
@@ -105,7 +128,7 @@ export default async function DashboardPage() {
 
     // Calculate visible goals for the matrix filter
     const visibleGoalIds = Array.from(new Set([
-        ...dailyHabits.map(i => i.goalId),
+        ...rhythmItems.map(i => i.goalId),
         ...upcomingDeadlines.map(i => i.goalId)
     ]));
     const matrixLink = visibleGoalIds.length > 0
@@ -128,24 +151,29 @@ export default async function DashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Main Content Area */}
                 <div className="lg:col-span-2 space-y-8">
-                    {/* Rhythm Section: Daily Habits */}
+                    {/* Rhythm Section: Habits & Periodic Tasks */}
                     <section>
-                        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-4 flex items-center gap-2">
-                            <span className="bg-green-100 text-green-700 p-1.5 rounded-lg dark:bg-green-900/30 dark:text-green-400">
-                                <Flower2 className="h-5 w-5" />
-                            </span>
-                            Rhythm
-                            <span className="text-sm font-normal text-muted-foreground ml-2">Daily habits to clear</span>
-                        </h2>
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
+                                <span className="bg-green-100 text-green-700 p-1.5 rounded-lg dark:bg-green-900/30 dark:text-green-400">
+                                    <Flower2 className="h-5 w-5" />
+                                </span>
+                                Rhythm
+                                <span className="text-sm font-normal text-muted-foreground ml-2 hidden sm:inline-block">
+                                    {rhythmLabel} to clear
+                                </span>
+                            </h2>
+                            <RhythmToggle />
+                        </div>
 
-                        {dailyHabits.length === 0 ? (
+                        {rhythmItems.length === 0 ? (
                             <div className="p-8 border border-dashed rounded-2xl text-center bg-zinc-50/50 dark:bg-zinc-900/30">
-                                <p className="text-muted-foreground text-sm">No daily habits set up yet.</p>
+                                <p className="text-muted-foreground text-sm">No items found for this frequency.</p>
                                 <Link href="/goals" className="text-blue-600 text-sm font-medium hover:underline mt-1 inline-block">Check your goals</Link>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 gap-3">
-                                {dailyHabits.map(item => (
+                                {rhythmItems.map(item => (
                                     <DailyCard
                                         key={item.id}
                                         item={item}

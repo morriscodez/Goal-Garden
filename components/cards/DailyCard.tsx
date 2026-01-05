@@ -6,7 +6,7 @@ import { toggleActionItem } from '@/app/actions/interact';
 import { updateActionItem } from '@/app/actions/milestones';
 import { clsx } from 'clsx';
 import { useTransition, useState, useRef, useEffect } from 'react';
-import { isSameDay } from 'date-fns';
+import { isSameDay, isSameWeek, isSameMonth, isSameYear } from 'date-fns';
 import { MilestoneMenu } from '@/components/MilestoneMenu';
 import { getGoalTheme } from '@/lib/goal-themes';
 
@@ -64,10 +64,33 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor 
         }
     };
 
-    // Derived State: Is it effectively completed TODAY?
-    const isCompletedToday = item.is_completed &&
-        item.last_completed_at &&
-        isSameDay(new Date(item.last_completed_at), new Date());
+    // Derived State: Is it effectively completed FOR THE CURRENT PERIOD?
+    const isCompletedCurrentPeriod = (() => {
+        if (!item.is_completed || !item.last_completed_at) return false;
+        const lastDate = new Date(item.last_completed_at);
+        const now = new Date();
+
+        switch (item.frequency) {
+            case 'DAILY': return isSameDay(lastDate, now);
+            case 'WEEKLY': return isSameWeek(lastDate, now, { weekStartsOn: 1 }); // Monday start
+            case 'MONTHLY': return isSameMonth(lastDate, now);
+            case 'YEARLY': return isSameYear(lastDate, now);
+            default: return isSameDay(lastDate, now);
+        }
+    })();
+
+    // Determine status text
+    const statusText = (() => {
+        if (isCompletedCurrentPeriod) {
+            switch (item.frequency) {
+                case 'WEEKLY': return "Done for this week!";
+                case 'MONTHLY': return "Done for this month!";
+                case 'YEARLY': return "Done for this year!";
+                default: return "Done for today!";
+            }
+        }
+        return `Streak: ${item.current_streak} ${item.frequency === 'DAILY' ? 'days' : 'times'}`;
+    })();
 
     const flowerColor = getFlowerColor(item.id);
     const theme = getGoalTheme(item.goalId, goalColor);
@@ -77,7 +100,7 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor 
             className={clsx(
                 "bg-card p-4 rounded-2xl shadow-sm border border-border flex items-center justify-between group hover:shadow-md transition-all select-none relative",
                 isPending && "opacity-50",
-                isCompletedToday && "bg-green-50/30 border-green-100 dark:bg-green-900/10 dark:border-green-900/30"
+                isCompletedCurrentPeriod && "bg-green-50/30 border-green-100 dark:bg-green-900/10 dark:border-green-900/30"
             )}
         >
             <div className="flex items-center gap-4 flex-1">
@@ -86,12 +109,12 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor 
                     onClick={handleToggle}
                     className={clsx(
                         "h-12 w-12 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
-                        isCompletedToday
+                        isCompletedCurrentPeriod
                             ? clsx(flowerColor, "scale-110 rotate-12")
                             : "bg-muted text-muted-foreground hover:bg-green-100 hover:text-green-600 hover:scale-105"
                     )}
                 >
-                    {isCompletedToday ? (
+                    {isCompletedCurrentPeriod ? (
                         <Flower2 className="h-6 w-6 animate-in zoom-in spin-in-12 duration-300" />
                     ) : (
                         <Sprout className="h-6 w-6 transition-transform group-hover/icon:-translate-y-0.5" />
@@ -120,15 +143,15 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor 
                             onDoubleClick={() => setIsEditingTitle(true)}
                             className={clsx(
                                 "font-bold text-card-foreground text-sm transition-colors cursor-text leading-tight",
-                                isCompletedToday && "text-muted-foreground line-through decoration-zinc-300 dark:decoration-zinc-700"
+                                isCompletedCurrentPeriod && "text-muted-foreground line-through decoration-zinc-300 dark:decoration-zinc-700"
                             )}
                             title="Double-click to edit"
                         >
                             {title}
                         </h4>
                     )}
-                    <p className={clsx("text-xs mt-1 transition-colors", isCompletedToday ? "text-green-600 dark:text-green-400 font-medium" : "text-muted-foreground")}>
-                        {isCompletedToday ? "Done for today!" : `Streak: ${item.current_streak} days`}
+                    <p className={clsx("text-xs mt-1 transition-colors", isCompletedCurrentPeriod ? "text-green-600 dark:text-green-400 font-medium" : "text-muted-foreground")}>
+                        {statusText}
                     </p>
                 </div>
 
