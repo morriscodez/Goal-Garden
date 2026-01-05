@@ -5,7 +5,7 @@ import { LayoutGrid } from 'lucide-react';
 
 export default function CreateGoalPage() {
     return (
-        <div className="space-y-8">
+        <div className="mx-auto max-w-5xl p-8 space-y-8">
             {/* Header */}
             <div>
                 <nav className="text-sm text-muted-foreground mb-2">Goals &gt; Create Long-Term Goal</nav>

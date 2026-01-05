@@ -63,7 +63,7 @@ export default async function GoalDetailPage({
     }, null);
 
     return (
-        <div className="space-y-8 pb-20">
+        <div className="mx-auto max-w-5xl p-8 space-y-8 pb-20">
             <GoalHeader goal={{
                 id: goal.id,
                 title: goal.title,

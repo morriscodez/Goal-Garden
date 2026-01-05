@@ -44,7 +44,10 @@ export default async function GoalsReviewPage(props: {
 
     return (
         <div className="min-h-screen bg-background p-8">
-            <div className="max-w-7xl mx-auto space-y-8">
+            <div className={clsx(
+                "mx-auto space-y-8",
+                view === 'timeline' ? "max-w-full" : "max-w-7xl"
+            )}>
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>

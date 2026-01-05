@@ -27,7 +27,6 @@ export default async function MatrixPage() {
             userId: true,
             createdAt: true,
             updatedAt: true,
-            // We select all Goal fields to match Goal type required by MatrixFilterWrapper props
         },
         orderBy: {
             createdAt: "desc",
@@ -35,7 +34,7 @@ export default async function MatrixPage() {
     });
 
     return (
-        <div className="h-full p-6">
+        <div className="mx-auto max-w-6xl p-8">
             <MatrixFilterWrapper initialItems={items || []} goals={goals} />
         </div>
     );

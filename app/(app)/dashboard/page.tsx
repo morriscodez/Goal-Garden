@@ -135,7 +135,7 @@ export default async function DashboardPage({
         : "/dashboard/matrix";
 
     return (
-        <div className="space-y-8 pb-20">
+        <div className="mx-auto max-w-5xl p-8 space-y-8 pb-20">
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Daily Drivers</h1>

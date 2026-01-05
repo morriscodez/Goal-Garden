@@ -6,6 +6,7 @@ import { format, differenceInDays, addMonths, startOfMonth, endOfMonth, eachMont
 import { clsx } from "clsx";
 import { GanttSidebar } from "./GanttSidebar";
 import Image from "next/image"; // For avatar integration if needed, but we'll use pure CSS/icons
+import { Flag, Diamond } from "lucide-react";
 
 interface GlobalGanttChartProps {
     goals: (Goal & { actionItems: ActionItem[] })[];
@@ -13,9 +14,36 @@ interface GlobalGanttChartProps {
 }
 
 // CONSTANTS
-const PX_PER_DAY = 4; // Width of one day in pixels
+const PX_PER_DAY = 40; // Width of one day in pixels
 const HEADER_HEIGHT = 60;
 const ROW_HEIGHT = 80;
+
+// THEMES (Available for fallback or new goals)
+const THEMES = [
+    { name: "blue", bg: "bg-blue-100", text: "text-blue-700", border: "border-blue-200", dot: "bg-blue-500" },
+    { name: "purple", bg: "bg-purple-100", text: "text-purple-700", border: "border-purple-200", dot: "bg-purple-600" },
+    { name: "emerald", bg: "bg-emerald-100", text: "text-emerald-700", border: "border-emerald-200", dot: "bg-emerald-500" },
+    { name: "orange", bg: "bg-orange-100", text: "text-orange-700", border: "border-orange-200", dot: "bg-orange-500" },
+    { name: "burgundy", bg: "bg-rose-100", text: "text-rose-700", border: "border-rose-200", dot: "bg-rose-500" },
+];
+
+function getGoalTheme(id: string, colorPref?: string | null) {
+    if (colorPref) {
+        // Map common color names to our theme structure if possible
+        // Or construct a custom theme object based on the color string
+        // For simplicity, we'll try to match standard palette names, or fallback to hash
+        const match = THEMES.find(t => t.name.toLowerCase() === colorPref.toLowerCase());
+        if (match) return match;
+
+        // Implement custom color handling here if the colorPref is a hex code or other format
+        // For now, if it's a known Tailwind color name like 'blue-500', we might need a mapping
+        // Assuming colorPref is a simple name like "blue", "red", etc. from the Goal color picker
+    }
+
+    // Fallback to hash
+    const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return THEMES[hash % THEMES.length];
+}
 
 export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -42,7 +70,12 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
     useEffect(() => {
         if (containerRef.current) {
             const daysSinceStart = differenceInDays(today, timelineStart);
-            const scrollPos = (daysSinceStart * PX_PER_DAY) - (containerRef.current.clientWidth / 2);
+            const todayPos = daysSinceStart * PX_PER_DAY;
+
+            // Calculate center position: Target - (Visible Width / 2)
+            const scrollPos = todayPos - (containerRef.current.clientWidth / 2);
+
+            // Ensure we don't scroll past bounds (though simplified here)
             containerRef.current.scrollLeft = Math.max(0, scrollPos);
         }
     }, [timelineStart]);
@@ -52,25 +85,42 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
             {/* Main Timeline Area */}
             <div className="flex-1 flex flex-col min-w-0 relative">
 
-                {/* Header (Months) */}
+                {/* Header (Months & Days) */}
                 <div
                     ref={containerRef}
-                    className="flex-1 overflow-x-auto overflow-y-hidden relative custom-scrollbar"
+                    className="flex-1 overflow-x-auto overflow-y-auto relative custom-scrollbar"
                     style={{ scrollBehavior: 'smooth' }}
                 >
-                    <div className="h-full relative min-w-full" style={{ width: `${totalDays * PX_PER_DAY}px` }}>
+                    <div className="min-h-full relative min-w-full" style={{ width: `${totalDays * PX_PER_DAY}px` }}>
 
                         {/* Month Headers */}
-                        <div className="sticky top-0 z-20 flex bg-card border-b border-border h-[60px]">
+                        <div className="sticky top-0 z-50 flex bg-card border-b border-border h-[60px]">
                             {months.map(month => {
-                                const days = getDaysInMonth(month);
+                                const daysInMonth = getDaysInMonth(month);
+                                const monthWidth = daysInMonth * PX_PER_DAY;
+
                                 return (
                                     <div
                                         key={month.toISOString()}
-                                        className="flex-shrink-0 border-r border-border/50 px-2 py-3 text-xs font-bold text-muted-foreground uppercase tracking-widest sticky top-0 bg-card/95 backdrop-blur"
-                                        style={{ width: `${days * PX_PER_DAY}px` }}
+                                        className="flex-shrink-0 border-r border-border/50 relative"
+                                        style={{ width: `${monthWidth}px` }}
                                     >
-                                        {format(month, 'MMMM yyyy')}
+                                        {/* Month Label */}
+                                        <div className="sticky left-0 px-2 py-1 text-xs font-bold text-muted-foreground uppercase tracking-widest bg-card/95 backdrop-blur z-10 w-full truncate">
+                                            {format(month, 'MMMM yyyy')}
+                                        </div>
+
+                                        {/* Day Grid/Labels */}
+                                        <div className="flex h-full items-end pb-2">
+                                            {Array.from({ length: daysInMonth }).map((_, i) => (
+                                                <div
+                                                    key={i}
+                                                    className="flex-1 border-r border-border/30 h-1/2 flex items-end justify-center text-[10px] text-muted-foreground/50"
+                                                >
+                                                    {i + 1}
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -97,15 +147,50 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
                                 const duration = Math.max(differenceInDays(endDate, startDate), 7); // Min width 7 days
                                 const width = duration * PX_PER_DAY;
 
-                                const theme = getGoalTheme(goal.id);
+                                const theme = getGoalTheme(goal.id, goal.color);
+
+                                // Milestones
+                                const milestones = goal.actionItems?.filter(item => item.deadline) || [];
 
                                 return (
-                                    <div key={goal.id} className="relative h-[60px] w-full hover:bg-muted/30 transition-colors">
+                                    <div key={goal.id} className="relative h-[80px] w-full hover:bg-muted/30 transition-colors group">
+
+                                        {/* Milestone Indicators (Floating Above) */}
+                                        {milestones.map(milestone => {
+                                            if (!milestone.deadline) return null;
+                                            const mDate = new Date(milestone.deadline);
+                                            const mOffset = differenceInDays(mDate, timelineStart) * PX_PER_DAY;
+
+                                            // Render as floating markers above the bar
+                                            return (
+                                                <div
+                                                    key={milestone.id}
+                                                    className="absolute top-4 -translate-y-1/2 z-30 group/milestone cursor-pointer"
+                                                    style={{ left: `${mOffset}px` }}
+                                                    title={`${milestone.title} - ${format(mDate, 'MMM d')}`}
+                                                >
+                                                    <div className={clsx(
+                                                        "w-3 h-3 rotate-45 border border-white shadow-sm transition-transform hover:scale-125",
+                                                        milestone.is_completed ? "bg-green-500" : (theme.dot || "bg-current")
+                                                    )} />
+
+                                                    {/* Tooltip on hover */}
+                                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-popover text-popover-foreground text-xs font-medium rounded-lg shadow-xl border border-border opacity-0 group-hover/milestone:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-40">
+                                                        {milestone.title}
+                                                        <span className="opacity-50 mx-1">•</span>
+                                                        <span className="opacity-70">{format(mDate, 'MMM d')}</span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+
+                                        {/* Goal Bar Container (Bottom) */}
                                         <div
                                             className={clsx(
-                                                "absolute top-1/2 -translate-y-1/2 h-8 rounded-full shadow-sm border border-white/20 flex items-center px-4 overflow-hidden whitespace-nowrap group cursor-pointer transition-all hover:shadow-md hover:scale-[1.01]",
+                                                "absolute bottom-4 h-8 rounded-full shadow-sm border flex items-center px-4 overflow-visible whitespace-nowrap cursor-pointer transition-all hover:shadow-md hover:scale-[1.005]",
                                                 theme.bg,
-                                                theme.text
+                                                theme.text,
+                                                theme.border || "border-white/20"
                                             )}
                                             style={{
                                                 left: `${startOffset}px`,
@@ -113,18 +198,12 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
                                             }}
                                             onClick={() => window.location.href = `/goals/${goal.id}`}
                                         >
-                                            <span className="font-semibold text-sm truncate mr-2">{goal.title}</span>
-
-                                            {/* Progress Fill (Overlay) - Optional complexity, standardizing on simple bar for now */}
-                                            {/* We could add a darker shade overlay for progress % */}
-
+                                            <span className="font-semibold text-sm truncate mr-2 sticky left-0">{goal.title}</span>
                                         </div>
                                     </div>
                                 );
                             })}
                         </div>
-
-                        {/* Grid Lines (Vertical Month Dividers extending down) - Optional polish */}
                     </div>
                 </div>
             </div>
@@ -133,18 +212,4 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
             <GanttSidebar goals={goals} />
         </div>
     );
-}
-
-// Theme Logic (Consistent with GoalReviewCard)
-const THEMES = [
-    { name: "blue", bg: "bg-blue-100", text: "text-blue-700" },
-    { name: "purple", bg: "bg-purple-100", text: "text-purple-700" },
-    { name: "emerald", bg: "bg-emerald-100", text: "text-emerald-700" },
-    { name: "orange", bg: "bg-orange-100", text: "text-orange-700" },
-    { name: "burgundy", bg: "bg-rose-100", text: "text-rose-700" },
-];
-
-function getGoalTheme(id: string) {
-    const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return THEMES[hash % THEMES.length];
 }

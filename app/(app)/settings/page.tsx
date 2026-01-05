@@ -23,11 +23,10 @@ export default async function SettingsPage() {
     }
 
     return (
-        <div className="space-y-8">
+        <div className="mx-auto max-w-5xl p-8 space-y-8">
             <div>
-                <nav className="text-sm text-muted-foreground mb-2">App &gt; Settings</nav>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">Settings</h1>
-                <p className="text-muted-foreground mt-2">Manage your account settings and preferences.</p>
+                <p className="text-muted-foreground mt-1">Manage your account and preferences.</p>
             </div>
 
             <div className="grid gap-8">
