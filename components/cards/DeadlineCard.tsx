@@ -179,15 +179,18 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalCol
                             colorClass = "text-red-500 dark:text-red-400 font-medium";
                         } else if (diffDays === 0) {
                             message = "Due today";
-                            colorClass = "text-blue-600 dark:text-blue-400 font-bold";
+                            colorClass = "text-red-600 dark:text-red-400 font-bold";
                         } else if (diffDays === 1) {
                             message = "Due tomorrow";
-                            colorClass = "text-blue-600 dark:text-blue-400 font-semibold";
-                        } else if (diffDays <= 14) {
+                            colorClass = "text-red-600 dark:text-red-400 font-semibold";
+                        } else if (diffDays <= 3) {
                             message = `Due in ${diffDays} days`;
                             colorClass = "text-orange-600 dark:text-orange-400 font-medium";
+                        } else if (diffDays <= 7) {
+                            message = `Due in ${diffDays} days`;
+                            colorClass = "text-blue-600 dark:text-blue-400 font-medium";
                         } else {
-                            message = `Due ${format(item.deadline!, 'MMMM do, yyyy')}`;
+                            message = `Due in ${diffDays} days`;
                             colorClass = "text-muted-foreground";
                         }
 
