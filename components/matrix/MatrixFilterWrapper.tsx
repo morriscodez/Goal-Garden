@@ -6,6 +6,7 @@ import { MatrixContainer } from "./MatrixContainer";
 import { Check, Filter, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
+import { getGoalTheme } from "@/lib/goal-themes";
 
 interface MatrixFilterWrapperProps {
     initialItems: (ActionItem & { goal?: { title: string; color: string | null } })[];
@@ -80,6 +81,7 @@ export function MatrixFilterWrapper({ initialItems, goals }: MatrixFilterWrapper
                             <div className="max-h-64 overflow-y-auto">
                                 {goals.map((goal) => {
                                     const isSelected = selectedGoalIds.has(goal.id);
+                                    const theme = getGoalTheme(goal.id, goal.color);
                                     return (
                                         <div
                                             key={goal.id}
@@ -91,8 +93,7 @@ export function MatrixFilterWrapper({ initialItems, goals }: MatrixFilterWrapper
                                             </span>
                                             <span className="flex items-center gap-2 truncate">
                                                 <span
-                                                    className="w-2 h-2 rounded-full shrink-0"
-                                                    style={{ backgroundColor: goal.color || "#ccc" }}
+                                                    className={cn("w-2 h-2 rounded-full shrink-0", theme.barFill)}
                                                 />
                                                 <span className="truncate">{goal.title}</span>
                                             </span>

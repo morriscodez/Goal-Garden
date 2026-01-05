@@ -15,7 +15,10 @@ export async function fetchMatrixItems(goalId?: string) {
         const where: any = {
             goal: {
                 userId: session.user.id,
+                mode: "DEADLINE",
             },
+            frequency: null,
+            is_completed: false,
         };
 
         if (goalId) {
