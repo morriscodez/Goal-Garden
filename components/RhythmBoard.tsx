@@ -49,6 +49,7 @@ export function MatchRhythmBoard({
                                 item={item}
                                 isMenuOpen={activeMenuId === item.id}
                                 onMenuToggle={(open) => setActiveMenuId(open ? item.id : null)}
+                                showLogProgress={true}
                             />
                         ))}
                         {/* Empty State / Prompt handled by button below or if truly empty */}

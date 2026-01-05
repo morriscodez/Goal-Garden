@@ -26,7 +26,7 @@ function getFlowerColor(id: string) {
     return FLOWER_COLORS[index];
 }
 
-export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void; goalName?: string; goalColor?: string }) {
+export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor, showLogProgress }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void; goalName?: string; goalColor?: string; showLogProgress?: boolean }) {
     const [isPending, startTransition] = useTransition();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [title, setTitle] = useState(item.title);
@@ -89,6 +89,7 @@ export function DailyCard({ item, isMenuOpen, onMenuToggle, goalName, goalColor 
                 default: return "Done for today!";
             }
         }
+        if (showLogProgress) return "Log progress";
         return `Streak: ${item.current_streak} ${item.frequency === 'DAILY' ? 'days' : 'times'}`;
     })();
 
