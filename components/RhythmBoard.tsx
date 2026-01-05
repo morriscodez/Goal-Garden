@@ -7,20 +7,20 @@ import { Sun, Calendar, CalendarDays, Flag, Plus } from 'lucide-react';
 import { DailyCard } from './cards/DailyCard';
 import { WeeklyCard } from './cards/WeeklyCard';
 import { MonthlyCard } from './cards/MonthlyCard';
-import { AnnualCard } from './cards/AnnualCard';
+import { QuarterlyCard } from './cards/QuarterlyCard';
 import { CreateRhythmItemDialog } from './CreateRhythmItemDialog';
 
-type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ANNUAL';
+type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY';
 
 export function MatchRhythmBoard({
     goalId,
-    daily, weekly, monthly, annually
+    daily, weekly, monthly, quarterly
 }: {
     goalId: string;
     daily: ActionItem[];
     weekly: ActionItem[];
     monthly: ActionItem[];
-    annually: ActionItem[];
+    quarterly: ActionItem[];
 }) {
     const [activeFrequency, setActiveFrequency] = useState<Frequency | null>(null);
     const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
@@ -72,7 +72,7 @@ export function MatchRhythmBoard({
                         </div>
                         <button
                             onClick={() => setActiveFrequency('WEEKLY')}
-                            className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors"
+                            className="text-muted-foreground hover:text-foreground p-1 hover:bg-muted rounded-full transition-colors"
                         >
                             <Plus className="h-5 w-5" />
                         </button>
@@ -89,7 +89,7 @@ export function MatchRhythmBoard({
 
                         <button
                             onClick={() => setActiveFrequency('WEEKLY')}
-                            className="w-full border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all gap-2 group"
+                            className="w-full border-2 border-dashed border-border rounded-2xl p-4 flex flex-col items-center justify-center text-muted-foreground hover:border-sidebar-ring hover:bg-muted transition-all gap-2 group"
                         >
                             <Plus className="h-6 w-6 group-hover:text-zinc-600 dark:group-hover:text-zinc-300" />
                             <span className="text-xs font-semibold group-hover:text-foreground">Add Weekly Habit</span>
@@ -106,7 +106,7 @@ export function MatchRhythmBoard({
                         </div>
                         <button
                             onClick={() => setActiveFrequency('MONTHLY')}
-                            className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors"
+                            className="text-muted-foreground hover:text-foreground p-1 hover:bg-muted rounded-full transition-colors"
                         >
                             <Plus className="h-5 w-5" />
                         </button>
@@ -124,31 +124,31 @@ export function MatchRhythmBoard({
                         {/* Add Button Mock */}
                         <button
                             onClick={() => setActiveFrequency('MONTHLY')}
-                            className="w-full border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all gap-2 group"
+                            className="w-full border-2 border-dashed border-border rounded-2xl p-4 flex flex-col items-center justify-center text-muted-foreground hover:border-sidebar-ring hover:bg-muted transition-all gap-2 group"
                         >
                             <Plus className="h-6 w-6 group-hover:text-zinc-600 dark:group-hover:text-zinc-300" />
-                            <span className="text-xs font-semibold group-hover:text-foreground">Add Monthly Goal</span>
+                            <span className="text-xs font-semibold group-hover:text-foreground">Add Monthly Habit</span>
                         </button>
                     </div>
                 </div>
 
-                {/* ANNUALLY COLUMN */}
+                {/* QUARTERLY COLUMN */}
                 <div className="space-y-4">
                     <div className="flex items-center justify-between px-1">
                         <div className="flex items-center gap-2">
                             <Flag className="h-5 w-5 text-green-500" />
-                            <h3 className="font-bold text-lg text-foreground">Annually</h3>
+                            <h3 className="font-bold text-lg text-foreground">Quarterly</h3>
                         </div>
                         <button
-                            onClick={() => setActiveFrequency('ANNUAL')}
-                            className="text-zinc-400 hover:text-zinc-600 p-1 hover:bg-zinc-100 rounded-full transition-colors"
+                            onClick={() => setActiveFrequency('QUARTERLY')}
+                            className="text-muted-foreground hover:text-foreground p-1 hover:bg-muted rounded-full transition-colors"
                         >
                             <Plus className="h-5 w-5" />
                         </button>
                     </div>
                     <div className="space-y-3">
-                        {annually.map(item => (
-                            <AnnualCard
+                        {quarterly.map(item => (
+                            <QuarterlyCard
                                 key={item.id}
                                 item={item}
                                 isMenuOpen={activeMenuId === item.id}
@@ -157,11 +157,11 @@ export function MatchRhythmBoard({
                         ))}
 
                         <button
-                            onClick={() => setActiveFrequency('ANNUAL')}
-                            className="w-full border-2 border-dashed border-zinc-200 rounded-2xl p-4 flex flex-col items-center justify-center text-zinc-400 hover:border-zinc-300 hover:bg-zinc-50 transition-all gap-2 group"
+                            onClick={() => setActiveFrequency('QUARTERLY')}
+                            className="w-full border-2 border-dashed border-border rounded-2xl p-4 flex flex-col items-center justify-center text-muted-foreground hover:border-sidebar-ring hover:bg-muted transition-all gap-2 group"
                         >
-                            <Plus className="h-6 w-6 group-hover:text-zinc-600" />
-                            <span className="text-xs font-semibold group-hover:text-foreground">Add Annual Goal</span>
+                            <Plus className="h-6 w-6 group-hover:text-zinc-600 dark:group-hover:text-zinc-300" />
+                            <span className="text-xs font-semibold group-hover:text-foreground">Add Quarterly Habit</span>
                         </button>
                     </div>
                 </div>

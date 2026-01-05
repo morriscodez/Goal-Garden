@@ -41,13 +41,6 @@ export function AnnualCard({ item, isMenuOpen, onMenuToggle }: { item: ActionIte
         <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden group hover:shadow-md transition-all relative">
             <div className="h-24 bg-zinc-900 relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 opacity-50" />
-                {/* Status Badge */}
-                <div className="absolute bottom-2 left-3">
-                    <div className="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
-                        {item.is_completed ? 'Completed' : 'On Track'}
-                    </div>
-                </div>
-
                 {/* Milestone Menu - Absolute Positioned */}
                 <div className="absolute top-2 right-2">
                     <MilestoneMenu
@@ -77,24 +70,6 @@ export function AnnualCard({ item, isMenuOpen, onMenuToggle }: { item: ActionIte
                         {title}
                     </h4>
                 )}
-
-                <p className="text-xs text-muted-foreground line-clamp-2 mb-4">
-                    {item.description || 'No description provided.'}
-                </p>
-
-                {/* Progress Bar (Mock for now, could be real if sub-tasks existed) */}
-                <div>
-                    <div className="flex justify-between text-[10px] font-semibold text-muted-foreground mb-1">
-                        <span>Progress</span>
-                        <span>{item.is_completed ? '100%' : '0%'}</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
-                        <div
-                            className="h-full bg-green-500 transition-all duration-500"
-                            style={{ width: item.is_completed ? '100%' : '5%' }}
-                        />
-                    </div>
-                </div>
             </div>
         </div>
     );

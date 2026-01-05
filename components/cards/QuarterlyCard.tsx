@@ -6,7 +6,7 @@ import { useTransition, useState, useRef, useEffect } from 'react';
 import { toggleActionItem } from '@/app/actions/interact';
 import { updateActionItem } from '@/app/actions/milestones';
 import { clsx } from 'clsx';
-import { formatDistanceToNow, isSameMonth } from 'date-fns';
+import { isSameQuarter } from 'date-fns';
 import { MilestoneMenu } from '@/components/MilestoneMenu';
 
 
@@ -25,7 +25,7 @@ function getFlowerColor(id: string) {
     return FLOWER_COLORS[index];
 }
 
-export function MonthlyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void }) {
+export function QuarterlyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionItem; isMenuOpen?: boolean; onMenuToggle?: (open: boolean) => void }) {
     const [isPending, startTransition] = useTransition();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [title, setTitle] = useState(item.title);
@@ -64,9 +64,9 @@ export function MonthlyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionIt
     };
 
     // Derived View Logic
-    const isCompletedThisMonth = item.is_completed &&
+    const isCompletedThisQuarter = item.is_completed &&
         item.last_completed_at &&
-        isSameMonth(new Date(item.last_completed_at), new Date());
+        isSameQuarter(new Date(item.last_completed_at), new Date());
 
     const flowerColor = getFlowerColor(item.id);
 
@@ -75,7 +75,7 @@ export function MonthlyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionIt
             className={clsx(
                 "bg-card p-4 rounded-2xl shadow-sm border border-border flex items-center justify-between group hover:shadow-md transition-all select-none relative",
                 isPending && "opacity-50",
-                isCompletedThisMonth && "bg-green-50/30 border-green-100 dark:bg-green-900/10 dark:border-green-900/30"
+                isCompletedThisQuarter && "bg-green-50/30 border-green-100 dark:bg-green-900/10 dark:border-green-900/30"
             )}
         >
             <div className="flex items-center gap-4 flex-1">
@@ -84,12 +84,12 @@ export function MonthlyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionIt
                     onClick={handleToggle}
                     className={clsx(
                         "h-12 w-12 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-500 ease-out group/icon relative overflow-hidden",
-                        isCompletedThisMonth
+                        isCompletedThisQuarter
                             ? clsx(flowerColor, "scale-110 rotate-12")
                             : "bg-muted text-muted-foreground hover:bg-green-100 hover:text-green-600 hover:scale-105"
                     )}
                 >
-                    {isCompletedThisMonth ? (
+                    {isCompletedThisQuarter ? (
                         <Flower2 className="h-6 w-6 animate-in zoom-in spin-in-12 duration-300" />
                     ) : (
                         <Sprout className="h-6 w-6 transition-transform group-hover/icon:-translate-y-0.5" />
@@ -111,15 +111,15 @@ export function MonthlyCard({ item, isMenuOpen, onMenuToggle }: { item: ActionIt
                             onDoubleClick={() => setIsEditingTitle(true)}
                             className={clsx(
                                 "font-bold text-sm transition-colors cursor-text leading-tight",
-                                isCompletedThisMonth ? "text-muted-foreground line-through decoration-zinc-300 dark:decoration-zinc-700" : "text-card-foreground"
+                                isCompletedThisQuarter ? "text-muted-foreground line-through decoration-zinc-300 dark:decoration-zinc-700" : "text-card-foreground"
                             )}
                             title="Double-click to edit"
                         >
                             {title}
                         </h4>
                     )}
-                    <p className={clsx("text-xs mt-1 transition-colors", isCompletedThisMonth ? "text-green-600 dark:text-green-400 font-medium" : "text-muted-foreground")}>
-                        {isCompletedThisMonth ? "Done for the month!" : "Log progress"}
+                    <p className={clsx("text-xs mt-1 transition-colors", isCompletedThisQuarter ? "text-green-600 dark:text-green-400 font-medium" : "text-muted-foreground")}>
+                        {isCompletedThisQuarter ? "Done for the quarter!" : "Log progress"}
                     </p>
                 </div>
 

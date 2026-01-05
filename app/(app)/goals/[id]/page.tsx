@@ -46,7 +46,7 @@ export default async function GoalDetailPage({
     const dailyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'DAILY');
     const weeklyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'WEEKLY');
     const monthlyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'MONTHLY');
-    const annualItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'ANNUAL');
+    const quarterlyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'QUARTERLY');
 
     // For Deadline view, we explicitly filter for non-recurring items (Milestones/One-off)
     // so the board isn't cluttered with daily habits.
@@ -89,7 +89,7 @@ export default async function GoalDetailPage({
                     daily={dailyItems}
                     weekly={weeklyItems}
                     monthly={monthlyItems}
-                    annually={annualItems}
+                    quarterly={quarterlyItems}
                 />
             ) : (
                 <DeadlineBoard goalId={goal.id} initialItems={deadlineItems} />

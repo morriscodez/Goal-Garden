@@ -5,7 +5,7 @@ import { createMilestone } from '@/app/actions/milestones';
 import { X, Calendar, Repeat } from 'lucide-react';
 import { clsx } from 'clsx';
 
-type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ANNUAL';
+type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY';
 
 export function CreateRhythmItemDialog({
     isOpen,
@@ -25,7 +25,7 @@ export function CreateRhythmItemDialog({
             <div className="bg-card rounded-2xl w-full max-w-md shadow-2xl p-6 animate-in zoom-in-95 duration-200 border border-border">
                 <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h3 className="text-xl font-bold text-card-foreground">Add {frequency.toLowerCase()} habit</h3>
+                        <h3 className="text-xl font-bold text-card-foreground">Add {frequency.toLowerCase().replace('quarterly', 'quarterly')} habit</h3>
                         <p className="text-sm text-muted-foreground">Build consistency step by step.</p>
                     </div>
                     <button onClick={onClose} className="text-muted-foreground hover:text-foreground p-1 bg-muted rounded-full transition-colors">
@@ -47,7 +47,7 @@ export function CreateRhythmItemDialog({
                             name="title"
                             required
                             autoFocus
-                            placeholder={`e.g. ${frequency === 'DAILY' ? 'Read 10 pages' : frequency === 'WEEKLY' ? 'Go for a long run' : 'Review finances'}`}
+                            placeholder={`e.g. ${frequency === 'DAILY' ? 'Read 10 pages' : frequency === 'WEEKLY' ? 'Go for a long run' : frequency === 'MONTHLY' ? 'Review finances' : 'Quarterly review'}`}
                             className="w-full rounded-xl border border-input px-4 py-3 outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all font-medium bg-muted text-foreground placeholder:text-muted-foreground"
                         />
                     </div>
