@@ -97,7 +97,12 @@ export function DeadlineBoard({
                         <Calendar className="h-5 w-5 text-blue-600" />
                         Milestones
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-1">Drag to reorder or sort by date</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                        {isDateSorted
+                            ? "Sorted by upcoming deadlines"
+                            : "Drag and drop to prioritize your tasks"
+                        }
+                    </p>
                 </div>
 
                 <div className="flex items-center gap-2 bg-muted p-1 rounded-lg">

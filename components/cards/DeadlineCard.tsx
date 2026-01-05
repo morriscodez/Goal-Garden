@@ -221,7 +221,7 @@ export function DeadlineCard({ item, isMenuOpen, onMenuToggle, goalName, goalCol
                         }}
                         onChange={handleChange}
                         className={clsx(
-                            "pl-9 pr-3 py-2 rounded-xl border bg-muted text-sm font-medium outline-none focus:ring-2 transition-all cursor-pointer w-36",
+                            "pl-9 pr-3 py-2 rounded-xl border bg-muted text-sm font-medium outline-none focus:ring-2 transition-all cursor-pointer w-36 placeholder:text-muted-foreground",
                             date
                                 ? "border-input text-foreground"
                                 : "border-input text-muted-foreground focus:border-blue-500 focus:ring-blue-100 dark:focus:ring-blue-900/30"
