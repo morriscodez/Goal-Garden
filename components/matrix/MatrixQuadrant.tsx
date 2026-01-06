@@ -15,10 +15,10 @@ interface MatrixQuadrantProps {
 }
 
 const variantStyles = {
-    red: "bg-background border-red-200",
-    orange: "bg-background border-orange-200",
-    blue: "bg-background border-blue-200",
-    green: "bg-background border-green-200",
+    red: "bg-secondary/40",
+    orange: "bg-secondary/40",
+    blue: "bg-secondary/40",
+    green: "bg-secondary/40",
 };
 
 export function MatrixQuadrant({
@@ -37,9 +37,9 @@ export function MatrixQuadrant({
         <div
             ref={setNodeRef}
             className={cn(
-                "flex flex-col h-full rounded-xl border-2 border-dashed p-4 transition-colors",
+                "flex flex-col h-full rounded-2xl p-4 transition-colors shadow-sm",
                 variantStyles[variant],
-                isOver && "bg-opacity-100 border-solid ring-2 ring-offset-2",
+                isOver && "ring-2 ring-offset-2",
                 className
             )}
         >

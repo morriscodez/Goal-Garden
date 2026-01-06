@@ -20,7 +20,7 @@ export function MatrixInbox({ items, className }: MatrixInboxProps) {
         <div
             ref={setNodeRef}
             className={cn(
-                "flex flex-col h-full bg-muted/30 border-r border-border p-4 w-80 shrink-0 transition-colors",
+                "flex flex-col h-full bg-muted/30 p-4 w-80 shrink-0 transition-colors rounded-2xl shadow-sm",
                 isOver && "bg-muted/50 ring-2 ring-inset ring-primary/20",
                 className
             )}

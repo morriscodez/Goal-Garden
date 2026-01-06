@@ -60,7 +60,10 @@ export function MatrixFilterWrapper({ initialItems, goals }: MatrixFilterWrapper
     return (
         <div className="flex flex-col h-full space-y-4">
             <div className="flex items-center justify-between px-4">
-                <h1 className="text-2xl font-bold">Eisenhower Matrix</h1>
+                <div>
+                    <h1 className="text-2xl font-bold">Eisenhower Matrix</h1>
+                    <p className="text-muted-foreground text-sm mt-1">Progress, not perfection</p>
+                </div>
                 <div className="flex items-center gap-2 relative" ref={filterRef}>
                     <button
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -70,7 +73,7 @@ export function MatrixFilterWrapper({ initialItems, goals }: MatrixFilterWrapper
                         )}
                     >
                         <Filter className="h-4 w-4" />
-                        Filter Goals
+                        Filter by Goal
                         <ChevronDown className="h-3 w-3 opacity-50" />
                     </button>
 

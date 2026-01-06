@@ -27,24 +27,24 @@ export function EisenhowerMatrix({ items }: EisenhowerMatrixProps) {
             />
             <MatrixQuadrant
                 id="ur_not_im"
-                title="Urgent & Not Important"
+                title="Urgent but Not Important"
                 description="Delegate it. Interruptions, some calls/emails."
                 items={urgentNotImportant}
                 variant="orange"
             />
             <MatrixQuadrant
                 id="not_ur_im"
-                title="Not Urgent & Important"
+                title="Important but Not Urgent"
                 description="Schedule it. Planning, relationship building."
                 items={notUrgentImportant}
-                variant="green"
+                variant="blue"
             />
             <MatrixQuadrant
                 id="not_ur_not_im"
                 title="Not Urgent & Not Important"
                 description="Delete it. Time wasters, busy work."
                 items={notUrgentNotImportant}
-                variant="blue"
+                variant="green"
             />
         </div>
     );
