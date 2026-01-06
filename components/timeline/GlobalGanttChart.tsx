@@ -6,7 +6,7 @@ import { format, differenceInDays, addMonths, startOfMonth, endOfMonth, eachMont
 import { clsx } from "clsx";
 import { GanttSidebar } from "./GanttSidebar";
 import Image from "next/image"; // For avatar integration if needed, but we'll use pure CSS/icons
-import { Flag, Diamond } from "lucide-react";
+import { Flag, Droplet } from "lucide-react";
 
 interface GlobalGanttChartProps {
     goals: (Goal & { actionItems: ActionItem[] })[];
@@ -170,9 +170,11 @@ export function GlobalGanttChart({ goals }: GlobalGanttChartProps) {
                                                     title={`${milestone.title} - ${format(mDate, 'MMM d')}`}
                                                 >
                                                     <div className={clsx(
-                                                        "w-3 h-3 rotate-45 border border-white shadow-sm transition-transform hover:scale-125",
-                                                        milestone.is_completed ? "bg-green-500" : (theme.dot || "bg-current")
-                                                    )} />
+                                                        "transition-transform hover:scale-125",
+                                                        milestone.is_completed ? "text-green-500" : (theme.text)
+                                                    )}>
+                                                        <Droplet className="w-5 h-5" />
+                                                    </div>
 
                                                     {/* Tooltip on hover */}
                                                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-popover text-popover-foreground text-xs font-medium rounded-lg shadow-xl border border-border opacity-0 group-hover/milestone:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-40">
