@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Calendar, Focus } from "lucide-react";
+import { ArrowRight, Calendar, Focus, CheckCircle2 } from "lucide-react";
 import { clsx } from "clsx";
 import { GoalMenu } from "./GoalMenu";
 
@@ -34,7 +34,13 @@ export function GoalReviewCard({ id, title, motivation, progress, deadline, mode
                         <Focus className="h-4 w-4 text-amber-500" />
                     </div>
                 )}
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-3 right-3 flex items-center gap-2">
+                    {isComplete && (
+                        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white/90 dark:bg-black/60 backdrop-blur-sm rounded-full shadow-sm">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-green-600 dark:text-green-500" />
+                            <span className="text-xs font-bold text-green-700 dark:text-green-400">Completed</span>
+                        </div>
+                    )}
                     <GoalMenu goalId={id} isFocused={isFocused} isComplete={isComplete} />
                 </div>
             </div>

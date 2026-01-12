@@ -1,6 +1,6 @@
 'use client';
 
-import { Flag } from 'lucide-react';
+import { Flag, CheckCircle2 } from 'lucide-react';
 import { GoalMenu } from '@/components/GoalMenu';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -32,6 +32,12 @@ export function GoalHeader({ goal }: GoalHeaderProps) {
                             <Flag className="h-3 w-3" />
                             Long-term Goal
                         </div>
+                        {goal.isComplete && (
+                            <div className="inline-flex items-center gap-1.5 rounded-full bg-green-500/10 px-2 py-0.5 text-xs font-bold text-green-600 dark:text-green-500">
+                                <CheckCircle2 className="h-3 w-3" />
+                                Completed
+                            </div>
+                        )}
                     </div>
 
                     <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl truncate">
@@ -44,29 +50,31 @@ export function GoalHeader({ goal }: GoalHeaderProps) {
                 </div>
             </div>
 
-            {goal.motivation && (
-                <div className="relative group">
-                    <div
-                        className={`text-muted-foreground text-sm leading-relaxed max-w-3xl cursor-pointer hover:text-foreground transition-colors ${!isMotivationExpanded && hasLongMotivation ? 'line-clamp-2' : ''
-                            }`}
-                        onClick={() => hasLongMotivation && setIsMotivationExpanded(!isMotivationExpanded)}
-                    >
-                        {goal.motivation}
+            {
+                goal.motivation && (
+                    <div className="relative group">
+                        <div
+                            className={`text-muted-foreground text-sm leading-relaxed max-w-3xl cursor-pointer hover:text-foreground transition-colors ${!isMotivationExpanded && hasLongMotivation ? 'line-clamp-2' : ''
+                                }`}
+                            onClick={() => hasLongMotivation && setIsMotivationExpanded(!isMotivationExpanded)}
+                        >
+                            {goal.motivation}
 
-                        {hasLongMotivation && (
-                            <button
-                                className="inline-flex items-center gap-1 ml-2 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
-                            >
-                                {isMotivationExpanded ? (
-                                    <>Less <ChevronUp className="h-3 w-3" /></>
-                                ) : (
-                                    <>More <ChevronDown className="h-3 w-3" /></>
-                                )}
-                            </button>
-                        )}
+                            {hasLongMotivation && (
+                                <button
+                                    className="inline-flex items-center gap-1 ml-2 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+                                >
+                                    {isMotivationExpanded ? (
+                                        <>Less <ChevronUp className="h-3 w-3" /></>
+                                    ) : (
+                                        <>More <ChevronDown className="h-3 w-3" /></>
+                                    )}
+                                </button>
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
