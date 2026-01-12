@@ -72,16 +72,36 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
         return 'cards';
     });
 
+    // Track previous sort mode for returning from focus mode
+    const [previousSortMode, setPreviousSortMode] = useState<SortMode>('newest');
+
     const [goals, setGoals] = useState(initialGoals);
 
     useEffect(() => {
         setGoals(initialGoals);
     }, [initialGoals]);
 
-    // Persist preferences to localStorage
+    // Persist preferences to localStorage and track previous mode
     useEffect(() => {
         localStorage.setItem('goalSortMode', sortMode);
+        // When entering focus mode, save the current mode to return to
+        if (sortMode === 'focus') {
+            // previousSortMode was already set before this change
+        }
     }, [sortMode]);
+
+    // Handler to enter focus mode while saving the current mode
+    const enterFocusMode = () => {
+        if (sortMode !== 'focus') {
+            setPreviousSortMode(sortMode);
+        }
+        setSortMode('focus');
+    };
+
+    // Handler to exit focus mode and return to previous mode
+    const exitFocusMode = () => {
+        setSortMode(previousSortMode);
+    };
 
     useEffect(() => {
         localStorage.setItem('goalViewMode', viewMode);
@@ -188,23 +208,19 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
                     {SORT_OPTIONS.map((option) => (
                         <button
                             key={option.value}
-                            onClick={() => setSortMode(option.value)}
+                            onClick={() => option.value === 'focus' ? enterFocusMode() : setSortMode(option.value)}
                             disabled={option.value === 'focus' && focusedCount === 0}
                             className={clsx(
                                 "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
                                 sortMode === option.value
-                                    ? option.value === 'focus'
-                                        ? "bg-amber-500 text-white shadow-sm"
-                                        : "bg-muted text-primary shadow-sm"
+                                    ? "bg-muted text-primary shadow-sm"
                                     : option.value === 'focus' && focusedCount === 0
                                         ? "text-muted-foreground/40 cursor-not-allowed"
                                         : "text-muted-foreground hover:text-primary hover:bg-muted/50"
                             )}
                             title={option.value === 'focus' && focusedCount === 0 ? "No goals marked for focus" : undefined}
                         >
-                            <span className={clsx(
-                                option.value === 'focus' && sortMode === 'focus' && "text-white"
-                            )}>
+                            <span>
                                 {option.icon}
                             </span>
                             <span className="hidden sm:inline">{option.label}</span>
@@ -212,8 +228,8 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
                                 <span className={clsx(
                                     "text-xs px-1.5 py-0.5 rounded-full",
                                     sortMode === 'focus'
-                                        ? "bg-white/20 text-white"
-                                        : "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                                        ? "bg-primary/20 text-primary"
+                                        : "bg-muted text-muted-foreground"
                                 )}>
                                     {focusedCount}
                                 </span>
@@ -225,14 +241,14 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
 
             {/* Focus Mode Banner */}
             {isFocusMode && (
-                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg px-4 py-3 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300">
-                        <Focus className="h-4 w-4" />
+                <div className="bg-muted/50 border border-border rounded-lg px-4 py-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-foreground">
+                        <Focus className="h-4 w-4 text-primary" />
                         <span className="text-sm font-medium">Focus Mode — Showing {focusedCount} focused goal{focusedCount !== 1 ? 's' : ''}</span>
                     </div>
                     <button
-                        onClick={() => setSortMode('newest')}
-                        className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline"
+                        onClick={exitFocusMode}
+                        className="text-xs font-medium text-primary hover:underline"
                     >
                         Exit Focus Mode
                     </button>
