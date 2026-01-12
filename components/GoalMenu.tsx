@@ -10,14 +10,20 @@ import { THEMES } from '@/lib/goal-themes';
 
 interface GoalMenuProps {
     goalId: string;
+    onOpenChange?: (isOpen: boolean) => void;
 }
 
-export function GoalMenu({ goalId }: GoalMenuProps) {
+export function GoalMenu({ goalId, onOpenChange }: GoalMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<'main' | 'colors' | 'delete'>('main');
     const [isLoading, setIsLoading] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
+
+    // Notify parent when open state changes
+    useEffect(() => {
+        onOpenChange?.(isOpen);
+    }, [isOpen, onOpenChange]);
 
     // Close menu when clicking outside
     useEffect(() => {
@@ -53,7 +59,7 @@ export function GoalMenu({ goalId }: GoalMenuProps) {
     };
 
     return (
-        <div className="relative" ref={menuRef}>
+        <div className={clsx("relative", isOpen && "z-50")} ref={menuRef}>
             <button
                 onClick={(e) => {
                     e.preventDefault();
@@ -73,7 +79,7 @@ export function GoalMenu({ goalId }: GoalMenuProps) {
             {/* Dropdown Menu */}
             {isOpen && (
                 <div
-                    className="absolute right-0 mt-2 w-64 bg-popover rounded-lg shadow-xl ring-1 ring-border overflow-hidden z-20 animate-in fade-in zoom-in-95 duration-100 origin-top-right"
+                    className="absolute right-0 mt-2 w-64 bg-popover rounded-lg shadow-xl ring-1 ring-border overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-100 origin-top-right"
                     onClick={(e) => e.preventDefault()}
                 >
                     {view === 'main' && (
