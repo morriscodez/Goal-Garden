@@ -26,7 +26,7 @@ export default async function GoalDetailPage({
 
     const { id } = await params;
     const { mode: modeParam } = await searchParams;
-    const mode = modeParam || 'RHYTHM';
+    const mode = modeParam || 'DEADLINE';
 
     const goal = await db.goal.findUnique({
         where: {

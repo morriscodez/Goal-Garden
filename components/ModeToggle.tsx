@@ -7,8 +7,7 @@ import { clsx } from 'clsx';
 
 export function ModeToggle({ goalId }: { goalId: string }) {
     const searchParams = useSearchParams();
-    const currentMode = searchParams.get('mode') || 'RHYTHM'; // Default to Rhythm as per new mockup focus? Or match DB? 
-    // Let's default to RHYTHM for this specific view based on user request "how I'd like the goal details page to look while in Rhythm mode"
+    const currentMode = searchParams.get('mode') || 'DEADLINE'; // Default to Deadline mode
 
     return (
         <div className="flex items-center gap-1 bg-card p-1 rounded-full border border-border shadow-sm">
