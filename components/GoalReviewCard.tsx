@@ -41,7 +41,7 @@ export function GoalReviewCard({ id, title, motivation, progress, deadline, mode
                             <span className="text-xs font-bold text-green-700 dark:text-green-400">Completed</span>
                         </div>
                     )}
-                    <GoalMenu goalId={id} isFocused={isFocused} isComplete={isComplete} />
+                    <GoalMenu goalId={id} isFocused={isFocused} isComplete={isComplete} showColorChange={true} />
                 </div>
             </div>
 

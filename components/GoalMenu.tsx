@@ -13,9 +13,10 @@ interface GoalMenuProps {
     isFocused?: boolean;
     isComplete?: boolean;
     onOpenChange?: (isOpen: boolean) => void;
+    showColorChange?: boolean;
 }
 
-export function GoalMenu({ goalId, isFocused = false, isComplete = false, onOpenChange }: GoalMenuProps) {
+export function GoalMenu({ goalId, isFocused = false, isComplete = false, onOpenChange, showColorChange = true }: GoalMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<'main' | 'colors' | 'delete'>('main');
     const [isLoading, setIsLoading] = useState(false);
@@ -116,19 +117,21 @@ export function GoalMenu({ goalId, isFocused = false, isComplete = false, onOpen
                                 Edit Goal
                             </Link>
 
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setView('colors');
-                                }}
-                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted flex items-center justify-between gap-2 transition-colors"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <Palette className="h-4 w-4 text-zinc-400" />
-                                    Change Color
-                                </div>
-                                <ChevronRight className="h-4 w-4 text-zinc-400" />
-                            </button>
+                            {showColorChange && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setView('colors');
+                                    }}
+                                    className="w-full text-left px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted flex items-center justify-between gap-2 transition-colors"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <Palette className="h-4 w-4 text-zinc-400" />
+                                        Change Color
+                                    </div>
+                                    <ChevronRight className="h-4 w-4 text-zinc-400" />
+                                </button>
+                            )}
 
                             <button
                                 onClick={(e) => {

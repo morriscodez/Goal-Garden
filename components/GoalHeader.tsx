@@ -46,7 +46,7 @@ export function GoalHeader({ goal }: GoalHeaderProps) {
                 </div>
 
                 <div className="pt-1 flex items-center gap-2">
-                    <GoalMenu goalId={goal.id} isComplete={goal.isComplete} />
+                    <GoalMenu goalId={goal.id} isComplete={goal.isComplete} showColorChange={false} />
                 </div>
             </div>
 
