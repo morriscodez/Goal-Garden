@@ -14,6 +14,7 @@ interface SortableGoalListItemProps {
     deadline: Date | null;
     mode: string;
     color?: string | null;
+    isFocused?: boolean;
     disabled?: boolean;
 }
 
@@ -25,6 +26,7 @@ export function SortableGoalListItem({
     deadline,
     mode,
     color,
+    isFocused,
     disabled
 }: SortableGoalListItemProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,6 +69,7 @@ export function SortableGoalListItem({
                     deadline={deadline}
                     mode={mode}
                     color={color}
+                    isFocused={isFocused}
                     onMenuOpenChange={setIsMenuOpen}
                 />
             </div>

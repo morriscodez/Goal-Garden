@@ -20,10 +20,10 @@ import {
 import { SortableGoalCard } from './SortableGoalCard';
 import { SortableGoalListItem } from './SortableGoalListItem';
 import { reorderGoals } from '@/app/actions/reorder';
-import { ArrowDownAZ, GripVertical, CalendarPlus, CalendarMinus, LayoutGrid, List } from 'lucide-react';
+import { ArrowDownAZ, GripVertical, CalendarPlus, CalendarMinus, LayoutGrid, List, Focus } from 'lucide-react';
 import { clsx } from 'clsx';
 
-type SortMode = 'newest' | 'oldest' | 'alphabetical' | 'manual';
+type SortMode = 'newest' | 'oldest' | 'alphabetical' | 'manual' | 'focus';
 type ViewMode = 'cards' | 'list';
 
 interface GoalData {
@@ -36,6 +36,7 @@ interface GoalData {
     color?: string | null;
     createdAt: Date;
     sort_order: number;
+    is_focused: boolean;
 }
 
 interface GoalGridProps {
@@ -47,13 +48,14 @@ const SORT_OPTIONS: { value: SortMode; label: string; icon: React.ReactNode }[] 
     { value: 'oldest', label: 'Oldest', icon: <CalendarMinus className="h-4 w-4" /> },
     { value: 'alphabetical', label: 'A → Z', icon: <ArrowDownAZ className="h-4 w-4" /> },
     { value: 'manual', label: 'Manual', icon: <GripVertical className="h-4 w-4" /> },
+    { value: 'focus', label: 'Focus', icon: <Focus className="h-4 w-4" /> },
 ];
 
 export function GoalGrid({ initialGoals }: GoalGridProps) {
     const [sortMode, setSortMode] = useState<SortMode>(() => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('goalSortMode');
-            if (saved && ['newest', 'oldest', 'alphabetical', 'manual'].includes(saved)) {
+            if (saved && ['newest', 'oldest', 'alphabetical', 'manual', 'focus'].includes(saved)) {
                 return saved as SortMode;
             }
         }
@@ -85,8 +87,14 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
         localStorage.setItem('goalViewMode', viewMode);
     }, [viewMode]);
 
+    // Filter goals if focus mode is selected
+    const isFocusMode = sortMode === 'focus';
+    const filteredGoals = isFocusMode
+        ? goals.filter(g => g.is_focused)
+        : goals;
+
     // Sort goals based on current mode
-    const sortedGoals = [...goals].sort((a, b) => {
+    const sortedGoals = [...filteredGoals].sort((a, b) => {
         switch (sortMode) {
             case 'newest':
                 return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -96,10 +104,15 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
                 return a.title.localeCompare(b.title);
             case 'manual':
                 return a.sort_order - b.sort_order;
+            case 'focus':
+                // When in focus mode, sort by sort_order (manual order)
+                return a.sort_order - b.sort_order;
             default:
                 return 0;
         }
     });
+
+    const focusedCount = goals.filter(g => g.is_focused).length;
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -170,81 +183,124 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
                     </button>
                 </div>
 
-                {/* Sort Toggle */}
+                {/* Sort Toggle (including Focus) */}
                 <div className="bg-card p-1 rounded-lg border border-border shadow-sm flex items-center gap-1">
                     {SORT_OPTIONS.map((option) => (
                         <button
                             key={option.value}
                             onClick={() => setSortMode(option.value)}
+                            disabled={option.value === 'focus' && focusedCount === 0}
                             className={clsx(
                                 "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
                                 sortMode === option.value
-                                    ? "bg-muted text-primary shadow-sm"
-                                    : "text-muted-foreground hover:text-primary hover:bg-muted/50"
+                                    ? option.value === 'focus'
+                                        ? "bg-amber-500 text-white shadow-sm"
+                                        : "bg-muted text-primary shadow-sm"
+                                    : option.value === 'focus' && focusedCount === 0
+                                        ? "text-muted-foreground/40 cursor-not-allowed"
+                                        : "text-muted-foreground hover:text-primary hover:bg-muted/50"
                             )}
+                            title={option.value === 'focus' && focusedCount === 0 ? "No goals marked for focus" : undefined}
                         >
-                            {option.icon}
+                            <span className={clsx(
+                                option.value === 'focus' && sortMode === 'focus' && "text-white"
+                            )}>
+                                {option.icon}
+                            </span>
                             <span className="hidden sm:inline">{option.label}</span>
+                            {option.value === 'focus' && focusedCount > 0 && (
+                                <span className={clsx(
+                                    "text-xs px-1.5 py-0.5 rounded-full",
+                                    sortMode === 'focus'
+                                        ? "bg-white/20 text-white"
+                                        : "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                                )}>
+                                    {focusedCount}
+                                </span>
+                            )}
                         </button>
                     ))}
                 </div>
             </div>
 
-            {/* Instruction text for manual mode */}
-            {isManualMode && (
-                <p className="text-sm text-muted-foreground text-center">
-                    Drag {isListView ? 'items' : 'cards'} to reorder them
-                </p>
+            {/* Focus Mode Banner */}
+            {isFocusMode && (
+                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg px-4 py-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300">
+                        <Focus className="h-4 w-4" />
+                        <span className="text-sm font-medium">Focus Mode — Showing {focusedCount} focused goal{focusedCount !== 1 ? 's' : ''}</span>
+                    </div>
+                    <button
+                        onClick={() => setSortMode('newest')}
+                        className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline"
+                    >
+                        Exit Focus Mode
+                    </button>
+                </div>
+            )}
+
+
+            {/* Empty state for focus mode */}
+            {isFocusMode && sortedGoals.length === 0 && (
+                <div className="text-center py-12 bg-card rounded-xl border border-border">
+                    <Focus className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
+                    <h3 className="text-lg font-medium text-foreground">No focused goals</h3>
+                    <p className="text-muted-foreground mt-1">Mark goals as focused from their menu to see them here.</p>
+                </div>
             )}
 
             {/* Content with DnD */}
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-            >
-                <SortableContext
-                    items={sortedGoals.map(g => g.id)}
-                    strategy={isListView ? verticalListSortingStrategy : rectSortingStrategy}
-                    disabled={!isManualMode}
+            {sortedGoals.length > 0 && (
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
                 >
-                    {isListView ? (
-                        /* List View */
-                        <div className="space-y-2">
-                            {sortedGoals.map((goal) => (
-                                <SortableGoalListItem
-                                    key={goal.id}
-                                    id={goal.id}
-                                    title={goal.title}
-                                    motivation={goal.motivation}
-                                    progress={goal.progress}
-                                    deadline={goal.deadline}
-                                    mode={goal.mode}
-                                    color={goal.color}
-                                    disabled={!isManualMode}
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        /* Card Grid View */
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {sortedGoals.map((goal) => (
-                                <SortableGoalCard
-                                    key={goal.id}
-                                    id={goal.id}
-                                    title={goal.title}
-                                    motivation={goal.motivation}
-                                    progress={goal.progress}
-                                    deadline={goal.deadline}
-                                    mode={goal.mode}
-                                    color={goal.color}
-                                    disabled={!isManualMode}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </SortableContext>
-            </DndContext>
+                    <SortableContext
+                        items={sortedGoals.map(g => g.id)}
+                        strategy={isListView ? verticalListSortingStrategy : rectSortingStrategy}
+                        disabled={!isManualMode}
+                    >
+                        {isListView ? (
+                            /* List View */
+                            <div className="space-y-2">
+                                {sortedGoals.map((goal) => (
+                                    <SortableGoalListItem
+                                        key={goal.id}
+                                        id={goal.id}
+                                        title={goal.title}
+                                        motivation={goal.motivation}
+                                        progress={goal.progress}
+                                        deadline={goal.deadline}
+                                        mode={goal.mode}
+                                        color={goal.color}
+                                        isFocused={goal.is_focused}
+                                        disabled={!isManualMode}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            /* Card Grid View */
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {sortedGoals.map((goal) => (
+                                    <SortableGoalCard
+                                        key={goal.id}
+                                        id={goal.id}
+                                        title={goal.title}
+                                        motivation={goal.motivation}
+                                        progress={goal.progress}
+                                        deadline={goal.deadline}
+                                        mode={goal.mode}
+                                        color={goal.color}
+                                        isFocused={goal.is_focused}
+                                        disabled={!isManualMode}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </SortableContext>
+                </DndContext>
+            )}
         </div>
     );
 }

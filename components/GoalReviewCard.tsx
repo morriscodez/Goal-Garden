@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Focus } from "lucide-react";
 import { clsx } from "clsx";
 import { GoalMenu } from "./GoalMenu";
 
@@ -15,9 +15,10 @@ interface GoalReviewCardProps {
     deadline: Date | null;
     mode: string;
     color?: string | null;
+    isFocused?: boolean;
 }
 
-export function GoalReviewCard({ id, title, motivation, progress, deadline, mode, color }: GoalReviewCardProps) {
+export function GoalReviewCard({ id, title, motivation, progress, deadline, mode, color, isFocused }: GoalReviewCardProps) {
     const theme = getGoalTheme(id, color);
 
     const formattedDate = deadline ? new Date(deadline).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'No Deadline';
@@ -26,8 +27,14 @@ export function GoalReviewCard({ id, title, motivation, progress, deadline, mode
         <div className="group flex flex-col overflow-hidden rounded-2xl shadow-sm ring-1 ring-border transition-all hover:shadow-xl hover:ring-ring bg-card">
             {/* Gradient Header - Pure Visual */}
             <div className={clsx("h-32 w-full relative", theme.bgHeader)}>
+                {/* Focus indicator */}
+                {isFocused && (
+                    <div className="absolute top-3 left-3 p-1.5 bg-white/90 dark:bg-black/60 backdrop-blur-sm rounded-full shadow-sm" title="Focused">
+                        <Focus className="h-4 w-4 text-amber-500" />
+                    </div>
+                )}
                 <div className="absolute top-3 right-3">
-                    <GoalMenu goalId={id} />
+                    <GoalMenu goalId={id} isFocused={isFocused} />
                 </div>
             </div>
 

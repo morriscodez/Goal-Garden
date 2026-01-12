@@ -46,6 +46,7 @@ export default async function GoalsReviewPage(props: {
         color: goal.color,
         createdAt: goal.createdAt,
         sort_order: goal.sort_order,
+        is_focused: goal.is_focused,
     }));
 
     return (

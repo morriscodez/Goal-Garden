@@ -57,6 +57,7 @@ model Goal {
   updatedAt         DateTime     @updatedAt
   color             String?
   sort_order        Int          @default(0)
+  is_focused        Boolean      @default(false)
   actionItems       ActionItem[]
   user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

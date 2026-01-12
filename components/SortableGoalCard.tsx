@@ -13,6 +13,7 @@ interface SortableGoalCardProps {
     deadline: Date | null;
     mode: string;
     color?: string | null;
+    isFocused?: boolean;
     disabled?: boolean;
 }
 
@@ -24,6 +25,7 @@ export function SortableGoalCard({
     deadline,
     mode,
     color,
+    isFocused,
     disabled
 }: SortableGoalCardProps) {
     const {
@@ -62,6 +64,7 @@ export function SortableGoalCard({
                 deadline={deadline}
                 mode={mode}
                 color={color}
+                isFocused={isFocused}
             />
         </div>
     );

@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { MoreVertical, Trash2, Edit, AlertCircle, Palette, ChevronRight, ArrowLeft } from 'lucide-react';
-import { deleteGoal, updateGoalColor } from '@/app/actions/goals';
+import { MoreVertical, Trash2, Edit, AlertCircle, Palette, ChevronRight, ArrowLeft, Focus } from 'lucide-react';
+import { deleteGoal, updateGoalColor, toggleGoalFocus } from '@/app/actions/goals';
 import Link from 'next/link';
 import { clsx } from 'clsx';
 import { useRouter } from 'next/navigation';
@@ -10,10 +10,11 @@ import { THEMES } from '@/lib/goal-themes';
 
 interface GoalMenuProps {
     goalId: string;
+    isFocused?: boolean;
     onOpenChange?: (isOpen: boolean) => void;
 }
 
-export function GoalMenu({ goalId, onOpenChange }: GoalMenuProps) {
+export function GoalMenu({ goalId, isFocused = false, onOpenChange }: GoalMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<'main' | 'colors' | 'delete'>('main');
     const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +53,13 @@ export function GoalMenu({ goalId, onOpenChange }: GoalMenuProps) {
         setIsLoading(false);
         setIsOpen(false);
         setView('main');
+    }
+
+    async function handleToggleFocus() {
+        setIsLoading(true);
+        await toggleGoalFocus(goalId);
+        setIsLoading(false);
+        setIsOpen(false);
     }
 
     const resetMenu = () => {
@@ -105,6 +113,18 @@ export function GoalMenu({ goalId, onOpenChange }: GoalMenuProps) {
                                     Change Color
                                 </div>
                                 <ChevronRight className="h-4 w-4 text-zinc-400" />
+                            </button>
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleToggleFocus();
+                                }}
+                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted flex items-center gap-2 transition-colors"
+                                disabled={isLoading}
+                            >
+                                <Focus className={clsx("h-4 w-4", isFocused ? "text-amber-500" : "text-zinc-400")} />
+                                {isFocused ? 'Remove from Focus' : 'Add to Focus'}
                             </button>
 
                             <button

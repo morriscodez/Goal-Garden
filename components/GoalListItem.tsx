@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Focus } from "lucide-react";
 import { clsx } from "clsx";
 import { GoalMenu } from "./GoalMenu";
 import { getGoalTheme } from "@/lib/goal-themes";
@@ -14,10 +14,11 @@ interface GoalListItemProps {
     deadline: Date | null;
     mode: string;
     color?: string | null;
+    isFocused?: boolean;
     onMenuOpenChange?: (isOpen: boolean) => void;
 }
 
-export function GoalListItem({ id, title, motivation, progress, deadline, mode, color, onMenuOpenChange }: GoalListItemProps) {
+export function GoalListItem({ id, title, motivation, progress, deadline, mode, color, isFocused, onMenuOpenChange }: GoalListItemProps) {
     const theme = getGoalTheme(id, color);
 
     const formattedDate = deadline ? new Date(deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No Deadline';
@@ -29,10 +30,15 @@ export function GoalListItem({ id, title, motivation, progress, deadline, mode, 
 
             {/* Main content */}
             <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                     <h3 className="text-base font-semibold text-card-foreground truncate">
                         {title}
                     </h3>
+                    {isFocused && (
+                        <span title="Focused">
+                            <Focus className="h-4 w-4 text-amber-500 shrink-0" />
+                        </span>
+                    )}
                 </div>
                 {motivation && (
                     <p className="text-sm text-muted-foreground truncate mt-0.5">
@@ -72,7 +78,7 @@ export function GoalListItem({ id, title, motivation, progress, deadline, mode, 
                     <span className="hidden sm:inline">View</span>
                     <ArrowRight className="h-4 w-4" />
                 </Link>
-                <GoalMenu goalId={id} onOpenChange={onMenuOpenChange} />
+                <GoalMenu goalId={id} isFocused={isFocused} onOpenChange={onMenuOpenChange} />
             </div>
         </div>
     );
