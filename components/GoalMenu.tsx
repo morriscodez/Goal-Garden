@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { MoreVertical, Trash2, Edit, AlertCircle, Palette, ChevronRight, ArrowLeft, Focus } from 'lucide-react';
-import { deleteGoal, updateGoalColor, toggleGoalFocus } from '@/app/actions/goals';
+import { MoreVertical, Trash2, Edit, AlertCircle, Palette, ChevronRight, ArrowLeft, Focus, Archive, CheckCircle } from 'lucide-react';
+import { deleteGoal, updateGoalColor, toggleGoalFocus, archiveGoal, toggleGoalCompletion } from '@/app/actions/goals';
 import Link from 'next/link';
 import { clsx } from 'clsx';
 import { useRouter } from 'next/navigation';
@@ -11,10 +11,11 @@ import { THEMES } from '@/lib/goal-themes';
 interface GoalMenuProps {
     goalId: string;
     isFocused?: boolean;
+    isComplete?: boolean;
     onOpenChange?: (isOpen: boolean) => void;
 }
 
-export function GoalMenu({ goalId, isFocused = false, onOpenChange }: GoalMenuProps) {
+export function GoalMenu({ goalId, isFocused = false, isComplete = false, onOpenChange }: GoalMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<'main' | 'colors' | 'delete'>('main');
     const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +59,20 @@ export function GoalMenu({ goalId, isFocused = false, onOpenChange }: GoalMenuPr
     async function handleToggleFocus() {
         setIsLoading(true);
         await toggleGoalFocus(goalId);
+        setIsLoading(false);
+        setIsOpen(false);
+    }
+
+    async function handleArchive() {
+        setIsLoading(true);
+        await archiveGoal(goalId);
+        setIsLoading(false);
+        setIsOpen(false);
+    }
+
+    async function handleToggleCompletion() {
+        setIsLoading(true);
+        await toggleGoalCompletion(goalId);
         setIsLoading(false);
         setIsOpen(false);
     }
@@ -126,6 +141,32 @@ export function GoalMenu({ goalId, isFocused = false, onOpenChange }: GoalMenuPr
                                 <Focus className={clsx("h-4 w-4", isFocused ? "text-amber-500" : "text-zinc-400")} />
                                 {isFocused ? 'Remove from Focus' : 'Add to Focus'}
                             </button>
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleToggleCompletion();
+                                }}
+                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted flex items-center gap-2 transition-colors"
+                                disabled={isLoading}
+                            >
+                                <CheckCircle className={clsx("h-4 w-4", isComplete ? "text-green-500" : "text-zinc-400")} />
+                                {isComplete ? 'Mark as Incomplete' : 'Mark as Complete'}
+                            </button>
+
+                            {isComplete && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleArchive();
+                                    }}
+                                    className="w-full text-left px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted flex items-center gap-2 transition-colors"
+                                    disabled={isLoading}
+                                >
+                                    <Archive className="h-4 w-4 text-zinc-400" />
+                                    Archive Goal
+                                </button>
+                            )}
 
                             <button
                                 onClick={(e) => {

@@ -14,6 +14,7 @@ interface GoalHeaderProps {
         title: string;
         motivation?: string | null;
         color?: string | null;
+        isComplete?: boolean;
     };
 }
 
@@ -39,7 +40,7 @@ export function GoalHeader({ goal }: GoalHeaderProps) {
                 </div>
 
                 <div className="pt-1 flex items-center gap-2">
-                    <GoalMenu goalId={goal.id} />
+                    <GoalMenu goalId={goal.id} isComplete={goal.isComplete} />
                 </div>
             </div>
 

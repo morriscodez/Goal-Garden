@@ -19,7 +19,8 @@ export default async function GoalsReviewPage(props: {
 
     const goals = await db.goal.findMany({
         where: {
-            userId: session.user.id
+            userId: session.user.id,
+            is_archived: false
         },
         include: {
             actionItems: true
@@ -47,6 +48,7 @@ export default async function GoalsReviewPage(props: {
         createdAt: goal.createdAt,
         sort_order: goal.sort_order,
         is_focused: goal.is_focused,
+        is_completed: goal.is_completed,
     }));
 
     return (

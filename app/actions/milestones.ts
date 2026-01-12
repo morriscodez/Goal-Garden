@@ -170,3 +170,39 @@ export async function convertActionItemType(id: string, goalId: string, targetTy
         return { error: "Failed to convert milestone type" };
     }
 }
+
+export async function archiveActionItem(id: string, goalId: string) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        await db.actionItem.update({
+            where: { id },
+            data: { is_archived: true }
+        });
+        revalidatePath(`/goals/${goalId}`);
+        revalidatePath('/dashboard');
+        revalidatePath('/archive');
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to archive action item" };
+    }
+}
+
+export async function unarchiveActionItem(id: string, goalId: string) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        await db.actionItem.update({
+            where: { id },
+            data: { is_archived: false }
+        });
+        revalidatePath(`/goals/${goalId}`);
+        revalidatePath('/dashboard');
+        revalidatePath('/archive');
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to unarchive action item" };
+    }
+}

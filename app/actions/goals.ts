@@ -163,3 +163,84 @@ export async function toggleGoalFocus(goalId: string) {
         return { error: "Failed to toggle focus" };
     }
 }
+
+
+
+export async function toggleGoalCompletion(goalId: string) {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+        throw new Error("Unauthorized");
+    }
+
+    const goal = await db.goal.findUnique({
+        where: {
+            id: goalId,
+            userId: session.user.id
+        }
+    });
+
+    if (!goal) {
+        throw new Error("Goal not found");
+    }
+
+    await db.goal.update({
+        where: {
+            id: goalId,
+            userId: session.user.id
+        },
+        data: {
+            is_completed: !goal.is_completed
+        }
+    });
+
+    revalidatePath('/goals');
+    revalidatePath(`/goals/${goalId}`);
+    revalidatePath('/dashboard');
+}
+
+export async function archiveGoal(goalId: string) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        await db.goal.update({
+            where: {
+                id: goalId,
+                userId: session.user.id
+            },
+            data: {
+                is_archived: true
+            }
+        });
+
+        revalidatePath('/goals');
+        revalidatePath('/archive');
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to archive goal" };
+    }
+}
+
+export async function unarchiveGoal(goalId: string) {
+    const session = await auth();
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    try {
+        await db.goal.update({
+            where: {
+                id: goalId,
+                userId: session.user.id
+            },
+            data: {
+                is_archived: false
+            }
+        });
+
+        revalidatePath('/goals');
+        revalidatePath('/archive');
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to unarchive goal" };
+    }
+}

@@ -16,9 +16,10 @@ interface GoalReviewCardProps {
     mode: string;
     color?: string | null;
     isFocused?: boolean;
+    isComplete?: boolean;
 }
 
-export function GoalReviewCard({ id, title, motivation, progress, deadline, mode, color, isFocused }: GoalReviewCardProps) {
+export function GoalReviewCard({ id, title, motivation, progress, deadline, mode, color, isFocused, isComplete }: GoalReviewCardProps) {
     const theme = getGoalTheme(id, color);
 
     const formattedDate = deadline ? new Date(deadline).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'No Deadline';
@@ -34,7 +35,7 @@ export function GoalReviewCard({ id, title, motivation, progress, deadline, mode
                     </div>
                 )}
                 <div className="absolute top-3 right-3">
-                    <GoalMenu goalId={id} isFocused={isFocused} />
+                    <GoalMenu goalId={id} isFocused={isFocused} isComplete={isComplete} />
                 </div>
             </div>
 

@@ -43,8 +43,9 @@ export default async function DashboardPage({
     // 1. Fetch Rhythm Items (Frequency based on toggle)
     const rhythmItems = await db.actionItem.findMany({
         where: {
-            goal: { userId: session.user.id },
-            frequency: frequency as any
+            goal: { userId: session.user.id, is_archived: false },
+            frequency: frequency as any,
+            is_archived: false
         },
         include: {
             goal: {
@@ -63,12 +64,13 @@ export default async function DashboardPage({
 
     const upcomingDeadlines = await db.actionItem.findMany({
         where: {
-            goal: { userId: session.user.id },
+            goal: { userId: session.user.id, is_archived: false },
             deadline: {
                 not: null,
                 lte: deadlineDate
             },
-            is_completed: false // Only show pending for "coming at me fast"
+            is_completed: false, // Only show pending for "coming at me fast"
+            is_archived: false
         },
         include: {
             goal: {

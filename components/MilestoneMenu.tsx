@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { MoreVertical, Trash2, AlertCircle, Repeat, Calendar, ArrowRightLeft, X } from 'lucide-react';
-import { deleteActionItem, convertActionItemType } from '@/app/actions/milestones';
+import { MoreVertical, Trash2, AlertCircle, Repeat, Calendar, ArrowRightLeft, X, Archive } from 'lucide-react';
+import { deleteActionItem, convertActionItemType, archiveActionItem } from '@/app/actions/milestones';
 import { ActionItem } from '@prisma/client';
 import { clsx } from 'clsx';
 
@@ -38,6 +38,13 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
     async function handleConvert(targetType: 'ONE_OFF' | 'RECURRING', frequency?: string) {
         setIsLoading(true);
         await convertActionItemType(item.id, goalId, targetType, frequency);
+        onToggle(false);
+        setIsLoading(false);
+    }
+
+    async function handleArchive() {
+        setIsLoading(true);
+        await archiveActionItem(item.id, goalId);
         onToggle(false);
         setIsLoading(false);
     }
@@ -83,6 +90,20 @@ export function MilestoneMenu({ item, goalId, isOpen, onToggle }: MilestoneMenuP
                                 <ArrowRightLeft className="h-3.5 w-3.5 text-zinc-400" />
                                 {item.type === 'ONE_OFF' ? 'Convert to Rhythm' : 'Convert to Milestone'}
                             </button>
+
+                            {item.is_completed && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleArchive();
+                                    }}
+                                    className="w-full text-left px-3 py-2.5 text-xs font-medium text-foreground hover:bg-muted flex items-center gap-2 transition-colors border-b border-border"
+                                    disabled={isLoading}
+                                >
+                                    <Archive className="h-3.5 w-3.5 text-zinc-400" />
+                                    Archive Item
+                                </button>
+                            )}
 
                             <button
                                 onClick={(e) => {

@@ -58,6 +58,8 @@ model Goal {
   color             String?
   sort_order        Int          @default(0)
   is_focused        Boolean      @default(false)
+  is_completed      Boolean      @default(false)
+  is_archived       Boolean      @default(false)
   actionItems       ActionItem[]
   user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -80,6 +82,7 @@ model ActionItem {
   current_streak    Int       @default(0)
   is_important      Boolean?
   is_urgent         Boolean?
+  is_archived       Boolean      @default(false)
   goal              Goal      @relation(fields: [goalId], references: [id], onDelete: Cascade)
   logs              ItemLog[]
 }

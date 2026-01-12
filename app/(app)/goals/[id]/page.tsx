@@ -42,15 +42,17 @@ export default async function GoalDetailPage({
         notFound();
     }
 
-    // Grouping for Rhythm View
-    const dailyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'DAILY');
-    const weeklyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'WEEKLY');
-    const monthlyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'MONTHLY');
-    const quarterlyItems = goal.actionItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'QUARTERLY');
+    // Grouping for Rhythm View - filter out archived items
+    const activeItems = goal.actionItems.filter((i: any) => !i.is_archived);
+
+    const dailyItems = activeItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'DAILY');
+    const weeklyItems = activeItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'WEEKLY');
+    const monthlyItems = activeItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'MONTHLY');
+    const quarterlyItems = activeItems.filter((i: any) => i.type === 'RECURRING' && i.frequency === 'QUARTERLY');
 
     // For Deadline view, we explicitly filter for non-recurring items (Milestones/One-off)
     // so the board isn't cluttered with daily habits.
-    const deadlineItems = goal.actionItems
+    const deadlineItems = activeItems
         .filter((i: any) => i.type !== 'RECURRING')
         .sort((a: any, b: any) => a.sort_order - b.sort_order);
 
@@ -62,13 +64,16 @@ export default async function GoalDetailPage({
         return !latest || itemDate > latest ? itemDate : latest;
     }, null);
 
+
+
     return (
         <div className="mx-auto max-w-5xl p-8 space-y-8 pb-20">
             <GoalHeader goal={{
                 id: goal.id,
                 title: goal.title,
                 motivation: goal.motivation,
-                color: goal.color
+                color: goal.color,
+                isComplete: goal.is_completed
             }} />
 
             {/* Controls Bar */}

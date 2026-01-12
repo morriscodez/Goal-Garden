@@ -15,6 +15,7 @@ interface SortableGoalCardProps {
     color?: string | null;
     isFocused?: boolean;
     disabled?: boolean;
+    isComplete?: boolean;
 }
 
 export function SortableGoalCard({
@@ -26,7 +27,8 @@ export function SortableGoalCard({
     mode,
     color,
     isFocused,
-    disabled
+    disabled,
+    isComplete
 }: SortableGoalCardProps) {
     const {
         attributes,
@@ -65,6 +67,7 @@ export function SortableGoalCard({
                 mode={mode}
                 color={color}
                 isFocused={isFocused}
+                isComplete={isComplete}
             />
         </div>
     );

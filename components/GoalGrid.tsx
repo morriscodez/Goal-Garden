@@ -37,6 +37,7 @@ interface GoalData {
     createdAt: Date;
     sort_order: number;
     is_focused: boolean;
+    is_completed: boolean;
 }
 
 interface GoalGridProps {
@@ -310,6 +311,7 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
                                         color={goal.color}
                                         isFocused={goal.is_focused}
                                         disabled={!isManualMode}
+                                        isComplete={goal.is_completed}
                                     />
                                 ))}
                             </div>
