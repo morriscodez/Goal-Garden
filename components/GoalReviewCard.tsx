@@ -79,7 +79,7 @@ export function GoalReviewCard({ id, title, motivation, progress, deadline, mode
                             theme.accent
                         )}
                     >
-                        Details <ArrowRight className="h-4 w-4" />
+                        View <ArrowRight className="h-4 w-4" />
                     </Link>
                 </div>
             </div>
