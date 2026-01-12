@@ -37,3 +37,24 @@ export async function reorderActionItems(items: ReorderItem[], goalId: string) {
         return { success: false, error: 'Failed to reorder items' };
     }
 }
+
+export async function reorderGoals(items: ReorderItem[]) {
+    const session = await auth();
+    if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+
+    try {
+        const transaction = items.map((item) =>
+            db.goal.update({
+                where: { id: item.id, userId: session.user.id },
+                data: { sort_order: item.sort_order }
+            })
+        );
+
+        await db.$transaction(transaction);
+        revalidatePath('/goals');
+        return { success: true };
+    } catch (error) {
+        console.error('Failed to reorder goals:', error);
+        return { success: false, error: 'Failed to reorder goals' };
+    }
+}

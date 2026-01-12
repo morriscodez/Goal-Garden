@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { GoalReviewCard } from "@/components/GoalReviewCard";
+import { GoalGrid } from "@/components/GoalGrid";
 import { GlobalGanttChart } from "@/components/timeline/GlobalGanttChart";
 import { clsx } from "clsx";
 
@@ -26,21 +26,27 @@ export default async function GoalsReviewPage(props: {
         },
     });
 
-    // Sort manually to avoid Prisma type issues with nullable fields
-    goals.sort((a: any, b: any) => {
-        if (!a.deadline) return 1;
-        if (!b.deadline) return -1;
-        return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
-    });
-
     // Helper to calculate progress
-    const calculateProgress = (goal: any) => {
+    const calculateProgress = (goal: typeof goals[0]) => {
         const items = goal.actionItems || [];
         if (items.length === 0) return 0;
 
-        const completed = items.filter((item: any) => item.is_completed).length;
+        const completed = items.filter((item) => item.is_completed).length;
         return Math.round((completed / items.length) * 100);
     };
+
+    // Transform goals data for the GoalGrid component
+    const goalsWithProgress = goals.map((goal) => ({
+        id: goal.id,
+        title: goal.title,
+        motivation: goal.motivation,
+        progress: calculateProgress(goal),
+        deadline: goal.deadline,
+        mode: goal.mode,
+        color: goal.color,
+        createdAt: goal.createdAt,
+        sort_order: goal.sort_order,
+    }));
 
     return (
         <div className="min-h-screen bg-background p-8">
@@ -103,20 +109,7 @@ export default async function GoalsReviewPage(props: {
                             <a href="/goals/new" className="text-blue-600 dark:text-blue-400 font-semibold hover:underline">Create your first goal &rarr;</a>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {goals.map((goal: any) => (
-                                <GoalReviewCard
-                                    key={goal.id}
-                                    id={goal.id}
-                                    title={goal.title}
-                                    motivation={goal.motivation}
-                                    progress={calculateProgress(goal)}
-                                    deadline={goal.deadline}
-                                    mode={goal.mode}
-                                    color={goal.color}
-                                />
-                            ))}
-                        </div>
+                        <GoalGrid initialGoals={goalsWithProgress} />
                     )
                 )}
             </div>
