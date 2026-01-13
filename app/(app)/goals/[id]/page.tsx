@@ -9,6 +9,7 @@ import { GoalMenu } from '@/components/GoalMenu';
 import { RhythmStatus } from '@/components/RhythmStatus';
 import { GoalHeader } from '@/components/GoalHeader';
 
+import { RhythmDetailView } from '@/components/RhythmDetailView';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 
@@ -76,28 +77,27 @@ export default async function GoalDetailPage({
                 isComplete: goal.is_completed
             }} />
 
-            {/* Controls Bar */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                    <ModeToggle goalId={goal.id} />
-                </div>
-
-                {mode === 'RHYTHM' && (
-                    <RhythmStatus lastActivityDate={lastActivityDate} />
-                )}
-            </div>
-
             {/* View Content */}
             {mode === 'RHYTHM' ? (
-                <MatchRhythmBoard
+                <RhythmDetailView
                     goalId={goal.id}
                     daily={dailyItems}
                     weekly={weeklyItems}
                     monthly={monthlyItems}
                     quarterly={quarterlyItems}
+                    lastActivityDate={lastActivityDate}
                 />
             ) : (
-                <DeadlineBoard goalId={goal.id} initialItems={deadlineItems} />
+                <>
+                    {/* Controls Bar for Deadline Mode */}
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+                        <div className="flex items-center gap-4">
+                            <ModeToggle goalId={goal.id} />
+                        </div>
+                    </div>
+
+                    <DeadlineBoard goalId={goal.id} initialItems={deadlineItems} />
+                </>
             )}
         </div>
     );
