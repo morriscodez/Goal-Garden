@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import { format } from "date-fns";
 import { Sprout, Flower2, Clock } from "lucide-react";
 import { getFlowerColor } from "@/lib/constants";
+import { formatDateUTC } from "@/lib/utils";
 
 interface TimelineNodeProps {
     item: ActionItem;
@@ -29,7 +30,7 @@ export function TimelineNode({ item, index, isLast }: TimelineNodeProps) {
                         </h3>
                         {item.deadline && (
                             <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
-                                {format(new Date(item.deadline), 'MMM d, yyyy')}
+                                {formatDateUTC(item.deadline, 'MMM d, yyyy')}
                             </p>
                         )}
                     </div>
@@ -67,7 +68,7 @@ export function TimelineNode({ item, index, isLast }: TimelineNodeProps) {
                         </h3>
                         {item.deadline && (
                             <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
-                                {format(new Date(item.deadline), 'MMM d, yyyy')}
+                                {formatDateUTC(item.deadline, 'MMM d, yyyy')}
                             </p>
                         )}
                     </div>
@@ -83,7 +84,7 @@ export function TimelineNode({ item, index, isLast }: TimelineNodeProps) {
                     {item.deadline && (
                         <p className="text-xs text-muted-foreground font-medium flex items-center gap-1 mt-1">
                             <Clock className="w-3 h-3" />
-                            {format(new Date(item.deadline), 'MMM d, yyyy')}
+                            {formatDateUTC(item.deadline, 'MMM d, yyyy')}
                         </p>
                     )}
                 </div>

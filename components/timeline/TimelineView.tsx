@@ -5,6 +5,7 @@ import { TimelineNode } from "./TimelineNode";
 import { Flag } from "lucide-react";
 import { format } from "date-fns";
 import { clsx } from "clsx";
+import { formatDateUTC } from "@/lib/utils";
 
 interface TimelineViewProps {
     goal: Goal & { actionItems: ActionItem[] };
@@ -69,7 +70,7 @@ export function TimelineView({ goal }: TimelineViewProps) {
                         <div className="w-full pl-16 md:w-5/12 md:pl-8">
                             <div className="p-4 bg-card text-card-foreground border border-border rounded-2xl shadow-sm inline-block animate-in slide-in-from-bottom-4 fade-in duration-700">
                                 <h3 className="font-bold text-lg">{goal.title}</h3>
-                                <p className="text-muted-foreground text-sm">{format(new Date(goal.deadline), 'MMMM do, yyyy')}</p>
+                                <p className="text-muted-foreground text-sm">{formatDateUTC(goal.deadline, 'MMMM do, yyyy')}</p>
                             </div>
                         </div>
                     </div>
