@@ -27,6 +27,10 @@ export default async function MatrixPage() {
             userId: true,
             createdAt: true,
             updatedAt: true,
+            sort_order: true,
+            is_focused: true,
+            is_completed: true,
+            is_archived: true,
         },
         orderBy: {
             createdAt: "desc",

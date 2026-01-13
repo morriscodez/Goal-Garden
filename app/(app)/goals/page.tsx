@@ -25,6 +25,10 @@ export default async function GoalsReviewPage(props: {
         include: {
             actionItems: true
         },
+        orderBy: [
+            { sort_order: 'asc' },
+            { createdAt: 'desc' }
+        ]
     });
 
     // Helper to calculate progress

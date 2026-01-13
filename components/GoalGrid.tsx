@@ -150,10 +150,13 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
         const { active, over } = event;
 
         if (active.id !== over?.id) {
-            const oldIndex = goals.findIndex((g) => g.id === active.id);
-            const newIndex = goals.findIndex((g) => g.id === over?.id);
+            const oldIndex = sortedGoals.findIndex((g) => g.id === active.id);
+            const newIndex = sortedGoals.findIndex((g) => g.id === over?.id);
 
-            const newArray = arrayMove(goals, oldIndex, newIndex);
+            const newArray = arrayMove(sortedGoals, oldIndex, newIndex).map((goal, index) => ({
+                ...goal,
+                sort_order: index
+            }));
 
             // Optimistic update
             setGoals(newArray);
@@ -165,7 +168,11 @@ export function GoalGrid({ initialGoals }: GoalGridProps) {
             }));
 
             // Persist to server
-            await reorderGoals(updates);
+            try {
+                await reorderGoals(updates);
+            } catch (err) {
+                console.error('Reorder error:', err);
+            }
         }
     };
 

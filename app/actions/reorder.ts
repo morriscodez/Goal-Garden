@@ -40,18 +40,19 @@ export async function reorderActionItems(items: ReorderItem[], goalId: string) {
 
 export async function reorderGoals(items: ReorderItem[]) {
     const session = await auth();
-    if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+    const userId = session?.user?.id;
+    if (!userId) return { success: false, error: "Unauthorized" };
 
     try {
         const transaction = items.map((item) =>
             db.goal.update({
-                where: { id: item.id, userId: session.user.id },
+                where: { id: item.id, userId: userId },
                 data: { sort_order: item.sort_order }
             })
         );
 
         await db.$transaction(transaction);
-        revalidatePath('/goals');
+        // revalidatePath('/goals'); // Disabled to prevent optimistic UI race conditions
         return { success: true };
     } catch (error) {
         console.error('Failed to reorder goals:', error);
