@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Flag, Settings, Sprout, ChevronLeft, ChevronRight, Grid2x2, Archive } from 'lucide-react';
+import { LayoutDashboard, Flag, Settings, Sprout, ChevronLeft, ChevronRight, Grid2x2, Archive, Flower } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LogoutButton } from './LogoutButton';
@@ -12,7 +12,7 @@ const navItems = [
     { name: 'Goals', href: '/goals', icon: Flag },
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Eisenhower Matrix', href: '/dashboard/matrix', icon: Grid2x2 },
-    { name: 'Archive', href: '/archive', icon: Archive },
+    { name: 'The Conservatory', href: '/conservatory', icon: Flower },
 ];
 
 export function Sidebar() {
@@ -39,7 +39,7 @@ export function Sidebar() {
     return (
         <div
             className={clsx(
-                "flex h-screen flex-col bg-sidebar border-r border-sidebar-border p-4 shrink-0 transition-all duration-300 ease-in-out relative",
+                "flex h-screen flex-col bg-sidebar border-r border-sidebar-border p-4 shrink-0 transition-all duration-300 ease-in-out relative z-50",
                 isCollapsed ? "w-20" : "w-64"
             )}
         >
