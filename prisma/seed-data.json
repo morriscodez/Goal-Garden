@@ -1,6 +1,78 @@
 {
-  "exportedAt": "2026-01-11T14:45:46.790Z",
+  "exportedAt": "2026-01-13T03:00:36.049Z",
   "users": [
+    {
+      "id": "cmkbitfni0006hkrfwxjk9cbv",
+      "name": "Test User",
+      "email": "test@example.com",
+      "emailVerified": null,
+      "image": null,
+      "password": "$2b$10$N8nBk.IpxWD/.NZo9HIH2.9JvrfXr5Y2qlEWcPY6f2XOTdyVsDruG",
+      "goals": [
+        {
+          "id": "cmkbiu8gm0008hkrfvrlzxqhg",
+          "title": "Test Goal 1",
+          "motivation": "This is my first test goal.",
+          "deadline": null,
+          "mode": "DEADLINE",
+          "consistency_score": 0,
+          "color": null,
+          "createdAt": "2026-01-12T18:53:48.502Z",
+          "updatedAt": "2026-01-12T19:08:25.000Z",
+          "actionItems": [
+            {
+              "id": "cmkbnefo200018fi3omy0kagw",
+              "title": "Test Milestone",
+              "description": null,
+              "type": "ONE_OFF",
+              "sort_order": 0,
+              "is_completed": true,
+              "last_completed_at": "2026-01-12T21:01:35.074Z",
+              "deadline": null,
+              "progress_percent": 0,
+              "frequency": null,
+              "widget_type": null,
+              "target_value": null,
+              "unit": null,
+              "current_streak": 0,
+              "is_important": null,
+              "is_urgent": null,
+              "logs": [
+                {
+                  "id": "cmkbnek1000038fi3hphy36xl",
+                  "date_logged": "2026-01-12T21:01:35.076Z",
+                  "value": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cmkbj0f190001ny4ig7votuwe",
+          "title": "Test Goal 2",
+          "motivation": "",
+          "deadline": null,
+          "mode": "DEADLINE",
+          "consistency_score": 0,
+          "color": null,
+          "createdAt": "2026-01-12T18:58:36.958Z",
+          "updatedAt": "2026-01-12T18:59:15.477Z",
+          "actionItems": []
+        },
+        {
+          "id": "cmkbo0qva00058fi36moekdma",
+          "title": "Test Completion Goal 2",
+          "motivation": "",
+          "deadline": null,
+          "mode": "DEADLINE",
+          "consistency_score": 0,
+          "color": null,
+          "createdAt": "2026-01-12T21:18:50.374Z",
+          "updatedAt": "2026-01-12T21:18:50.374Z",
+          "actionItems": []
+        }
+      ]
+    },
     {
       "id": "cmjn291lv00007vudlfr2mhgx",
       "name": "Verifier",
@@ -102,77 +174,8 @@
           "consistency_score": 0,
           "color": "emerald",
           "createdAt": "2025-12-30T20:11:38.066Z",
-          "updatedAt": "2026-01-04T01:28:19.433Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
-            {
-              "id": "cmjt4kf09000mly4ay4y0zrih",
-              "title": "Run 2 miles",
-              "description": null,
-              "type": "RECURRING",
-              "sort_order": 0,
-              "is_completed": true,
-              "last_completed_at": "2026-01-07T15:36:20.904Z",
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": "WEEKLY",
-              "widget_type": "CHECKBOX",
-              "target_value": null,
-              "unit": null,
-              "current_streak": 1,
-              "is_important": false,
-              "is_urgent": false,
-              "logs": [
-                {
-                  "id": "cmk46l1gq000tifaxpkrh4h02",
-                  "date_logged": "2026-01-07T15:36:20.906Z",
-                  "value": 1
-                }
-              ]
-            },
-            {
-              "id": "cmjt4kkrw000oly4a7mf9sbgi",
-              "title": "Walk 10,000 steps",
-              "description": null,
-              "type": "RECURRING",
-              "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": "2026-01-05T18:33:08.826Z",
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": "DAILY",
-              "widget_type": "CHECKBOX",
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": false,
-              "is_urgent": false,
-              "logs": []
-            },
-            {
-              "id": "cmjt4kun6000qly4aoqb2qluo",
-              "title": "Walk 10 miles",
-              "description": null,
-              "type": "RECURRING",
-              "sort_order": 0,
-              "is_completed": true,
-              "last_completed_at": "2026-01-07T15:36:18.617Z",
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": "MONTHLY",
-              "widget_type": "CHECKBOX",
-              "target_value": null,
-              "unit": null,
-              "current_streak": 1,
-              "is_important": false,
-              "is_urgent": false,
-              "logs": [
-                {
-                  "id": "cmk46kzp7000rifaxx5bphdci",
-                  "date_logged": "2026-01-07T15:36:18.620Z",
-                  "value": 1
-                }
-              ]
-            },
             {
               "id": "cmjt5q4z4000sly4a7wwfps36",
               "title": "Finish Implementing Dark Mode",
@@ -469,18 +472,24 @@
               "description": null,
               "type": "RECURRING",
               "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": "2026-01-05T19:31:15.297Z",
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T02:13:24.137Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": "QUARTERLY",
               "widget_type": "CHECKBOX",
               "target_value": null,
               "unit": null,
-              "current_streak": 0,
+              "current_streak": 1,
               "is_important": null,
               "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbyjk18000tg0crrwy446hb",
+                  "date_logged": "2026-01-13T02:13:24.140Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk1ioob2000hgyhc4c9crc7y",
@@ -601,8 +610,8 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 17,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T01:56:38.340Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -612,7 +621,13 @@
               "current_streak": 0,
               "is_important": null,
               "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbxxzyf000jg0crbm49kpzs",
+                  "date_logged": "2026-01-13T01:56:38.343Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk1jyhml00091qrefp2wl3nc",
@@ -670,31 +685,6 @@
               "is_important": null,
               "is_urgent": null,
               "logs": []
-            },
-            {
-              "id": "cmk1k5edx000j1qre4a0v4g4v",
-              "title": "Quarterly test habit",
-              "description": null,
-              "type": "RECURRING",
-              "sort_order": 0,
-              "is_completed": true,
-              "last_completed_at": "2026-01-07T15:36:27.689Z",
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": "QUARTERLY",
-              "widget_type": "CHECKBOX",
-              "target_value": null,
-              "unit": null,
-              "current_streak": 1,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": [
-                {
-                  "id": "cmk46l6p7000xifaxts8cwfo7",
-                  "date_logged": "2026-01-07T15:36:27.692Z",
-                  "value": 1
-                }
-              ]
             },
             {
               "id": "cmk1kbtxy000t1qre6h992oso",
@@ -835,38 +825,13 @@
               ]
             },
             {
-              "id": "cmk46kpvr000nifaxoph3vl5v",
-              "title": "Define a new long term goal",
-              "description": null,
-              "type": "RECURRING",
-              "sort_order": 0,
-              "is_completed": true,
-              "last_completed_at": "2026-01-07T15:36:15.464Z",
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": "WEEKLY",
-              "widget_type": "CHECKBOX",
-              "target_value": null,
-              "unit": null,
-              "current_streak": 1,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": [
-                {
-                  "id": "cmk46kx9m000pifax5ig3zm4w",
-                  "date_logged": "2026-01-07T15:36:15.466Z",
-                  "value": 1
-                }
-              ]
-            },
-            {
               "id": "cmk4aw9jz000f6u22y4kj1qhk",
               "title": "Fix the styling on the landing page across Dark Mode themes",
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 27,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T01:56:52.341Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -876,7 +841,13 @@
               "current_streak": 0,
               "is_important": null,
               "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbxyard000lg0crexq56n6r",
+                  "date_logged": "2026-01-13T01:56:52.345Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk4b0t9c000r6u227cykilq0",
@@ -884,25 +855,6 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 28,
-              "is_completed": false,
-              "last_completed_at": null,
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": null,
-              "widget_type": null,
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": []
-            },
-            {
-              "id": "cmk4b16j4000t6u22h0b19usq",
-              "title": "Add feature to make a particular account free for lifetime friends/family",
-              "description": null,
-              "type": "ONE_OFF",
-              "sort_order": 29,
               "is_completed": false,
               "last_completed_at": null,
               "deadline": null,
@@ -941,8 +893,8 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 31,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T01:57:08.114Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -952,26 +904,13 @@
               "current_streak": 0,
               "is_important": true,
               "is_urgent": false,
-              "logs": []
-            },
-            {
-              "id": "cmk4j3m3w00216u22yo5mjc8f",
-              "title": "Add goals filter to review goals page",
-              "description": null,
-              "type": "ONE_OFF",
-              "sort_order": 32,
-              "is_completed": false,
-              "last_completed_at": null,
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": null,
-              "widget_type": null,
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbxymxg000pg0crp7n4epfa",
+                  "date_logged": "2026-01-13T01:57:08.117Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk4j4e6z00236u22eyf9zvcq",
@@ -979,8 +918,8 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 33,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-12T21:38:19.958Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -990,7 +929,13 @@
               "current_streak": 0,
               "is_important": null,
               "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkboptbu0001g0crvru42zzk",
+                  "date_logged": "2026-01-12T21:38:19.962Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk4kgcbl0005h8nbmwi8exow",
@@ -998,8 +943,8 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 34,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-12T21:46:34.207Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -1009,26 +954,13 @@
               "current_streak": 0,
               "is_important": null,
               "is_urgent": null,
-              "logs": []
-            },
-            {
-              "id": "cmk4pqh96000ih8nb5e41p2qu",
-              "title": "Fix help text on the inbox section of the matrix",
-              "description": null,
-              "type": "ONE_OFF",
-              "sort_order": 35,
-              "is_completed": false,
-              "last_completed_at": null,
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": null,
-              "widget_type": null,
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbp0ep10003g0crwiau3tr7",
+                  "date_logged": "2026-01-12T21:46:34.213Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk4pqzqu000kh8nb92kxl6eu",
@@ -1036,8 +968,8 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 36,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-12T21:51:49.090Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -1047,7 +979,13 @@
               "current_streak": 0,
               "is_important": null,
               "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbp75np0005g0cr9pv2bsf2",
+                  "date_logged": "2026-01-12T21:51:49.093Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk4q4e8s000mh8nbborr68e7",
@@ -1055,8 +993,8 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T01:51:04.764Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -1066,45 +1004,13 @@
               "current_streak": 0,
               "is_important": true,
               "is_urgent": true,
-              "logs": []
-            },
-            {
-              "id": "cmk4qrz49000oh8nb50gugekg",
-              "title": "More",
-              "description": null,
-              "type": "RECURRING",
-              "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": "DAILY",
-              "widget_type": "CHECKBOX",
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": []
-            },
-            {
-              "id": "cmk4qs33y000qh8nb1uty53ji",
-              "title": "Mote",
-              "description": null,
-              "type": "RECURRING",
-              "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": "DAILY",
-              "widget_type": "CHECKBOX",
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbxquke0009g0crz4j65ywx",
+                  "date_logged": "2026-01-13T01:51:04.767Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk5j2nll000sh8nbsmouidpy",
@@ -1112,8 +1018,8 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T02:18:45.074Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -1123,7 +1029,13 @@
               "current_streak": 0,
               "is_important": true,
               "is_urgent": true,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbyqfo5000vg0cr8jnm9s5i",
+                  "date_logged": "2026-01-13T02:18:45.077Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk5j35vu000uh8nb7smuj91z",
@@ -1131,8 +1043,8 @@
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T02:18:51.230Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -1142,7 +1054,13 @@
               "current_streak": 0,
               "is_important": true,
               "is_urgent": false,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbyqkf4000xg0cra3w0timw",
+                  "date_logged": "2026-01-13T02:18:51.233Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk5j3w1m000wh8nb0sz81oeq",
@@ -1259,32 +1177,13 @@
               "logs": []
             },
             {
-              "id": "cmk5j51o40018h8nbr4u8zt08",
-              "title": "Filter by goal on the dashboard page",
-              "description": null,
-              "type": "ONE_OFF",
-              "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": null,
-              "widget_type": null,
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": true,
-              "is_urgent": true,
-              "logs": []
-            },
-            {
               "id": "cmk5j56t7001ah8nbfxo1rm4g",
               "title": "Archive option to 3 dots",
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T01:56:01.966Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -1294,7 +1193,13 @@
               "current_streak": 0,
               "is_important": true,
               "is_urgent": false,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbxx7w1000fg0cr83t1tp67",
+                  "date_logged": "2026-01-13T01:56:01.970Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk5j5r50001ch8nbxmoqvm2d",
@@ -1354,32 +1259,13 @@
               "logs": []
             },
             {
-              "id": "cmk5kj3ow00035x0gp78wdnxj",
-              "title": "Play with converting the sidebar nav to a top menu or hamburger for space saving",
-              "description": null,
-              "type": "ONE_OFF",
-              "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": null,
-              "widget_type": null,
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": []
-            },
-            {
               "id": "cmk7gp8bj001b5x0govemu7qd",
               "title": "Add sorting to Goals page [Created | Alphabetical | Date Sort | Manual Order | List View / Compact mode]",
               "description": null,
               "type": "ONE_OFF",
               "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
+              "is_completed": true,
+              "last_completed_at": "2026-01-13T01:56:19.309Z",
               "deadline": null,
               "progress_percent": 0,
               "frequency": null,
@@ -1389,26 +1275,13 @@
               "current_streak": 0,
               "is_important": null,
               "is_urgent": null,
-              "logs": []
-            },
-            {
-              "id": "cmk7h5tcj001t5x0gexcate4c",
-              "title": "Ability to pin goals to top of goals page above sorting",
-              "description": null,
-              "type": "ONE_OFF",
-              "sort_order": 0,
-              "is_completed": false,
-              "last_completed_at": null,
-              "deadline": null,
-              "progress_percent": 0,
-              "frequency": null,
-              "widget_type": null,
-              "target_value": null,
-              "unit": null,
-              "current_streak": 0,
-              "is_important": null,
-              "is_urgent": null,
-              "logs": []
+              "logs": [
+                {
+                  "id": "cmkbxxl9s000hg0crbxumxxr0",
+                  "date_logged": "2026-01-13T01:56:19.312Z",
+                  "value": 1
+                }
+              ]
             },
             {
               "id": "cmk8gym7700235x0gw6zbund7",
@@ -1459,7 +1332,7 @@
           "consistency_score": 0,
           "color": "midnight",
           "createdAt": "2025-12-31T18:11:43.578Z",
-          "updatedAt": "2026-01-07T21:23:48.217Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmjum9q320001b2iqyl20zgqj",
@@ -1788,7 +1661,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2025-12-31T18:23:21.336Z",
-          "updatedAt": "2025-12-31T18:23:21.336Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk1cgo950001fiinwocnqo52",
@@ -1915,7 +1788,7 @@
           "consistency_score": 0,
           "color": "blue",
           "createdAt": "2026-01-03T16:42:56.241Z",
-          "updatedAt": "2026-01-05T15:54:41.794Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmjyj7vgt0003wiizo9j5h56p",
@@ -2061,7 +1934,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-03T16:47:17.898Z",
-          "updatedAt": "2026-01-07T21:27:56.232Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmjyjd6bh000fwiizxo4pvehf",
@@ -2207,7 +2080,7 @@
           "consistency_score": 0,
           "color": "ocean",
           "createdAt": "2026-01-03T23:28:41.647Z",
-          "updatedAt": "2026-01-05T15:54:38.728Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmjyxpjan000314h08uaxpe4h",
@@ -2315,7 +2188,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-04T21:23:31.538Z",
-          "updatedAt": "2026-01-04T21:23:31.538Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk08ohnt0003c4khwl9khhuf",
@@ -2568,7 +2441,7 @@
           "consistency_score": 0,
           "color": "midnight",
           "createdAt": "2026-01-06T23:05:43.594Z",
-          "updatedAt": "2026-01-07T21:26:06.068Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk377ly50003ifaxwxtcfa41",
@@ -2669,7 +2542,7 @@
           "consistency_score": 0,
           "color": "burgundy",
           "createdAt": "2026-01-07T13:49:02.525Z",
-          "updatedAt": "2026-01-07T13:50:38.918Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk42rrg4000difaxd7of663l",
@@ -2679,7 +2552,7 @@
               "sort_order": 0,
               "is_completed": false,
               "last_completed_at": "2026-01-07T16:55:33.289Z",
-              "deadline": "2026-01-12T00:00:00.000Z",
+              "deadline": "2026-02-11T18:00:00.000Z",
               "progress_percent": 0,
               "frequency": null,
               "widget_type": null,
@@ -2701,7 +2574,7 @@
           "consistency_score": 0,
           "color": "blue",
           "createdAt": "2026-01-07T17:28:53.584Z",
-          "updatedAt": "2026-01-07T21:24:15.888Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk4am0y000076u22083g1xgu",
@@ -2809,7 +2682,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-07T21:19:28.339Z",
-          "updatedAt": "2026-01-07T21:19:28.339Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk4iur5y001b6u223zt0925y",
@@ -3031,7 +2904,7 @@
           "consistency_score": 0,
           "color": "berry",
           "createdAt": "2026-01-07T21:22:39.847Z",
-          "updatedAt": "2026-01-07T21:24:00.490Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": []
         },
         {
@@ -3043,7 +2916,7 @@
           "consistency_score": 0,
           "color": "emerald",
           "createdAt": "2026-01-07T21:24:48.033Z",
-          "updatedAt": "2026-01-07T21:25:04.563Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": []
         },
         {
@@ -3055,7 +2928,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-07T22:03:22.656Z",
-          "updatedAt": "2026-01-07T22:03:22.656Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": []
         },
         {
@@ -3067,7 +2940,7 @@
           "consistency_score": 0,
           "color": "purple",
           "createdAt": "2026-01-07T22:03:43.863Z",
-          "updatedAt": "2026-01-07T22:03:52.373Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk7h1ctk001h5x0gu5hid9le",
@@ -3175,7 +3048,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-09T22:31:42.114Z",
-          "updatedAt": "2026-01-09T22:31:42.114Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk7gb6sf000b5x0gzi0giwia",
@@ -3264,7 +3137,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-09T22:34:18.377Z",
-          "updatedAt": "2026-01-09T22:34:18.377Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk7gefh0000n5x0gfv912twc",
@@ -3315,7 +3188,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-09T22:38:00.408Z",
-          "updatedAt": "2026-01-09T22:38:00.408Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk7gjq0c000z5x0gosuv90f6",
@@ -3366,7 +3239,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-09T22:39:28.380Z",
-          "updatedAt": "2026-01-09T22:39:28.380Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": []
         },
         {
@@ -3378,7 +3251,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-09T22:39:40.643Z",
-          "updatedAt": "2026-01-09T22:39:40.643Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk7glach00175x0g7n4u9fes",
@@ -3448,7 +3321,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-09T22:51:38.059Z",
-          "updatedAt": "2026-01-09T22:51:38.059Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk7h0r3s001f5x0goj5zpchk",
@@ -3480,7 +3353,7 @@
           "consistency_score": 0,
           "color": null,
           "createdAt": "2026-01-09T22:56:23.911Z",
-          "updatedAt": "2026-01-09T22:56:23.911Z",
+          "updatedAt": "2026-01-13T02:52:32.617Z",
           "actionItems": [
             {
               "id": "cmk7h6tm0001x5x0g2fjc65jh",
@@ -3597,6 +3470,72 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "cmkbo56a200068fi3rigidpjv",
+      "name": "Tester",
+      "email": "tester@example.com",
+      "emailVerified": null,
+      "image": null,
+      "password": "$2b$10$EyOUn7w9K1FpBWU5tsT1h.paBipw5ebhN3W4VBOr7pIe7gSFko0.m",
+      "goals": [
+        {
+          "id": "cmkbo6msx00088fi3ty3z9ywr",
+          "title": "Test Completion Goal 2",
+          "motivation": "",
+          "deadline": null,
+          "mode": "DEADLINE",
+          "consistency_score": 0,
+          "color": null,
+          "createdAt": "2026-01-12T21:23:25.041Z",
+          "updatedAt": "2026-01-12T21:43:21.108Z",
+          "actionItems": []
+        },
+        {
+          "id": "cmkbxpst00007g0cr03pc6n82",
+          "title": "Verification Goal",
+          "motivation": "",
+          "deadline": "2026-02-06T00:00:00.000Z",
+          "mode": "DEADLINE",
+          "consistency_score": 0,
+          "color": null,
+          "createdAt": "2026-01-13T01:50:15.828Z",
+          "updatedAt": "2026-01-13T01:50:15.828Z",
+          "actionItems": [
+            {
+              "id": "cmkbxrk2x000bg0crntfv8il5",
+              "title": "Test Milestone",
+              "description": null,
+              "type": "ONE_OFF",
+              "sort_order": 0,
+              "is_completed": false,
+              "last_completed_at": null,
+              "deadline": "2026-02-07T00:00:00.000Z",
+              "progress_percent": 0,
+              "frequency": null,
+              "widget_type": null,
+              "target_value": null,
+              "unit": null,
+              "current_streak": 0,
+              "is_important": null,
+              "is_urgent": null,
+              "logs": []
+            }
+          ]
+        },
+        {
+          "id": "cmkbxttx2000dg0crs5tyowv3",
+          "title": "Feb 8 Goal",
+          "motivation": "",
+          "deadline": "2026-02-08T00:00:00.000Z",
+          "mode": "DEADLINE",
+          "consistency_score": 0,
+          "color": null,
+          "createdAt": "2026-01-13T01:53:23.895Z",
+          "updatedAt": "2026-01-13T01:53:23.895Z",
+          "actionItems": []
         }
       ]
     }
