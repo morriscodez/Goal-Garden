@@ -163,8 +163,14 @@ export const PlantFoliageGroup: React.FC<{
         const y = (2 * invT * t * p1y) + (t * t * p2y);
 
         // Alternate sides
+        // If side is 1 (Right): -45 degrees (pointing Up-Right)
+        // If side is -1 (Left): -135 degrees (pointing Up-Left)
+        // Current bug: -45 * -1 = +45 (Down-Right)
+
         const side = i % 2 === 0 ? 1 : -1;
-        const angle = -45 * side + (seed.seedValue * 1000 % 20); // Some randomness from seedValue
+        const baseAngle = side === 1 ? -45 : -135;
+        const jitter = (seed.seedValue * (i + 1) * 100) % 20; // Pseudo-random jitter based on leaf index
+        const angle = baseAngle + (jitter - 10); // +/- 10 degrees jitter
 
         // Don't put leaves too low
         if (t > 0.2) {
